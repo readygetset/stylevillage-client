@@ -12,9 +12,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
-  settings: {
-    'import/extensions': ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
-  },
   root: true,
   env: {
     node: true,
@@ -44,5 +41,7 @@ module.exports = {
         json: 'never',
       },
     ],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
   },
 };
