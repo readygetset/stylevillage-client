@@ -5,11 +5,11 @@
  */
 
 import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import BottomNavigation from '@mui/material/BottomNavigation';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function BottomNav() {
   return (

@@ -1,7 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import axios from 'axios';
 import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export function RegisterPage() {
   const [input, setInput] = useState({

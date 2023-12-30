@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import Main from '../pages/Main';
+
 import { RegisterPage } from '../pages/Register';
+import Main from '../pages/Main';
 
 export function RouteComponent() {
   return (
