@@ -14,7 +14,7 @@ function MainPage() {
 
   async function getUser() {
     try {
-      const { data: userResponse, status } = await axios.get('http://localhost:3000/?id=1');
+      const { data: userResponse, status } = await axios.get(`${process.env.REACT_APP_API_URL}/?id=1`);
       if (status === 200) {
         setUser(userResponse);
       } else {
