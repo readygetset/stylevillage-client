@@ -4,6 +4,7 @@
  * https://mui.com/material-ui/material-icons/
  */
 
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -12,12 +13,14 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function BottomNav() {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ width: '100%', height: '10%' }}>
       <BottomNavigation showLabels sx={{ height: '100%', backgroundColor: 'aliceblue' }}>
-        <BottomNavigationAction label="목록" icon={<FormatListBulletedIcon />} />
-        <BottomNavigationAction label="대화" icon={<ChatBubbleOutlineIcon />} />
-        <BottomNavigationAction label="내 정보" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction label="목록" icon={<FormatListBulletedIcon />} onClick={() => navigate('/')} />
+        <BottomNavigationAction label="대화" icon={<ChatBubbleOutlineIcon />} onClick={() => navigate('/users')} />
+        <BottomNavigationAction label="내 정보" icon={<AccountCircleIcon />} onClick={() => navigate('/register')} />
       </BottomNavigation>
     </Box>
   );
