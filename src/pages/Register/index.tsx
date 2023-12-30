@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function RegisterPage() {
   const [input, setInput] = useState({
@@ -11,6 +13,7 @@ export function RegisterPage() {
     age: 0,
   });
   const [isPasswordSame, setIsPasswordSame] = useState(true);
+  const navigate = useNavigate();
 
   function checkPassword(passwordCheck: string) {
     if (input.password === passwordCheck) {
@@ -28,6 +31,24 @@ export function RegisterPage() {
       ...input,
       [event.target.id]: event.target.value,
     });
+  }
+
+  async function handleRegister() {
+    try {
+      const response = await axios.post('http://localhost:3000/', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: input,
+      });
+
+      if (response.status === 201) {
+        window.alert('회원가입이 완료되었습니다.');
+        navigate('/');
+      }
+    } catch (e) {
+      window.alert('회원가입에 실패했습니다.');
+    }
   }
 
   return (
@@ -57,10 +78,10 @@ export function RegisterPage() {
       </Box>
       <Box paddingY={6}>
         <Stack spacing={3} direction="row" justifyContent={'center'}>
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
             이전
           </Button>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleRegister}>
             회원 가입
           </Button>
         </Stack>
