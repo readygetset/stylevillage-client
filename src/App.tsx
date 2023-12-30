@@ -4,10 +4,14 @@ import './App.css';
 
 function App() {
   return (
-    <div>
-      <Box height="85vh">ddd</Box>
-      <BottomNav />
-    </div>
+    <Box display={'flex'} justifyContent={'center'} sx={{ backgroundColor: 'grey' }}>
+      <Box width={390} height="100vh">
+        <Box height="90%" sx={{ backgroundColor: '#ffffff' }}>
+          ddd
+        </Box>
+        <BottomNav />
+      </Box>
+    </Box>
   );
 }
 

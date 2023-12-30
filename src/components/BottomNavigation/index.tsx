@@ -7,8 +7,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export default function BottomNav() {
   return (
-    <Box sx={{ width: '100%', height: '15vh' }}>
-      <BottomNavigation showLabels>
+    <Box sx={{ width: '100%', height: '10%' }}>
+      <BottomNavigation showLabels sx={{ height: '100%', backgroundColor: 'aliceblue' }}>
         <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
         <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
         <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
