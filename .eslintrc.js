@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'import'],
   extends: [
     'airbnb-base',
     'airbnb-typescript/base',
@@ -45,5 +45,16 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'import/prefer-default-export': 'off',
     'no-alert': 'off',
+    'import/order': [
+      'error',
+      {
+        group: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        newLinesBetween: 'always',
+        alphabetize: {
+          order: 'desc',
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
 };
