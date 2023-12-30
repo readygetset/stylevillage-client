@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <Box display={'flex'} justifyContent={'center'} sx={{ backgroundColor: 'grey' }}>
-      <Box width={390} height="100vh">
+      <Box maxWidth={430} width={'100%'} height="100vh">
         <Box height="90%" sx={{ backgroundColor: '#ffffff' }}>
           ddd
         </Box>
