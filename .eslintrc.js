@@ -11,6 +11,7 @@ module.exports = {
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'plugin:import/recommended',
   ],
   root: true,
   env: {
@@ -48,12 +49,9 @@ module.exports = {
     'import/order': [
       'error',
       {
-        group: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-        newLinesBetween: 'always',
-        alphabetize: {
-          order: 'desc',
-          caseInsensitive: true,
-        },
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        'newlines-between': 'always',
+        alphabetize: { order: 'desc', caseInsensitive: true },
       },
     ],
   },
