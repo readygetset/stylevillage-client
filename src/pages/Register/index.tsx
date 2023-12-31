@@ -35,7 +35,7 @@ export function RegisterPage() {
 
   async function handleRegister() {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/user`, {
         headers: {
           'Content-Type': 'application/json',
         },
