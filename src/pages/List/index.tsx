@@ -1,15 +1,17 @@
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Card, Grid, Stack, Typography } from '@mui/material';
 
 import { User } from '../../models/user';
 
 export function ListPage() {
   const [users, setUsers] = useState<User[]>([]);
+  const { age } = useParams();
 
   async function getUsers() {
     try {
-      const { data: userResponse, status } = await axios.get(`${process.env.REACT_APP_API_URL}/user/21`);
+      const { data: userResponse, status } = await axios.get(`${process.env.REACT_APP_API_URL}/user/${age}`);
       if (status === 200) {
         setUsers(userResponse);
       } else {
@@ -28,7 +30,7 @@ export function ListPage() {
       <Box>
         <Typography variant="h4">04년생 목록</Typography>
       </Box>
-      <Box>
+      <Box mt={4}>
         <Stack spacing={4}>
           {users.map((user) => (
             <UserCard key={user.id} firstName={user.firstName} lastName={user.lastName} age={user.age} />
@@ -46,12 +48,13 @@ interface UserCardProps {
 }
 function UserCard({ firstName, lastName, age }: UserCardProps) {
   return (
-    <Box>
-      <Box>
-        <Typography variant="h6">성: {lastName}</Typography>
-        <Typography variant="h6">이름: {firstName}</Typography>
+    <Card>
+      <Box padding={2}>
+        <Typography variant="h6">
+          이름: {lastName} {firstName}
+        </Typography>
         <Typography variant="h6">나이: {age}</Typography>
       </Box>
-    </Box>
+    </Card>
   );
 }

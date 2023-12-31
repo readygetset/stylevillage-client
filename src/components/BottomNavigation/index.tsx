@@ -19,7 +19,11 @@ export default function BottomNav() {
     <Box sx={{ width: '100%', height: '10%' }}>
       <BottomNavigation showLabels sx={{ height: '100%', backgroundColor: 'aliceblue' }}>
         <BottomNavigationAction label="내 정보" icon={<AccountCircleIcon />} onClick={() => navigate('/')} />
-        <BottomNavigationAction label="유저 목록" icon={<FormatListBulletedIcon />} onClick={() => navigate('/list')} />
+        <BottomNavigationAction
+          label="유저 목록"
+          icon={<FormatListBulletedIcon />}
+          onClick={() => navigate('/list/21')}
+        />
         <BottomNavigationAction label="유저 추가" icon={<PersonAddIcon />} onClick={() => navigate('/register')} />
       </BottomNavigation>
     </Box>
