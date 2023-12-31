@@ -5,41 +5,28 @@ import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/materia
 
 export function RegisterPage() {
   const [input, setInput] = useState({
-    id: '',
-    password: '',
-    passwordCheck: '',
     lastName: '',
     firstName: '',
     age: 0,
   });
-  const [isPasswordSame, setIsPasswordSame] = useState(true);
+
   const navigate = useNavigate();
 
-  function checkPassword(passwordCheck: string) {
-    if (input.password === passwordCheck) {
-      return true;
-    }
-    return false;
-  }
-
   function handleInput(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.id === 'passwordCheck') {
-      setIsPasswordSame(checkPassword(event.target.value));
-    }
+    const value = event.target.type === 'number' ? Number(event.target.value) : event.target.value;
 
     setInput({
       ...input,
-      [event.target.id]: event.target.value,
+      [event.target.id]: value,
     });
   }
 
   async function handleRegister() {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/user`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/user`, input, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: input,
       });
 
       if (response.status === 201) {
@@ -57,16 +44,6 @@ export function RegisterPage() {
         <Typography variant="h4">회원 가입</Typography>
       </Box>
       <Box>
-        <Stack spacing={3}>
-          <TextField required id="id" label="아이디" onChange={handleInput} />
-          <TextField required id="password" type="password" label="비밀번호" onChange={handleInput} />
-          <TextField required id="passwordCheck" type="password" label="비밀번호 확인" onChange={handleInput} />
-          {!isPasswordSame && (
-            <Typography variant="body2" color="error">
-              비밀번호가 일치하지 않습니다.
-            </Typography>
-          )}
-        </Stack>
         <Box marginY={2}>
           <Divider />
         </Box>
