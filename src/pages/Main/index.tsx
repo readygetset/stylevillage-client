@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 
 import { User } from '../../models/user';
 
-function MainPage() {
+export function MainPage() {
   const [user, setUser] = useState<User>({
     id: 0,
     firstName: '이웹',
@@ -43,5 +43,3 @@ function MainPage() {
     </Box>
   );
 }
-
-export default MainPage;
