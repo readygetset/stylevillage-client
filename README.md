@@ -1,46 +1,19 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# React + Typescript + MUI 예제
+## 프로젝트 적용 방법
+1. 프로젝트를 생성할 디렉토리로 가서 터미널에 `git clone https://github.com/dev-jaemin/react-ts-boilerplate` 입력
+2. `git init` 으로 깃 저장소 초기화
+3. 새로 저장할 깃헙 레포 생성(이미 되어있으면 생략)
+4. `git add .`
+5. `git commit -m "init"`
+6. `git remote add origin [새로운 깃헙 레포 주소]`
+7. `git push -u origin main`
+## 실행방법
+- 터미널에 `npm i` 입력
+- 터미널에 `npm start` 입력 시 http://localhost:4000 에서 리액트 실행(3000 아님 주의!)
+## 알아두면 좋은 것들
+- 이 프로젝트는 MUI 를 사용하여 만들었습니다.
+  - https://mui.com/material-ui/all-components/ 페이지에 mui에서 제공하는 컴포넌트들 목록이 있으니 참고해서 가져다 쓰시면 됩니다.
+  - 아이콘들도 https://mui.com/material-ui/material-icons/ 에서 보실 수 있습니다.
+- 주석을 많이 달아두었는데, 리액트 기초 강의는 한 번씩 보고 왔다는 가정하에 작성하였습니다.
+  - 물론 완전 기초적인 것을 질문하셔도 친절히 알려드릴 예정이니 괜히 강의 어디에 있었더라... 하면서 찾아보시지 않으셔도 됩니다!
+ 
