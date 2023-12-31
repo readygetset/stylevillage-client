@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import BottomNavigation from '@mui/material/BottomNavigation';
+import SettingsIcon from '@mui/icons-material/Settings';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function BottomNav() {
@@ -18,9 +18,9 @@ export default function BottomNav() {
   return (
     <Box sx={{ width: '100%', height: '10%' }}>
       <BottomNavigation showLabels sx={{ height: '100%', backgroundColor: 'aliceblue' }}>
-        <BottomNavigationAction label="목록" icon={<FormatListBulletedIcon />} onClick={() => navigate('/')} />
-        <BottomNavigationAction label="대화" icon={<ChatBubbleOutlineIcon />} onClick={() => navigate('/users')} />
-        <BottomNavigationAction label="내 정보" icon={<AccountCircleIcon />} onClick={() => navigate('/register')} />
+        <BottomNavigationAction label="내 정보" icon={<FormatListBulletedIcon />} onClick={() => navigate('/')} />
+        <BottomNavigationAction label="유저 추기" icon={<AccountCircleIcon />} onClick={() => navigate('/register')} />
+        <BottomNavigationAction label="설정" icon={<SettingsIcon />} onClick={() => navigate('/settings')} />
       </BottomNavigation>
     </Box>
   );
