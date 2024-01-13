@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 
 import Header from '../Header';
-import BottomNav from '../BottomNavigation';
 
 /**
  * 이 컴포넌트는 모든 페이지의 레이아웃을 담당합니다.
@@ -15,13 +14,12 @@ interface LayoutProps {
 }
 export function Layout({ children }: LayoutProps) {
   return (
-    <Box display={'flex'} justifyContent={'center'} sx={{ backgroundColor: 'grey' }}>
+    <Box display={'flex'} justifyContent={'center'} sx={{ backgroundColor: 'white' }}>
       <Box width={'100%'} height="100vh">
         <Header />
         <Box height="90%" sx={{ backgroundColor: '#ffffff' }}>
           {children}
         </Box>
-        <BottomNav />
       </Box>
     </Box>
   );
