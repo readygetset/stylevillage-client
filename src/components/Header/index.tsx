@@ -1,11 +1,5 @@
-/**
- * 아이콘 목록은 아래 링크에서 확인 가능.
- * 버튼 누르면 바로 복사해서 사용할 수 있음.
- * https://mui.com/material-ui/material-icons/
- */
-
 import { Link } from 'react-router-dom';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Button } from '@mui/material';
 
 export default function Header() {
   return (
@@ -18,6 +12,9 @@ export default function Header() {
       >
         StyleVillage
       </Typography>
+      <Button component={Link} to="/login">
+        로그인
+      </Button>
     </Box>
   );
 }
