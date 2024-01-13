@@ -3,6 +3,7 @@ import { Typography, Box, Button } from '@mui/material';
 
 export default function Header() {
   const navigate = useNavigate();
+  const isAuthenticated = sessionStorage.getItem('accessToken');
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sessionStorage.removeItem('accessToken');
@@ -29,7 +30,7 @@ export default function Header() {
       >
         StyleVillage
       </Typography>
-      {sessionStorage.getItem('accessToken') ? (
+      {isAuthenticated ? (
         <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
           로그아웃
         </Button>

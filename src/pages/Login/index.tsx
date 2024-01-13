@@ -4,6 +4,8 @@ import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
+import { LOGIN_MESSAGE } from '../../data/messages';
+
 export function LoginPage() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -29,9 +31,9 @@ export function LoginPage() {
       }
     } catch (err) {
       if (err instanceof AxiosError) {
-        enqueueSnackbar(err.response?.data?.message ?? '로그인에 실패했어요 :(', { variant: 'error' });
+        enqueueSnackbar(err.response?.data?.message ?? LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
       } else {
-        enqueueSnackbar('로그인에 실패했어요 :(', { variant: 'error' });
+        enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
       }
     }
   }
