@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
+import { useSnackbar } from 'notistack';
+import axios, { AxiosError } from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [values, setValues] = useState({
     username: null,
     password: null,
@@ -20,13 +22,17 @@ export function LoginPage() {
   async function Login() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, values);
-      if (response.status === 204) {
+      if (response.status === 200) {
         const { accessToken } = response.data;
         sessionStorage.setItem('accessToken', accessToken);
         navigate('/');
       }
-    } catch (e) {
-      window.alert('로그인에 실패했습니다.');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        enqueueSnackbar(err.response?.data?.message ?? '로그인에 실패했어요 :(', { variant: 'error' });
+      } else {
+        enqueueSnackbar('로그인에 실패했어요 :(', { variant: 'error' });
+      }
     }
   }
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
