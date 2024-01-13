@@ -28,7 +28,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Layout>
-          <SnackbarProvider>
+          <SnackbarProvider autoHideDuration={2000}>
             <RouteComponent />
           </SnackbarProvider>
         </Layout>
