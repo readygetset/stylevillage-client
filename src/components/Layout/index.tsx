@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 
+import Header from '../Header';
 import BottomNav from '../BottomNavigation';
 
 /**
@@ -15,7 +16,8 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <Box display={'flex'} justifyContent={'center'} sx={{ backgroundColor: 'grey' }}>
-      <Box maxWidth={430} width={'100%'} height="100vh">
+      <Box width={'100%'} height="100vh">
+        <Header />
         <Box height="90%" sx={{ backgroundColor: '#ffffff' }}>
           {children}
         </Box>
