@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import { RouteComponent } from './route';
@@ -27,7 +28,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Layout>
-          <RouteComponent />
+          <SnackbarProvider>
+            <RouteComponent />
+          </SnackbarProvider>
         </Layout>
       </BrowserRouter>
     </ThemeProvider>
