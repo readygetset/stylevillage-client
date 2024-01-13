@@ -31,9 +31,12 @@ export default function Header() {
         StyleVillage
       </Typography>
       {isAuthenticated ? (
-        <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
-          로그아웃
-        </Button>
+        <Box>
+          <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
+          <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
+            로그아웃
+          </Button>
+        </Box>
       ) : (
         <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} component={Link} to="/login">
           로그인
