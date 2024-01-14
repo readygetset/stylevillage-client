@@ -13,7 +13,7 @@ export function MainPage() {
           스타일을 공유하고 다른 사람의 스타일을 빌려보세요
         </Typography>
       </Box>
-      <SearchBar />
+      <SearchBar searchKeyWord={''} categorySelected={[]} seasonSelected={[]} />
     </Box>
   );
 }

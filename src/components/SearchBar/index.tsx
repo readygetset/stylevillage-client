@@ -8,7 +8,13 @@ import { Item } from '../../models/item';
 import { getSearchAPICall } from '../../hooks/api/search/search';
 import { Categories, Seasons } from '../../data/enumLists';
 
-export default function SearchBar() {
+interface Props {
+  searchKeyWord: string;
+  categorySelected: string[];
+  seasonSelected: string[];
+}
+
+export default function SearchBar(props: Props) {
   const navigate = useNavigate();
   const emptyStrArray: string[] = [];
   const [searchKeyWord, setSearchKeyWord] = useState('');
@@ -49,10 +55,18 @@ export default function SearchBar() {
   };
 
   const initCategories = Categories.map((value) => {
+    if (props.categorySelected.includes(value)) {
+      const item: Item = { label: value, isSelected: true };
+      return item;
+    }
     const item: Item = { label: value, isSelected: false };
     return item;
   });
   const initSeasons = Seasons.map((value) => {
+    if (props.seasonSelected.includes(value)) {
+      const item: Item = { label: value, isSelected: true };
+      return item;
+    }
     const item: Item = { label: value, isSelected: false };
     return item;
   });
