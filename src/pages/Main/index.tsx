@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 
 import { User } from '../../models/user';
+import CategoryChips from '../../components/CategoryChips';
 
 export function MainPage() {
   /**
@@ -67,6 +68,11 @@ export function MainPage() {
     getUser();
   }, []);
 
+  const items = [
+    { label: '아이', isSelected: true },
+    { label: '아아dkdkdkdkdk', isSelected: false },
+  ];
+
   return (
     <Box paddingX={3} paddingY={5}>
       <Box>
@@ -78,6 +84,8 @@ export function MainPage() {
         <Typography variant="h6">성: {user.lastName}</Typography>
         <Typography variant="h6">나이: {user.age}</Typography>
       </Box>
+      <CategoryChips category="카테고리" items={items} />
+      <CategoryChips category="나라" items={items} />
     </Box>
   );
 }

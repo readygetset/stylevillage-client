@@ -1,10 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useSearchParams } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
-import { Typography, Box } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+
+import { SEARCH_MESSAGE } from '../../data/messages';
 
 export default function SearchBar() {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [searchKeyWord, setSearchKeyWord] = useState('');
   // const [searchParams, setSearchParams] = useSearchParams();
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -15,13 +20,15 @@ export default function SearchBar() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/search/`, searchKeyWord);
       if (response.status === 200) {
-        const { name, image, owner } = response.data; // isWished도 필요
+        const { searchResult } = response.data; // isWished도 필요
+        sessionStorage.setItem('searchResult', searchResult);
+        navigate('/search');
       }
     } catch (err) {
       if (err instanceof AxiosError) {
         enqueueSnackbar(err.response?.data?.message ?? SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
       } else {
-        enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
+        enqueueSnackbar(SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
       }
     }
   }
@@ -31,15 +38,37 @@ export default function SearchBar() {
   };
 
   return (
-    <Box sx={{ width: '100%', height: '25%', bgcolor: 'white', marginTop: 1 }}>
-      <Typography
-        component={Link}
-        to="/"
-        variant="h4"
-        sx={{ paddingLeft: 3, fontWeight: 'bold', color: 'black', textDecoration: 'none' }}
+    <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+      <Box
+        component="form"
+        width={800}
+        height={150}
+        marginTop={15}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          '& .MuiTextField-root': { margin: 1 },
+          borderRadius: 100,
+          borderColor: 'black',
+          wrap: 'nowrap',
+        }}
+        onSubmit={handleSubmit}
       >
-        StyleVillage
-      </Typography>
+        <TextField
+          id="searchKeyWord"
+          name="searchKeyWord"
+          type="searchKeyWord"
+          size="small"
+          fullWidth
+          placeholder="다른 사람의 옷을 구경해보세요!"
+          onChange={handleChange}
+          sx={{ border: 'none' }}
+        />
+        <Button type="submit" variant="contained" sx={{ marginTop: 2, width: 120, height: 120, border: 'none' }}>
+          <SearchIcon></SearchIcon>
+        </Button>
+      </Box>
     </Box>
   );
 }
