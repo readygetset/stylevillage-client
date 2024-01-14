@@ -1,25 +1,23 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import CategoryChips from '../CategoryChips';
 import { Item } from '../../models/item';
+import { getSearchAPICall } from '../../hooks/api/search/search';
 import { Categories, Seasons } from '../../data/enumLists';
 
 export default function SearchBar() {
+  const navigate = useNavigate();
   const emptyStrArray: string[] = [];
-
-  const [, setSearchKeyWord] = useState('');
+  const [searchKeyWord, setSearchKeyWord] = useState('');
   const [categorySelected, setCategorySelected] = useState(emptyStrArray);
   const [seasonSelected, setSeasonSelected] = useState(emptyStrArray);
   const [filterSelected, setFilterSelected] = useState(emptyStrArray);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearchKeyWord(event.target.value);
-  };
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
   };
 
   const handleChipState = (category: string, label: string, isSelected: boolean) => {
@@ -38,6 +36,18 @@ export default function SearchBar() {
     }
   };
 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    const values = {
+      categories: categorySelected,
+      seasons: seasonSelected,
+      text: searchKeyWord,
+    };
+    getSearchAPICall(values).then(() => {
+      navigate('/');
+    });
+  };
+
   const initCategories = Categories.map((value) => {
     const item: Item = { label: value, isSelected: false };
     return item;
@@ -47,23 +57,6 @@ export default function SearchBar() {
     return item;
   });
   const initFilter: Item[] = [{ label: '대여 가능', isSelected: false }];
-
-  // async function Search() {
-  //   try {
-  //     const response = await axios.post(`${process.env.REACT_APP_API_URL}/search/`, searchKeyWord);
-  //     if (response.status === 200) {
-  //       const { searchResult } = response.data; // isWished도 필요
-  //       sessionStorage.setItem('searchResult', searchResult);
-  //       navigate('/search');
-  //     }
-  //   } catch (err) {
-  //     if (err instanceof AxiosError) {
-  //       enqueueSnackbar(err.response?.data?.message ?? SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
-  //     } else {
-  //       enqueueSnackbar(SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
-  //     }
-  //   }
-  // }
 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
