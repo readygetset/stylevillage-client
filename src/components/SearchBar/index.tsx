@@ -19,7 +19,7 @@ export default function SearchBar() {
       }
     } catch (err) {
       if (err instanceof AxiosError) {
-        enqueueSnackbar(err.response?.data?.message ?? LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
+        enqueueSnackbar(err.response?.data?.message ?? SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
       } else {
         enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
       }
@@ -27,7 +27,7 @@ export default function SearchBar() {
   }
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    Login();
+    Search();
   };
 
   return (
