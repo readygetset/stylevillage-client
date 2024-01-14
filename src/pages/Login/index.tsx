@@ -1,17 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useSnackbar } from 'notistack';
-import axios, { AxiosError } from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
-import { LOGIN_MESSAGE } from '../../data/messages';
+import { postLoginAPICall } from '../../hooks/api/auth/login';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const [values, setValues] = useState({
-    username: null,
-    password: null,
+    username: '',
+    password: '',
   });
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -21,29 +18,11 @@ export function LoginPage() {
     };
     setValues(newValues);
   };
-  async function Login() {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, values);
-      if (response.status === 200) {
-        const { nickname, isBannded, accessToken } = response.data;
-        sessionStorage.setItem('accessToken', accessToken);
-        enqueueSnackbar(`${nickname}님 안녕하세요 :)`, { variant: 'success' });
-        if (isBannded === true) {
-          enqueueSnackbar(`현재 ${nickname}님의 계정은 사용 정지되었습니다.`, { variant: 'warning' });
-        }
-        navigate('/');
-      }
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        enqueueSnackbar(err.response?.data?.message ?? LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
-      } else {
-        enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
-      }
-    }
-  }
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    Login();
+    postLoginAPICall(values).then(() => {
+      navigate('/');
+    });
   };
 
   return (
