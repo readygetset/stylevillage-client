@@ -20,9 +20,13 @@ export function LoginPage() {
   };
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    postLoginAPICall(values).then(() => {
-      navigate('/');
-    });
+    postLoginAPICall(values)
+      .then(() => {
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
