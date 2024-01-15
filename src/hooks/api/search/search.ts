@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { SEARCH_MESSAGE } from '../../../data/messages';
 
 export interface Search {
-  // filter 추가해야 함.
+  /* TODO: filter 추가 */
   categories: string[];
   seasons: string[];
   text: string;
@@ -14,7 +14,7 @@ export async function getSearchAPICall(values: Search) {
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/search/`, values);
     if (response.status === 200) {
-      const { searchResult } = response.data; // isWished도 필요
+      const { searchResult } = response.data;
       sessionStorage.setItem('searchResult', searchResult);
     }
   } catch (err) {

@@ -3,17 +3,18 @@ import { Button } from '@mui/material';
 
 import { Item } from '../../models/item';
 
-interface Props {
-  onClickHandler: (label: string, isSelected: boolean) => void;
+interface ChipProps {
+  handleChipClick: (label: string, isSelected: boolean) => void;
   item: Item;
 }
-export default function Chip(props: Props) {
-  const [isSelected, setisSelected] = useState(props.item.isSelected);
+export default function Chip(props: ChipProps) {
+  const { item } = props;
+  const [isSelected, setisSelected] = useState(item.isSelected);
   const handleClick = () => {
     setisSelected(!isSelected);
-    props.onClickHandler(props.item.label, !isSelected);
+    props.handleChipClick(item.label, !isSelected);
   };
-  return isSelected ? (
+  return (
     <Button
       onClick={handleClick}
       sx={{
@@ -22,30 +23,13 @@ export default function Chip(props: Props) {
         paddingInline: 1,
         color: 'black',
         fontSize: 13,
-        fontWeight: 'bold',
-        backgroundColor: '#D9D9D9',
+        fontWeight: isSelected ? 'bold' : 'medium',
+        backgroundColor: isSelected ? '#D9D9D9' : 'white',
         boxShadow: '0 0 0 1px black',
         borderRadius: 100,
       }}
     >
-      {props.item.label}
-    </Button>
-  ) : (
-    <Button
-      onClick={handleClick}
-      sx={{
-        mr: 2,
-        padding: 0,
-        paddingInline: 1,
-        color: 'black',
-        fontSize: 13,
-        fontWeight: 'medium',
-        backgroundColor: 'white',
-        boxShadow: '0 0 0 1px black',
-        borderRadius: 100,
-      }}
-    >
-      {props.item.label}
+      {item.label}
     </Button>
   );
 }

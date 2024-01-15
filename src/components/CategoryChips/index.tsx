@@ -3,15 +3,16 @@ import { Box, Typography } from '@mui/material';
 import Chip from '../Chip';
 import { Item } from '../../models/item';
 
-interface Props {
-  onClickHandler: (category: string, label: string, isSelected: boolean) => void;
+interface CategoryChipsProps {
+  handleCategoryChipsClick: (category: string, label: string, isSelected: boolean) => void;
   category: string;
   items: Item[];
 }
 
-export default function CategoryChips(props: Props) {
+export default function CategoryChips(props: CategoryChipsProps) {
+  const { category, items } = props;
   const handleChipClick = (label: string, isSelected: boolean) => {
-    props.onClickHandler(props.category, label, isSelected);
+    props.handleCategoryChipsClick(category, label, isSelected);
   };
   return (
     <Box
@@ -25,10 +26,10 @@ export default function CategoryChips(props: Props) {
       }}
     >
       <Typography variant="h6" sx={{ width: '70px', mr: 1.5, fontSize: 17, fontWeight: 'bold' }}>
-        {props.category}
+        {category}
       </Typography>
-      {props.items.map((item, index) => (
-        <Chip key={index} onClickHandler={handleChipClick} item={item} />
+      {items.map((item, index) => (
+        <Chip key={index} handleChipClick={handleChipClick} item={item} />
       ))}
     </Box>
   );

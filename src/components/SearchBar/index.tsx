@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import CategoryChips from '../CategoryChips';
@@ -8,13 +8,13 @@ import { Item } from '../../models/item';
 import { getSearchAPICall } from '../../hooks/api/search/search';
 import { Categories, Seasons } from '../../data/enumLists';
 
-interface Props {
+interface SearchBarProps {
   searchKeyWord: string;
   categorySelected: string[];
   seasonSelected: string[];
 }
 
-export default function SearchBar(props: Props) {
+export default function SearchBar(props: SearchBarProps) {
   const navigate = useNavigate();
   const emptyStrArray: string[] = [];
   const [searchKeyWord, setSearchKeyWord] = useState('');
@@ -95,16 +95,13 @@ export default function SearchBar(props: Props) {
           fullWidth
           placeholder="다른 사람의 옷을 구경해보세요!"
           onChange={handleChange}
-          sx={{ border: 'none', borderRadius: 100, margin: 0, backgroundColor: 'white' }}
+          sx={{ margin: 0, backgroundColor: 'white', borderRadius: 1 }}
         />
-        <Button
+        <IconButton
           type="submit"
-          variant="contained"
           sx={{
             position: 'absolute',
-            paddingInline: 0,
-            border: 'none',
-            backgroundColor: 'white',
+            backgroundColor: 'none',
             right: 10,
           }}
         >
@@ -113,7 +110,7 @@ export default function SearchBar(props: Props) {
               color: 'black',
             }}
           ></SearchIcon>
-        </Button>
+        </IconButton>
       </Box>
       <Box
         width={800}
@@ -127,9 +124,9 @@ export default function SearchBar(props: Props) {
           '& .MuiTextField-root': { margin: 1 },
         }}
       >
-        <CategoryChips onClickHandler={handleChipState} category="카테고리" items={initCategories} />
-        <CategoryChips onClickHandler={handleChipState} category="계절" items={initSeasons} />
-        <CategoryChips onClickHandler={handleChipState} category="필터" items={initFilter} />
+        <CategoryChips handleCategoryChipsClick={handleChipState} category="카테고리" items={initCategories} />
+        <CategoryChips handleCategoryChipsClick={handleChipState} category="계절" items={initSeasons} />
+        <CategoryChips handleCategoryChipsClick={handleChipState} category="필터" items={initFilter} />
       </Box>
     </Box>
   );

@@ -4,7 +4,7 @@ import SearchBar from '../../components/SearchBar';
 
 export function MainPage() {
   return (
-    <Box sx={{ marginTop: 0, backgroundColor: '#D9D9D9' }}>
+    <Box sx={{ marginTop: 0, backgroundColor: '#E9E9E9' }}>
       <Box paddingTop={5} display={'flex'} flexDirection={'column'} alignItems={'center'}>
         <Typography variant="h1" sx={{ fontWeight: 'bold' }}>
           StyleVillage
