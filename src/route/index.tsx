@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
-import { MyPage } from '../pages/Mypage';
+import { MyPageHeader } from '../pages/MyPage/myPageHeader';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 import { ListPage } from '../pages/List';
@@ -17,7 +17,9 @@ export function RouteComponent() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/list/:age" element={<ListPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/closet" element={<MyPageHeader />} />
+      <Route path="/mypage/lend" element={<MyPageHeader />} />
+      <Route path="/mypage/wish" element={<MyPageHeader />} />
     </Routes>
   );
 }
