@@ -26,6 +26,7 @@ export async function postLoginAPICall(values: Login) {
     } else {
       enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
     }
+    throw err;
   }
   return '';
 }
