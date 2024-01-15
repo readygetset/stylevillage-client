@@ -1,9 +1,14 @@
+import { useRecoilValue } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { Typography, Box, Button } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+import { userAtom } from '../../recoil/atom';
 
 export default function Header() {
   const navigate = useNavigate();
   const isAuthenticated = sessionStorage.getItem('accessToken');
+  const userState = useRecoilValue(userAtom);
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sessionStorage.removeItem('accessToken');
@@ -31,7 +36,9 @@ export default function Header() {
         StyleVillage
       </Typography>
       {isAuthenticated ? (
-        <Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <AccountCircleIcon sx={{ mr: 0.5 }} />
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState} 님</Typography>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
             로그아웃

@@ -18,6 +18,7 @@ export async function postLoginAPICall(values: Login) {
       if (isBannded === true) {
         enqueueSnackbar(`현재 ${nickname}님의 계정은 사용 정지되었습니다.`, { variant: 'warning' });
       }
+      return nickname;
     }
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -26,4 +27,5 @@ export async function postLoginAPICall(values: Login) {
       enqueueSnackbar(LOGIN_MESSAGE.LOGIN_FAIL, { variant: 'error' });
     }
   }
+  return '';
 }
