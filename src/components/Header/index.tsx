@@ -9,6 +9,10 @@ export default function Header() {
     sessionStorage.removeItem('accessToken');
     navigate('/');
   };
+  const handleProfile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate('/profile');
+  };
   return (
     <Box
       sx={{
@@ -33,6 +37,9 @@ export default function Header() {
       {isAuthenticated ? (
         <Box>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
+          <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleProfile}>
+            프로필
+          </Button>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
             로그아웃
           </Button>
