@@ -3,16 +3,9 @@ import axios, { AxiosError } from 'axios';
 
 import { SEARCH_MESSAGE } from '../../../data/messages';
 
-export interface Search {
-  /* TODO: filter 추가 */
-  categories: string[];
-  seasons: string[];
-  text: string;
-}
-
-export async function getSearchAPICall(values: Search) {
+export async function getSearchAPICall(url: string) {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/search/`, values);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}${url}`);
     if (response.status === 200) {
       const { searchResult } = response.data;
       sessionStorage.setItem('searchResult', searchResult);

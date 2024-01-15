@@ -44,13 +44,18 @@ export default function SearchBar(props: SearchBarProps) {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const values = {
-      categories: categorySelected,
-      seasons: seasonSelected,
-      text: searchKeyWord,
-    };
-    getSearchAPICall(values).then(() => {
-      navigate('/');
+    const keyWordQueryString = `keyword=${encodeURIComponent(searchKeyWord)}`;
+    const categoryQueryString = categorySelected
+      .map((category) => `category=${encodeURIComponent(category)}`)
+      .join('&');
+    const seasonQueryString = seasonSelected.map((season) => `season=${encodeURIComponent(season)}`).join('&');
+    const filterQueryString = filterSelected.map((filter) => `filter=${encodeURIComponent(filter)}`).join('&');
+    const queryString = [keyWordQueryString, categoryQueryString, seasonQueryString, filterQueryString]
+      .filter((query) => !!query)
+      .join('&');
+    const url = `/search/?${queryString}`;
+    getSearchAPICall(url).then(() => {
+      navigate(url);
     });
   };
 
