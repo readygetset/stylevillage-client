@@ -25,8 +25,10 @@ export function LoginPage() {
     e.preventDefault();
     try {
       const nickname = await postLoginAPICall(values);
-      setUserState(nickname);
-      navigate('/');
+      if (nickname) {
+        setUserState(nickname);
+        navigate('/');
+      }
     } catch (error) {
       console.error(error);
     }
