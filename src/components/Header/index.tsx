@@ -38,7 +38,7 @@ export default function Header() {
       {isAuthenticated ? (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <AccountCircleIcon sx={{ mr: 0.5 }} />
-          <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState} 님</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState.nickname} 님</Typography>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
           <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleLogout}>
             로그아웃

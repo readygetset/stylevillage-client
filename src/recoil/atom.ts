@@ -1,6 +1,8 @@
 import { atom } from 'recoil';
 
-export const userAtom = atom({
+import { UserStandard } from '../models/user';
+
+export const userAtom = atom<UserStandard>({
   key: 'user',
-  default: '',
+  default: { id: 0, nickname: '' },
 });

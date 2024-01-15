@@ -24,9 +24,9 @@ export function LoginPage() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
-      const nickname = await postLoginAPICall(values);
-      if (nickname) {
-        setUserState(nickname);
+      const response = await postLoginAPICall(values);
+      if (response) {
+        setUserState({ id: response.id, nickname: response.nickname });
         navigate('/');
       }
     } catch (error) {
