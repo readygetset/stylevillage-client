@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { Box, Button, TextField, Typography, MenuItem } from '@mui/material';
 
+import { Location } from '../../models/user';
 import { ResgisterAPICall, isduplicated } from '../../hooks/api/auth/Register';
 
 export function RegisterPage() {
@@ -28,11 +29,15 @@ export function RegisterPage() {
 
   const handleCheckDuplicate = async () => {
     try {
-      checkduplicated = await isduplicated(values.username);
-      if (checkduplicated) {
-        enqueueSnackbar('중복된 아이디 입니다.', { variant: 'error' });
+      if (values.username === '') {
+        enqueueSnackbar('아이디를 입력하세요.', { variant: 'error' });
       } else {
-        enqueueSnackbar('사용가능한 아이디 입니다.', { variant: 'success' });
+        checkduplicated = await isduplicated(values.username);
+        if (checkduplicated) {
+          enqueueSnackbar('중복된 아이디 입니다.', { variant: 'error' });
+        } else {
+          enqueueSnackbar('사용가능한 아이디 입니다.', { variant: 'success' });
+        }
       }
     } catch (error) {
       enqueueSnackbar('아이디 중복 검사 실패', { variant: 'error' });
@@ -66,6 +71,8 @@ export function RegisterPage() {
       enqueueSnackbar('회원가입 실패', { variant: 'error' });
     }
   };
+
+  const location: Location[] = ['서울', '인천', '대전', '부산', '대구', '광주', '세종', '울산'];
 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
@@ -139,14 +146,11 @@ export function RegisterPage() {
           <MenuItem value="여성">여성</MenuItem>
         </TextField>
         <TextField id="location" name="location" select label="거주지" size="small" fullWidth onChange={handleChange}>
-          <MenuItem value="서울">서울</MenuItem>
-          <MenuItem value="인천">인천</MenuItem>
-          <MenuItem value="대전">대전</MenuItem>
-          <MenuItem value="부산">부산</MenuItem>
-          <MenuItem value="대구">대구</MenuItem>
-          <MenuItem value="광주">광주</MenuItem>
-          <MenuItem value="세종">세종</MenuItem>
-          <MenuItem value="울산">울산</MenuItem>
+          {location.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
         </TextField>
         <TextField
           id="phoneNumber"
