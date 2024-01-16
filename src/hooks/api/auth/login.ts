@@ -12,15 +12,13 @@ export async function postLoginAPICall(values: Login) {
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, values);
     if (response.status === 200) {
-      const { username, nickname, isBannded, accessToken } = response.data;
+      const { id, nickname, isBannded, accessToken } = response.data;
       sessionStorage.setItem('accessToken', accessToken);
-      sessionStorage.setItem('nickname', nickname);
-      sessionStorage.setItem('username', username);
       enqueueSnackbar(`${nickname}님 안녕하세요 :)`, { variant: 'success' });
       if (isBannded === true) {
         enqueueSnackbar(`현재 ${nickname}님의 계정은 사용 정지되었습니다.`, { variant: 'warning' });
       }
-      return { username , nickname };
+      return { id, nickname };
     }
   } catch (err) {
     if (err instanceof AxiosError) {
