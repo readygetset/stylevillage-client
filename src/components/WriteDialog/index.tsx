@@ -10,15 +10,24 @@ interface WriteDialogProps {
   handleCancel: React.MouseEventHandler<HTMLButtonElement>;
   isOpen: boolean;
 }
-const ConfirmDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handleSubmit, handleCancel, isOpen }) => {
+const WriteDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handleSubmit, handleCancel, isOpen }) => {
   const [, setText] = useState('');
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setText(event.target.value);
   };
   return (
-    <Dialog open={isOpen} fullWidth={true} maxWidth="md">
-      <DialogTitle>
+    <Dialog
+      open={isOpen}
+      fullWidth={true}
+      maxWidth="md"
+      sx={{
+        '& .MuiDialog-paper': {
+          borderRadius: '30px',
+        },
+      }}
+    >
+      <DialogTitle sx={{ mt: '5px' }}>
         <Typography fontSize={20} fontWeight={'bold'}>
           {message}
         </Typography>
@@ -37,7 +46,7 @@ const ConfirmDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handl
           name="text"
           type="text"
           multiline
-          rows={15}
+          rows={10}
           fullWidth
           placeholder={placeholder}
           onChange={handleChange}
@@ -56,4 +65,4 @@ const ConfirmDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handl
   );
 };
 
-export default ConfirmDialog;
+export default WriteDialog;

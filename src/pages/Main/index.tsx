@@ -3,6 +3,27 @@ import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 
 import { User } from '../../models/user';
+import ApplyCard from '../../components/ApplyCard';
+
+interface ApplyInfo {
+  clothesName: string;
+  clothesImage: string;
+  ownerName: string;
+  ownerNickName?: string;
+  isAccepted: boolean;
+  isRejected: boolean;
+  detail: string;
+}
+const testApply: ApplyInfo = {
+  clothesName: '옷1',
+  clothesImage:
+    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.urbanbrush.net%2Fdownloads%2F%25ED%2586%25A0%25EB%2581%25BC-%25EC%25BA%2590%25EB%25A6%25AD%25ED%2584%25B0-%25EC%259D%25BC%25EB%259F%25AC%25EC%258A%25A4%25ED%258A%25B8-ai-%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580-%25EB%258B%25A4%25EC%259A%25B4%25EB%25A1%259C%25EB%2593%259C%2F&psig=AOvVaw0Zq2muN3Aj3BKbTLK608Wz&ust=1705435922195000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCPCe8ISa4IMDFQAAAAAdAAAAABAE',
+  ownerName: 'abc',
+  ownerNickName: '테스트사용자',
+  isAccepted: true,
+  isRejected: false,
+  detail: '좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요',
+};
 
 export function MainPage() {
   /**
@@ -78,6 +99,7 @@ export function MainPage() {
         <Typography variant="h6">성: {user.lastName}</Typography>
         <Typography variant="h6">나이: {user.age}</Typography>
       </Box>
+      <ApplyCard applyInfo={testApply} />
     </Box>
   );
 }
