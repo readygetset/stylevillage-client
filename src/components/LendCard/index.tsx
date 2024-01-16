@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Typography, Box, Chip, Grid } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+import WriteDialog from '../WriteDialog';
+import ConfirmDialog from '../ConfirmDialog';
+import { deleteReviewAPICall, modifyReviewAPICall } from '../../hooks/api/review/review';
+
 interface LendInfo {
+  lendId: number;
+  clothesId: number;
   clothesName: string;
   clothesImage: string;
   price: number;
@@ -18,7 +25,6 @@ interface LendInfo {
 interface LendCardProps {
   isLoanee: boolean;
   lendInfo: LendInfo;
-  handleClick: () => void;
 }
 
 interface TitleProps {
@@ -34,6 +40,7 @@ function Title(props: TitleProps) {
         textDecoration: 'none',
         whiteSpace: 'nowrap',
         width: '64px',
+        minWidth: '64px',
         mr: 2,
       }}
     >
@@ -43,8 +50,10 @@ function Title(props: TitleProps) {
 }
 
 export default function LendCard(props: LendCardProps) {
-  const { isLoanee, handleClick } = props;
+  const { isLoanee } = props;
   const {
+    lendId,
+    // clothesId, TODO: 옷 상세 페이지로 link할 때 이용
     clothesName,
     clothesImage,
     price,
@@ -59,14 +68,45 @@ export default function LendCard(props: LendCardProps) {
   const startDateString = `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDay()}`;
   const endDateString = `${endDate.getFullYear()}.${endDate.getMonth() + 1}.${endDate.getDay()}`;
 
-  const handleClickModify = () => {};
-  const handleClickDelete = () => {};
-  let reviewContent = <Chip icon={<AddCircleIcon />} label="리뷰 작성하기" size="small" onClick={handleClick} />;
+  const token = sessionStorage.getItem('accessToken') ?? '';
+  const [writeDialogIsOpen, setWriteDialogIsOpen] = useState(false);
+  const [ConfirmDialogIsOpen, setConfirmDialogIsOpen] = useState(false);
+
+  // 리뷰 작성/수정/삭제 클릭
+  const handleClickCreate = () => {
+    setWriteDialogIsOpen(true);
+  };
+  const handleClickModify = () => {
+    setWriteDialogIsOpen(true);
+  };
+  const handleClickDelete = () => {
+    setConfirmDialogIsOpen(true);
+  };
+
+  // ConfirmDialog (리뷰 삭제) 확인/취소
+  const handleConfirmSubmit = () => {
+    deleteReviewAPICall({ lendId, token });
+    setConfirmDialogIsOpen(false);
+  };
+  const handleConfirmCancel = () => {
+    setConfirmDialogIsOpen(false);
+  };
+
+  // WriteDialog (리뷰 작성/수정) 확인/취소
+  const handleWriteSubmit = (text: string) => {
+    modifyReviewAPICall({ lendId, text, token });
+    setWriteDialogIsOpen(false);
+  };
+  const handleWriteCancel = () => {
+    setWriteDialogIsOpen(false);
+  };
+
+  let reviewContent = <Chip icon={<AddCircleIcon />} label="리뷰 작성하기" size="small" onClick={handleClickCreate} />;
   if (review && isLoanee)
     reviewContent = (
       <>
-        <Typography>내가 작성한 리뷰: {review}</Typography>
-        <Chip label="수정" size="small" onClick={handleClickModify} />
+        <Typography sx={{ mr: '5px' }}>내가 작성한 리뷰: {review}</Typography>
+        <Chip label="수정" size="small" onClick={handleClickModify} sx={{ mr: '3px' }} />
         <Chip label="삭제" size="small" onClick={handleClickDelete} />
       </>
     );
@@ -76,25 +116,28 @@ export default function LendCard(props: LendCardProps) {
         {loaneeNickName || loaneeName}: {review}
       </Typography>
     );
+  if (!review && !isLoanee)
+    reviewContent = <Typography sx={{ color: 'gray' }}>아직 리뷰가 작성되지 않았어요</Typography>;
 
   return (
     <>
       <Box
         display={'flex'}
         flexDirection={'row'}
-        alignItems={'center'}
         sx={{
           width: '100%',
-          height: '200px',
+          minHeight: '200px',
+          maxHeight: 'none',
           border: 'none',
           padding: 3,
           overflow: 'hidden',
+          color: 'black',
         }}
       >
         <Box sx={{ height: '150px', width: '150px', zIndex: 2 }}>
           <img src={clothesImage} height="150px" width="150px" />
         </Box>
-        <Box sx={{ height: '150px', ml: 3, overflow: 'hidden', zIndex: 2 }}>
+        <Box sx={{ ml: 3, zIndex: 2 }}>
           <Box display={'flex'} flexDirection={'row'} sx={{ mb: 1 }}>
             <Typography
               component={Link}
@@ -114,19 +157,19 @@ export default function LendCard(props: LendCardProps) {
           <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
             <Box display={'flex'} flexDirection={'row'}>
               <Title title="대여 기간" />
-              <Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>
                 {startDateString} - {endDateString}
               </Typography>
             </Box>
             <Box display={'flex'} flexDirection={'row'}>
               <Title title="거래자" />
-              <Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>
                 {lenderNickName || lenderName} → {loaneeNickName || loaneeName}
               </Typography>
             </Box>
             <Box display={'flex'} flexDirection={'row'}>
               <Title title="가격" />
-              <Typography>{price}원/일</Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>{price}원/일</Typography>
             </Box>
             <Box display={'flex'} flexDirection={'row'}>
               <Title title="리뷰" />
@@ -135,6 +178,20 @@ export default function LendCard(props: LendCardProps) {
           </Grid>
         </Box>
       </Box>
+      <WriteDialog
+        message={`${clothesName}에 대한 리뷰를 작성해 주세요`}
+        placeholder={'옷의 상태, 색상 등에 대해 작성해 주세요.'}
+        defaultValue={review}
+        handleSubmit={handleWriteSubmit}
+        handleCancel={handleWriteCancel}
+        isOpen={writeDialogIsOpen}
+      />
+      <ConfirmDialog
+        message={'정말 삭제하시겠습니까?'}
+        handleSubmit={handleConfirmSubmit}
+        handleCancel={handleConfirmCancel}
+        isOpen={ConfirmDialogIsOpen}
+      />
     </>
   );
 }

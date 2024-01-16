@@ -6,6 +6,8 @@ import { User } from '../../models/user';
 import LendCard from '../../components/LendCard';
 
 interface LendInfo {
+  lendId: number;
+  clothesId: number;
   clothesName: string;
   clothesImage: string;
   price: number;
@@ -19,6 +21,8 @@ interface LendInfo {
 }
 
 const lendInfo: LendInfo = {
+  lendId: 1,
+  clothesId: 1,
   clothesName: '옷옷옷',
   clothesImage: 'https://cdn.pixabay.com/photo/2015/06/10/13/23/clothesline-804812_1280.jpg',
   price: 10000,
@@ -27,7 +31,8 @@ const lendInfo: LendInfo = {
   lenderName: 'lender',
   lenderNickName: '감자',
   loaneeName: 'loaneetest',
-  review: '리뷰 테스트 좋아요 굿',
+  // review:
+  //   '리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 리뷰 테스트 좋아요 굿 ',
 };
 
 export function MainPage() {
@@ -104,13 +109,7 @@ export function MainPage() {
         <Typography variant="h6">성: {user.lastName}</Typography>
         <Typography variant="h6">나이: {user.age}</Typography>
       </Box>
-      <LendCard
-        isLoanee={true}
-        lendInfo={lendInfo}
-        handleClick={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      <LendCard isLoanee={false} lendInfo={lendInfo} />
     </Box>
   );
 }

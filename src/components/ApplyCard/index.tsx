@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Typography, Box, Chip } from '@mui/material';
 
 interface ApplyInfo {
+  clothesId: number;
   clothesName: string;
   clothesImage: string;
   ownerName: string;
@@ -16,7 +17,16 @@ interface ApplyCardProps {
 }
 
 export default function ApplyCard(props: ApplyCardProps) {
-  const { clothesName, clothesImage, ownerName, ownerNickName, isAccepted, isRejected, detail } = props.applyInfo;
+  const {
+    /* clothesId, TODO: 옷 상세 페이지 연결할 때 사용 */
+    clothesName,
+    clothesImage,
+    ownerName,
+    ownerNickName,
+    isAccepted,
+    isRejected,
+    detail,
+  } = props.applyInfo;
 
   let statusBox = <Chip label="대기중" color="default" />;
   if (isAccepted) statusBox = <Chip label="승인됨" color="success" />;

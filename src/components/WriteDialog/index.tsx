@@ -6,21 +6,32 @@ import CancelSubmitBtns from '../CancelSubmitBtn';
 interface WriteDialogProps {
   message: string;
   placeholder: string;
-  handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
+  defaultValue?: string;
+  handleSubmit: (text: string) => void;
   handleCancel: React.MouseEventHandler<HTMLButtonElement>;
   isOpen: boolean;
 }
-const WriteDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handleSubmit, handleCancel, isOpen }) => {
-  const [, setText] = useState('');
+const WriteDialog: React.FC<WriteDialogProps> = ({
+  message,
+  placeholder,
+  defaultValue,
+  handleSubmit,
+  handleCancel,
+  isOpen,
+}) => {
+  const [text, setText] = useState('');
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setText(event.target.value);
+  };
+  const handleWriteSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+    handleSubmit(text);
   };
   return (
     <Dialog
       open={isOpen}
       fullWidth={true}
-      maxWidth="md"
+      maxWidth="sm"
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '30px',
@@ -49,6 +60,7 @@ const WriteDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handleS
           rows={10}
           fullWidth
           placeholder={placeholder}
+          defaultValue={defaultValue}
           onChange={handleChange}
           sx={{ backgroundColor: 'white', borderRadius: 1 }}
         />
@@ -59,7 +71,7 @@ const WriteDialog: React.FC<WriteDialogProps> = ({ message, placeholder, handleS
           paddingRight: '24px',
         }}
       >
-        <CancelSubmitBtns handleSubmit={handleSubmit} handleCancel={handleCancel} submitBtnText="등록" />
+        <CancelSubmitBtns handleSubmit={handleWriteSubmit} handleCancel={handleCancel} submitBtnText="등록" />
       </DialogActions>
     </Dialog>
   );

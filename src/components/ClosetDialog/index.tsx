@@ -20,7 +20,7 @@ const ClosetDialog: React.FC<ClosetDialogProps> = ({ submitBtnText, handleSubmit
     <Dialog
       open={isOpen}
       fullWidth={true}
-      maxWidth="sm"
+      maxWidth="xs"
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '30px',
