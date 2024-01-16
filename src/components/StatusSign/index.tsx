@@ -6,7 +6,7 @@ interface StatusSignProp {
 export default function StatusSign({ status }: StatusSignProp) {
   if (status === '대여가능') {
     return (
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ mr: 1 }}>
         <Box
           sx={{
             backgroundColor: 'green',
@@ -20,9 +20,9 @@ export default function StatusSign({ status }: StatusSignProp) {
       </Box>
     );
   }
-  if (status === '대여불가') {
+  if (status === '대여불가능') {
     return (
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ mr: 1 }}>
         <Box
           sx={{
             backgroundColor: 'red',
@@ -38,7 +38,7 @@ export default function StatusSign({ status }: StatusSignProp) {
   }
   if (status === '대여중') {
     return (
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ mr: 1 }}>
         <Box
           sx={{
             backgroundColor: 'orange',
@@ -54,7 +54,7 @@ export default function StatusSign({ status }: StatusSignProp) {
   }
   if (status === '공개중') {
     return (
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ mr: 1 }}>
         <Box
           sx={{
             backgroundColor: 'black',
