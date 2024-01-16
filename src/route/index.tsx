@@ -4,7 +4,6 @@ import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
-import { ListPage } from '../pages/List';
 
 /**
  * 어느 url에 어떤 페이지를 보여줄지 정해주는 컴포넌트입니다.
@@ -15,7 +14,6 @@ export function RouteComponent() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/list/:age" element={<ListPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/profile" element={<ProfilePage />} />
     </Routes>
