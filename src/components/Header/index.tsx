@@ -49,7 +49,13 @@ export default function Header() {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AccountCircleIcon sx={{ mr: 0.5 }} />
             <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState.nickname} 님</Typography>
-            <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
+            <Button
+              component={Link}
+              to="/mypage/closet"
+              sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}
+            >
+              마이페이지
+            </Button>
             <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={() => setIsOpen(true)}>
               로그아웃
             </Button>

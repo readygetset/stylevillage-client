@@ -1,4 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
@@ -13,10 +13,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
   const [selectedTab, setSelectedTab] = useState(0);
   const location = useLocation();
   const userState = useRecoilValue(userAtom);
-  if (!userState) {
-    const setUserState = useSetRecoilState(userAtom);
-    setUserState({ id: 3, nickname: 'hi' });
-  }
+
   useEffect(() => {
     const { pathname } = location;
     switch (pathname) {
