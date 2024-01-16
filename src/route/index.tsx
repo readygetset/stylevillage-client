@@ -17,9 +17,13 @@ export function RouteComponent() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/list/:age" element={<ListPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/mypage/closet" element={<MyPageHeader />} />
-      <Route path="/mypage/lend" element={<MyPageHeader />} />
-      <Route path="/mypage/wish" element={<MyPageHeader />} />
+      <Route path="/mypage/closet" element={<MyPageHeader description="님의 옷장을 관리할 수 있어요" />} />
+      <Route
+        path="/mypage/lend/lending"
+        element={<MyPageHeader description="님의 대여 신청 내역을 확인할 수 있어요" />}
+      />
+      <Route path="/mypage/lend/lent" element={<MyPageHeader description="님의 대여 내역을 확인할 수 있어요" />} />
+      <Route path="/mypage/wish" element={<MyPageHeader description="님이 찜한 옷이에요" />} />
     </Routes>
   );
 }

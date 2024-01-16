@@ -1,20 +1,33 @@
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 
-export function MyPageHeader() {
+interface DescriptionProps {
+  description: string;
+}
+
+export function MyPageHeader({ description }: DescriptionProps) {
   const [selectedTab, setSelectedTab] = useState(0);
-
-  const handleChange = (event: React.ChangeEvent<object>, newValue: number) => {
-    setSelectedTab(newValue);
-  };
-
-  const commentContents = [
-    '님의 옷장을 관리할 수 있어요',
-    '님의 대여 신청 내역을 확인할 수 있어요',
-    '님의 대여 내역을 확인할 수 있어요',
-    '님이 찜한 옷이에요',
-  ];
+  const location = useLocation();
+  useEffect(() => {
+    const { pathname } = location;
+    switch (pathname) {
+      case '/mypage/closet':
+        setSelectedTab(0);
+        break;
+      case '/mypage/lend/lending':
+        setSelectedTab(1);
+        break;
+      case '/mypage/lend/lent':
+        setSelectedTab(2);
+        break;
+      case '/mypage/wish':
+        setSelectedTab(3);
+        break;
+      default:
+        setSelectedTab(0);
+    }
+  }, [location.pathname]);
 
   return (
     <Box
@@ -65,13 +78,12 @@ export function MyPageHeader() {
             color: '#7F7F7F',
           }}
         >
-          {commentContents[selectedTab]}
+          {description}
         </Typography>
 
         <ToggleButtonGroup
           value={selectedTab}
           exclusive
-          onChange={handleChange}
           aria-label="토글 버튼 그룹"
           sx={{
             display: 'flex',
@@ -84,10 +96,13 @@ export function MyPageHeader() {
               fontSize: '1.2vw',
               fontWeight: 'bold',
               height: '2.5vw',
-              outline: 'none',
+              outline: 'none !important',
               '&:hover': {
                 borderRadius: '2vw',
                 backgroundColor: 'rgba(0, 0, 0, 0.1)',
+              },
+              '&.Mui-selected': {
+                outline: 'none !important',
               },
             },
           }}
@@ -103,7 +118,7 @@ export function MyPageHeader() {
           </ToggleButton>
           <ToggleButton
             component={Link}
-            to="/mypage/lend"
+            to="/mypage/lend/lending"
             disabled={selectedTab === 1}
             value={1}
             aria-label="대여 신청 내역"
@@ -112,7 +127,7 @@ export function MyPageHeader() {
           </ToggleButton>
           <ToggleButton
             component={Link}
-            to="/mypage/lend"
+            to="/mypage/lend/lent"
             disabled={selectedTab === 2}
             value={2}
             aria-label="대여 내역"
