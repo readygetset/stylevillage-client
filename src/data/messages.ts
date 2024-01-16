@@ -1,6 +1,10 @@
 export const LOGIN_MESSAGE = {
   LOGIN_FAIL: '로그인에 실패하였습니다 :(',
 };
+
+export const SEARCH_MESSAGE = {
+  SEARCH_FAIL: '검색에 실패하였습니다 :(',
+};
 export const CLOTHES_MESSAGE = {
   CLOTHES_NOT_FOUND: '옷을 찾을 수 없어요 :(',
   CLOTHES_DELETED: '옷이 삭제되었어요',
