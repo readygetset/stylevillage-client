@@ -1,9 +1,6 @@
-import { useRecoilValue } from 'recoil';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-
-import { userAtom } from '../../recoil/atom';
 
 interface DescriptionProps {
   description: string;
@@ -12,7 +9,6 @@ interface DescriptionProps {
 export function MyPageHeader({ description }: DescriptionProps) {
   const [selectedTab, setSelectedTab] = useState(0);
   const location = useLocation();
-  const userState = useRecoilValue(userAtom);
 
   useEffect(() => {
     const { pathname } = location;
@@ -83,7 +79,6 @@ export function MyPageHeader({ description }: DescriptionProps) {
             color: '#7F7F7F',
           }}
         >
-          {userState.nickname}
           {description}
         </Typography>
 
