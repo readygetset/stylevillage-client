@@ -1,11 +1,14 @@
+import { useSetRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
+import { userAtom } from '../../recoil/atom';
 import { postLoginAPICall } from '../../hooks/api/auth/login';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const setUserState = useSetRecoilState(userAtom);
   const [values, setValues] = useState({
     username: '',
     password: '',
@@ -18,11 +21,17 @@ export function LoginPage() {
     };
     setValues(newValues);
   };
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    postLoginAPICall(values).then(() => {
-      navigate('/');
-    });
+    try {
+      const response = await postLoginAPICall(values);
+      if (response) {
+        setUserState({ id: response.id, nickname: response.nickname });
+        navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

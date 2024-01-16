@@ -1,3 +1,4 @@
+import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -26,13 +27,15 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Layout>
-          <SnackbarProvider autoHideDuration={2000}>
-            <RouteComponent />
-          </SnackbarProvider>
-        </Layout>
-      </BrowserRouter>
+      <RecoilRoot>
+        <BrowserRouter>
+          <Layout>
+            <SnackbarProvider autoHideDuration={2000}>
+              <RouteComponent />
+            </SnackbarProvider>
+          </Layout>
+        </BrowserRouter>
+      </RecoilRoot>
     </ThemeProvider>
   );
 }

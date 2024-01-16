@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { RegisterPage } from '../pages/Register';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
-import { ListPage } from '../pages/List';
 import { ClothesPage } from '../pages/Clothes';
 
 /**
@@ -15,7 +14,6 @@ export function RouteComponent() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/list/:age" element={<ListPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/clothes/:id" element={<ClothesPage />} />
     </Routes>
