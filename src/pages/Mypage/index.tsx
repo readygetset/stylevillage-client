@@ -1,12 +1,9 @@
-import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 
 export default function MyPage() {
+  const userNickname = sessionStorage.getItem('userNickname');
   const navigate = useNavigate();
-
-  const userState = useRecoilValue(userAtom);
-
   const handleNavClick = (path: string) => {
     navigate(path);
   };
@@ -31,7 +28,7 @@ export default function MyPage() {
             </Button>
           </Box>
           <Typography variant="body1" sx={{ ml: 12, fontweight: 'bold' }}>
-            {userState.nickname}님의 대여 내역을 확인할 수 있습니다.
+            {userNickname}님의 대여 내역을 확인할 수 있습니다.
           </Typography>
           <Box sx={{ mt: 8, textAlign: 'center' }}>
             <Button

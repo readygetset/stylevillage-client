@@ -19,3 +19,8 @@ export const WISH_MESSAGE = {
   WISH_DELETED: '찜한 옷에서 삭제되었어요',
   WISH_FAIL: '알 수 없는 오류가 발생했습니다',
 };
+export const APPLY_MESSAGE = {
+  APPLY_FAIL: '대여 신청을 불러오지 못했습니다 :(',
+  LEND_CREATE_FAIL: '대여 신청 승인에 문제가 생겼어요 :(',
+  APPLY_REJECT_FAIL: '대여 신청 거절에 문제가 생겼어요 :(',
+};
