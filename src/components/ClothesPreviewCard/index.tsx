@@ -7,7 +7,7 @@ import { createWishAPICall, deleteWishAPICall } from '../../hooks/api/wish/wish'
 
 interface ClothPreviewCardProps {
   clothesId: number;
-  clothname: string;
+  clothesname: string;
   imgsrc: string;
   status: string;
   userid: number;
@@ -17,7 +17,7 @@ interface ClothPreviewCardProps {
 
 const ClothPreviewCard: React.FC<ClothPreviewCardProps> = ({
   clothesId,
-  clothname,
+  clothesname,
   imgsrc,
   status,
   userid,
@@ -42,13 +42,13 @@ const ClothPreviewCard: React.FC<ClothPreviewCardProps> = ({
     }
   };
   return (
-    <Card sx={{ width: 200, borderRadius: 10, boxShadow: 0, border: 1 }}>
-      <CardActionArea href={`/clothes/${clothesId}`} sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ width: 200, borderRadius: 10, boxShadow: 0, border: 1, borderColor: '#D9D9D9' }}>
+      <CardActionArea href={`/clothes/${clothesId}`}>
         <CardMedia sx={{ height: 200 }} image={imgsrc} title="Cloth Image" />
         <CardContent sx={{ flex: 1, width: '100%', textAlign: 'left' }}>
           <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {clothname}
+              {clothesname}
             </Typography>
             {!isMyClothes && <WishBtn isWished={isWish} handleWish={handleWish} />}
           </Box>
