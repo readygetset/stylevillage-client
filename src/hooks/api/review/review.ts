@@ -30,8 +30,6 @@ export async function modifyReviewAPICall({ lendId, text: review, token }: Modif
   } catch (err) {
     if (err instanceof AxiosError) {
       enqueueSnackbar(err.response?.data?.message ?? REVIEW_MESSAGE.REVIEW_NOT_FOUND, { variant: 'error' });
-    } else {
-      enqueueSnackbar(REVIEW_MESSAGE.REVIEW_NOT_FOUND, { variant: 'error' });
     }
   }
   return null;
