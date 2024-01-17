@@ -33,7 +33,7 @@ export function ClothesPage() {
       const result = await getClothesAPICall({ clothesId, token });
       setClothes(result);
     } catch (error) {
-      console.error(error);
+      //
     }
   };
   useEffect(() => {
@@ -66,7 +66,7 @@ export function ClothesPage() {
       }
       setIsWish(!isWish);
     } catch (error) {
-      console.error(error);
+      //
     }
   };
   const handleStatusChange = async (value: string) => {
@@ -85,7 +85,7 @@ export function ClothesPage() {
       });
       getClothes();
     } catch (error) {
-      console.error(error);
+      //
     }
   };
   const handleIsOpenChange = async (value: string) => {
@@ -104,7 +104,7 @@ export function ClothesPage() {
       });
       getClothes();
     } catch (error) {
-      console.error(error);
+      //
     }
   };
 
