@@ -35,7 +35,7 @@ export function MainPage() {
         </Box>
         <SearchBar searchKeyWord={''} categorySelected={[]} seasonSelected={[]} />
       </Box>
-      {applies && (
+      {!!applies && applies.length > 0 && (
         <Box sx={{ mt: 5, mb: 10 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
           <Box width={950}>
             <Typography variant="h5" fontWeight={'bold'} sx={{ mb: 3 }}>

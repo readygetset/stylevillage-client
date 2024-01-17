@@ -73,9 +73,7 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               size="small"
               sx={{ width: 98, borderRadius: 10, backgroundColor: '#12CA3B' }}
               onClick={() => {
-                console.log('bf:', setIsCreateLendOpen);
                 setIsCreateLendOpen(true);
-                console.log('af:', setIsCreateLendOpen);
               }}
             >
               승인하기
