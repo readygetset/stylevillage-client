@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Dialog, TextField } from '@mui/material';
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
 
 import CancelSubmitBtns from '../CancelSubmitBtn';
 
@@ -37,7 +37,7 @@ const ClosetDialog: React.FC<ClosetDialogProps> = ({ submitBtnText, handleSubmit
           marginInline: '40px',
         }}
       >
-        <StorefrontIcon fontSize="large" />
+        <CheckroomIcon fontSize="large" />
         <TextField
           id="text"
           name="text"
