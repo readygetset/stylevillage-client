@@ -20,6 +20,14 @@ export default function Header() {
     setIsOpen(false);
     navigate('/');
   };
+  const handleProfile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate('/profile');
+  };
+  const handleMyPage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate('/mypage');
+  };
   const handleCancel = () => {
     setIsOpen(false);
   };
@@ -49,7 +57,12 @@ export default function Header() {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AccountCircleIcon sx={{ mr: 0.5 }} />
             <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState.nickname} 님</Typography>
-            <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }}>마이페이지</Button>
+            <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleMyPage}>
+              마이페이지
+            </Button>
+            <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleProfile}>
+              프로필
+            </Button>
             <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={() => setIsOpen(true)}>
               로그아웃
             </Button>

@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
+import { ProfilePage } from '../pages/Profile';
+import MyPage from '../pages/Mypage';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 
@@ -14,6 +16,8 @@ export function RouteComponent() {
       <Route path="/" element={<MainPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/mypage" element={<MyPage />} />
     </Routes>
   );
 }

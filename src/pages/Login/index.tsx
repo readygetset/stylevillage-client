@@ -5,6 +5,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 
 import { userAtom } from '../../recoil/atom';
 import { postLoginAPICall } from '../../hooks/api/auth/login';
+import ClothPreviewCard from '../../components/PreviewCard/clothPreviewCard';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export function LoginPage() {
         navigate('/');
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -84,6 +85,7 @@ export function LoginPage() {
         <Typography component={Link} to="/register" sx={{ marginTop: 1.5, color: 'black', textDecoration: 'none' }}>
           회원이 아니신가요?
         </Typography>
+        <ClothPreviewCard clothname="스파오 바지" status="대여가능" imgsrc="d"></ClothPreviewCard>
       </Box>
     </Box>
   );
