@@ -25,7 +25,7 @@ export function LoginPage() {
       navigate('/');
       console.log(sessionStorage.getItem('accessToken'));
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
