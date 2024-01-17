@@ -24,9 +24,8 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.2",
-    "@mui/material": "^5.15.1",
+    "@mui/material": "^5.15.4",
     "@types/node": "^16.18.68",
-    "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "axios": "^1.6.3",
     "cross-env": "^7.0.3",
@@ -40,6 +39,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@types/react": "^18.2.48",
+    "@types/react-router-dom": "^5.3.3",
     "env-cmd": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",

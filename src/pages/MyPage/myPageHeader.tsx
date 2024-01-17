@@ -16,10 +16,10 @@ export function MyPageHeader({ description }: DescriptionProps) {
       case '/mypage/closet':
         setSelectedTab(0);
         break;
-      case '/mypage/lend/lending':
+      case '/mypage/apply':
         setSelectedTab(1);
         break;
-      case '/mypage/lend/lent':
+      case '/mypage/lend':
         setSelectedTab(2);
         break;
       case '/mypage/wish':
@@ -40,7 +40,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
         backgroundColor: '#D9D9D94D',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', margin: '4vw 0 0 5vw' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', margin: '4vw 0 0 5vw', alignItems: 'center' }}>
         <Typography
           variant="h5"
           component="div"
@@ -75,7 +75,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
             fontSize: '1.0rem',
             fontWeight: 'bold',
             marginLeft: '5vw',
-            marginBottom: '2vw',
+            marginBottom: '3.5vw',
             color: '#7F7F7F',
           }}
         >
@@ -119,7 +119,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
           </ToggleButton>
           <ToggleButton
             component={Link}
-            to="/mypage/lend/lending"
+            to="/mypage/apply"
             disabled={selectedTab === 1}
             value={1}
             aria-label="대여 신청 내역"
@@ -128,7 +128,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
           </ToggleButton>
           <ToggleButton
             component={Link}
-            to="/mypage/lend/lent"
+            to="/mypage/lend"
             disabled={selectedTab === 2}
             value={2}
             aria-label="대여 내역"

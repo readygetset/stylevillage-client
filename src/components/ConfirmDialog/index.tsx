@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Box, Dialog, TextField } from '@mui/material';
-// import StorefrontIcon from '@mui/icons-material/Storefront';
+import { Box, Dialog, Typography } from '@mui/material';
+
+import CancelSubmitBtns from '../CancelSubmitBtn';
 
 interface ConfirmDialogProps {
   message: string;
