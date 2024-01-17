@@ -9,13 +9,14 @@ interface WishAPIParams {
 }
 
 export async function createWishAPICall({ clothesId, token }: WishAPIParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/wish/${clothesId}`,
       {},
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: bearerToken,
         },
       },
     );
@@ -32,13 +33,14 @@ export async function createWishAPICall({ clothesId, token }: WishAPIParams) {
 }
 
 export async function deleteWishAPICall({ clothesId, token }: WishAPIParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.put(
       `${process.env.REACT_APP_API_URL}/wish/${clothesId}`,
       {},
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: bearerToken,
         },
       },
     );
