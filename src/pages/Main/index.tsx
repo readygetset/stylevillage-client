@@ -109,7 +109,7 @@ export function MainPage() {
         <Typography variant="h6">성: {user.lastName}</Typography>
         <Typography variant="h6">나이: {user.age}</Typography>
       </Box>
-      <LendCard isLoanee={false} lendInfo={lendInfo} />
+      <LendCard isLoanee={true} lendInfo={lendInfo} />
     </Box>
   );
 }

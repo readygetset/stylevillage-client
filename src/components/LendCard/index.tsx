@@ -171,7 +171,7 @@ export default function LendCard(props: LendCardProps) {
               <Title title="가격" />
               <Typography sx={{ whiteSpace: 'nowrap' }}>{price}원/일</Typography>
             </Box>
-            <Box display={'flex'} flexDirection={'row'}>
+            <Box display={'flex'} flexDirection={'row'} alignItems={'center'}>
               <Title title="리뷰" />
               {reviewContent}
             </Box>
