@@ -15,6 +15,9 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const handleReject = () => {
     rejectApplyAPICall({ applyId: apply.id, token });
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
   return (
     <>

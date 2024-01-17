@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Box, Dialog, TextField, Typography } from '@mui/material';
@@ -14,7 +13,6 @@ interface CreateLendDialogProps {
   isOpen: boolean;
 }
 const CreateLendDialog: React.FC<CreateLendDialogProps> = ({ applyId, clothesId, loaneeId, handleCancel, isOpen }) => {
-  const navigate = useNavigate();
   const token = sessionStorage.getItem('accessToken') ?? '';
   const [lend, setLend] = useState<Lend>({
     clothes: clothesId,
@@ -50,7 +48,9 @@ const CreateLendDialog: React.FC<CreateLendDialogProps> = ({ applyId, clothesId,
   };
   const handleSubmit = () => {
     acceptApplyAPICall({ applyId, lend, token });
-    navigate('/');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
   return (
     <Dialog open={isOpen}>

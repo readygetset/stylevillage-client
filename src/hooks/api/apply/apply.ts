@@ -20,9 +20,10 @@ export interface GetArrivedAppliesResponse {
 }
 
 export async function getArriveAppliesAPICall(token: string) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.get<GetArrivedAppliesResponse[]>(`${process.env.REACT_APP_API_URL}/apply`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
       return response.data;
@@ -51,9 +52,10 @@ interface CreateLendParams {
 }
 
 export async function createLendAPICall({ lend, token }: CreateLendParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/lend`, lend, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
       enqueueSnackbar(`대여가 등록되었습니다`, { variant: 'success' });
@@ -102,12 +104,13 @@ interface RejectApplyParams {
 }
 
 export async function rejectApplyAPICall({ applyId, token }: RejectApplyParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.patch(
       `${process.env.REACT_APP_API_URL}/apply/${applyId}`,
       {},
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: bearerToken },
       },
     );
     if (response.status === 200) {
