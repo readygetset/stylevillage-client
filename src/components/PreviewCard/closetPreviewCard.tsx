@@ -6,9 +6,10 @@ import Card from '@mui/material/Card';
 
 interface ClosetPreviewCardProps {
   closetname: string;
+  cardAction?: () => void;
 }
 
-const ClosetPreviewCard: React.FC<ClosetPreviewCardProps> = ({ closetname }: ClosetPreviewCardProps) => {
+const ClosetPreviewCard: React.FC<ClosetPreviewCardProps> = ({ closetname, cardAction }: ClosetPreviewCardProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [isClicked, setIsClicked] = React.useState(false);
 
@@ -43,6 +44,12 @@ const ClosetPreviewCard: React.FC<ClosetPreviewCardProps> = ({ closetname }: Clo
     },
   };
 
+  const handleClick = () => {
+    if (cardAction) {
+      cardAction(); // Call the provided cardAction function
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -54,6 +61,7 @@ const ClosetPreviewCard: React.FC<ClosetPreviewCardProps> = ({ closetname }: Clo
       onMouseLeave={handleMouseLeave}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onClick={handleClick}
     >
       <CardMedia
         sx={{ height: 200, width: '100%', objectFit: 'cover' }}
