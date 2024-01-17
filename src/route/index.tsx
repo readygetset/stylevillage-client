@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import { SearchPage } from '../pages/Search';
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
 import MyPage from '../pages/Mypage';
@@ -20,6 +21,7 @@ export function RouteComponent() {
       <Route path="/clothes/:id" element={<ClothesPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/search" element={<SearchPage />} />
     </Routes>
   );
 }

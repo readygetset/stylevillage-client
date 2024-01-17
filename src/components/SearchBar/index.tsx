@@ -5,13 +5,13 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import CategoryChips from '../CategoryChips';
 import { Item } from '../../models/item';
-import { getSearchAPICall } from '../../hooks/api/search/search';
-import { Categories, Seasons } from '../../data/enumLists';
+import { Categories, Seasons, Status } from '../../data/enumLists';
 
 interface SearchBarProps {
   searchKeyWord: string;
   categorySelected: string[];
   seasonSelected: string[];
+  filterSelected: string[];
 }
 
 export default function SearchBar(props: SearchBarProps) {
@@ -54,9 +54,7 @@ export default function SearchBar(props: SearchBarProps) {
       .filter((query) => !!query)
       .join('&');
     const url = `/search/?${queryString}`;
-    getSearchAPICall(url).then(() => {
-      navigate(url);
-    });
+    navigate(url);
   };
 
   const initCategories = Categories.map((value) => {
@@ -75,7 +73,14 @@ export default function SearchBar(props: SearchBarProps) {
     const item: Item = { label: value, isSelected: false };
     return item;
   });
-  const initFilter: Item[] = [{ label: '대여 가능', isSelected: false }];
+  const initFilter = Status.map((value) => {
+    if (props.filterSelected.includes(value)) {
+      const item: Item = { label: value, isSelected: true };
+      return item;
+    }
+    const item: Item = { label: value, isSelected: false };
+    return item;
+  });
 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
