@@ -1,19 +1,17 @@
-import { useRecoilValue } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import ConfirmDialog from '../ConfirmDialog';
-import { userAtom } from '../../recoil/atom';
 
 export default function Header() {
   const navigate = useNavigate();
   const isAuthenticated = sessionStorage.getItem('accessToken');
+  const userNickname = sessionStorage.getItem('userNickname');
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const userState = useRecoilValue(userAtom);
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sessionStorage.removeItem('accessToken');
@@ -56,7 +54,7 @@ export default function Header() {
         {isAuthenticated ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AccountCircleIcon sx={{ mr: 0.5 }} />
-            <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userState.nickname} 님</Typography>
+            <Typography sx={{ fontSize: 20, fontWeight: 'bold', mr: 2 }}>{userNickname} 님</Typography>
             <Button sx={{ color: 'black', fontSize: 20, fontWeight: 'bold', mr: 2 }} onClick={handleMyPage}>
               마이페이지
             </Button>

@@ -27,8 +27,4 @@ export enum Season {
   WINTER = '겨울',
 }
 
-export enum Status {
-  AVAILABLE = '대여가능',
-  UNAVAILABLE = '대여불가능',
-  RENTED = '대여중',
-}
+export const StatusEnums = ['대여가능', '대여중', '대여불가능'];

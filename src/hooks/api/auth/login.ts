@@ -14,6 +14,8 @@ export async function postLoginAPICall(values: Login) {
     if (response.status === 200) {
       const { id, nickname, isBannded, accessToken } = response.data;
       sessionStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem('userId', id);
+      sessionStorage.setItem('userNickname', nickname);
       enqueueSnackbar(`${nickname}님 안녕하세요 :)`, { variant: 'success' });
       if (isBannded === true) {
         enqueueSnackbar(`현재 ${nickname}님의 계정은 사용 정지되었습니다.`, { variant: 'warning' });
