@@ -18,15 +18,15 @@ export function LoginPage() {
     };
     setValues(newValues);
   };
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    postLoginAPICall(values)
-      .then(() => {
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      await postLoginAPICall(values);
+      navigate('/');
+      console.log(sessionStorage.getItem('accessToken'));
+    } catch (error) {
+      // console.error(error);
+    }
   };
 
   return (

@@ -15,10 +15,15 @@ interface DeleteReviewParams {
 
 export async function modifyReviewAPICall({ lendId, text: review, token }: ModifyReviewParams) {
   try {
-    const response = await axios.put(`${process.env.REACT_APP_API_URL}/review/${lendId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      review,
-    });
+    const response = await axios.put(
+      `${process.env.REACT_APP_API_URL}/review/${lendId}`,
+      { review },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     if (response.status === 200) {
       enqueueSnackbar(REVIEW_MESSAGE.REVIEW_EDITED, { variant: 'success' });
     }
