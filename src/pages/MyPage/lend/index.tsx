@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { MyPageHeader } from '../myPageHeader';
 import { GetLendsRes, GetMyLendsResponse, getLendsAPICall } from '../../../hooks/api/lend/lend';
@@ -66,7 +66,11 @@ export default function MyPageLend() {
         };
         return <LendCard key={lendInfo.lendId} isLoanee={false} lendInfo={lendInfo} />;
       });
-    return <Typography>아직 빌려준 옷이 없어요</Typography>;
+    return (
+      <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
+        아직 빌려준 옷이 없어요
+      </Typography>
+    );
   };
   useEffect(() => {
     const cards: JSX.Element | JSX.Element[] = getAsLenderCards();
@@ -91,7 +95,11 @@ export default function MyPageLend() {
         };
         return <LendCard key={lendInfo.lendId} isLoanee={true} lendInfo={lendInfo} />;
       });
-    return <Typography>아직 빌린 옷이 없어요</Typography>;
+    return (
+      <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
+        아직 빌린 옷이 없어요
+      </Typography>
+    );
   };
   useEffect(() => {
     const cards: JSX.Element | JSX.Element[] = getAsLoaneeCards();
@@ -100,19 +108,45 @@ export default function MyPageLend() {
 
   return (
     <>
-      <MyPageHeader nickname={nickname} description="님의 대여 내역을 확인할 수 있어요" />;
-      <Box>
-        <Typography width="100%" sx={{ textAlign: 'center' }}>
-          내가 빌렸어요
-        </Typography>
-        <Box width="100%">{asLenderCards}</Box>
-      </Box>
-      <Box>
-        <Typography width="100%" sx={{ textAlign: 'center' }}>
-          내가 빌려줬어요
-        </Typography>
-        <Box width="100%">{asLoaneeCards}</Box>
-      </Box>
+      <MyPageHeader nickname={nickname} description="님의 대여 내역을 확인할 수 있어요" />
+      <Grid container spacing={0} sx={{ borderRight: 'gray solid 1px' }}>
+        <Grid item xs={6}>
+          <Box>
+            <Box
+              width="100%"
+              height="50px"
+              display={'flex'}
+              flexDirection={'row'}
+              alignItems={'center'}
+              sx={{ borderBottom: 'gray solid 1px' }}
+            >
+              <Typography
+                variant="h6"
+                width="100%"
+                sx={{ fontWeight: 'semi-bold', textAlign: 'center', borderRight: 'gray solid 1px' }}
+              >
+                내가 빌려줬어요
+              </Typography>
+            </Box>
+            <Box width="100%">{asLenderCards}</Box>
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          <Box
+            width="100%"
+            height="50px"
+            display={'flex'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            sx={{ borderBottom: 'gray solid 1px' }}
+          >
+            <Typography variant="h6" width="100%" sx={{ fontWeight: 'semi-bold', textAlign: 'center' }}>
+              내가 빌렸어요
+            </Typography>
+          </Box>
+          <Box width="100%">{asLoaneeCards}</Box>
+        </Grid>
+      </Grid>
     </>
   );
 }
