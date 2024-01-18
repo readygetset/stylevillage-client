@@ -24,7 +24,7 @@ export default function Header() {
   };
   const handleMyPage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    navigate('/mypage');
+    navigate('/mypage/closet');
   };
   const handleCancel = () => {
     setIsOpen(false);
