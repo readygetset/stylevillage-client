@@ -125,3 +125,22 @@ export async function rejectApplyAPICall({ applyId, token }: RejectApplyParams) 
     throw err;
   }
 }
+
+export async function getAppliesAPICall(token?: string) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.get<GetMyLendsResponse>(`${process.env.REACT_APP_API_URL}/lend`, {
+      headers: { Authorization: bearerToken },
+    });
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? LEND_MESSAGE.LEND_LIST_FAIL, { variant: 'error' });
+    } else {
+      enqueueSnackbar(LEND_MESSAGE.LEND_LIST_FAIL, { variant: 'error' });
+    }
+  }
+  return null;
+}
