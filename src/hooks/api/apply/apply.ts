@@ -164,3 +164,31 @@ export async function getSendedApplyAPICall(token?: string) {
   }
   return null;
 }
+
+interface CreateApplyParams {
+  description: string;
+  token: string;
+}
+
+export async function createApplyAPICall({ description, token }: CreateApplyParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/apply`,
+      { description },
+      {
+        headers: { Authorization: bearerToken },
+      },
+    );
+    if (response.status === 200) {
+      enqueueSnackbar(`대여가 등록되었습니다`, { variant: 'success' });
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? APPLY_MESSAGE.APPLY_CREATE_FAIL, { variant: 'error' });
+    } else {
+      enqueueSnackbar(APPLY_MESSAGE.APPLY_CREATE_FAIL, { variant: 'error' });
+    }
+    throw err;
+  }
+}

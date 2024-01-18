@@ -2,11 +2,14 @@ import { Button } from '@mui/material';
 
 interface ApplyBtnProp {
   status: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
-export default function ApplyBtn({ status }: ApplyBtnProp) {
+export default function ApplyBtn({ status, onClick }: ApplyBtnProp) {
   if (status === '대여가능') {
     return (
-      <Button sx={{ borderRadius: 10, width: 250, backgroundColor: 'black', color: 'white' }}>대여 신청하기</Button>
+      <Button sx={{ borderRadius: 10, width: 250, backgroundColor: 'black', color: 'white' }} onClick={onClick}>
+        대여 신청하기
+      </Button>
     );
   }
   if (status === '대여불가능') {

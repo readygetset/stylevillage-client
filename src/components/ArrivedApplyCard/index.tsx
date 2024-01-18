@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
@@ -55,7 +56,9 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               <Typography sx={{ mr: 1 }} fontWeight={'bold'}>
                 신청인
               </Typography>
-              <Typography>{apply.user.nickname}</Typography>
+              <Typography component={Link} to={`/user/${apply.user.id}`}>
+                {apply.user.nickname}
+              </Typography>
             </Box>
             <Box display={'flex'} alignItems={'center'}>
               <Typography fontWeight={'bold'} sx={{ mr: 1 }}>

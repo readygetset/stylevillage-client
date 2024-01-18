@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import { Box, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
@@ -11,6 +12,9 @@ import {
   editClothesAPICall,
   getClothesAPICall,
 } from '../../hooks/api/clothes/clothes';
+import { createApplyAPICall } from '../../hooks/api/apply/apply';
+import { DEFAULT_MESSAGE } from '../../data/messages';
+import WriteDialog from '../../components/WriteDialog';
 import WishBtn from '../../components/WishBtn';
 import StatusSign from '../../components/StatusSign';
 import ConfirmDialog from '../../components/ConfirmDialog';
@@ -19,12 +23,14 @@ import ApplyBtn from '../../components/ApplyBtn';
 
 // TODO: 사용자 페이지 링크 추가
 export function ClothesPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const clothesId = Number(id);
   const userId = Number(sessionStorage.getItem('userId'));
   const token = sessionStorage.getItem('accessToken') ?? '';
+  const isAuthenticated = !!token;
   const [isWish, setIsWish] = useState(false);
-
+  const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [confirmDialogIsOpen, setConfirmDialogIsOpen] = useState(false);
 
   const [clothes, setClothes] = useState<GetClothesResponse | null>(null);
@@ -52,7 +58,9 @@ export function ClothesPage() {
   };
   const handleDelete = () => {
     deleteClothesAPICall({ clothesId, token });
-    setConfirmDialogIsOpen(false);
+    setTimeout(() => {
+      navigate(-1);
+    }, 1000);
   };
   const handleCancel = () => {
     setConfirmDialogIsOpen(false);
@@ -60,11 +68,16 @@ export function ClothesPage() {
   const handleWish = async () => {
     try {
       if (isWish) {
-        await deleteWishAPICall({ clothesId, token });
+        const response = await deleteWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       } else {
-        await createWishAPICall({ clothesId, token });
+        const response = await createWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       }
-      setIsWish(!isWish);
     } catch (error) {
       //
     }
@@ -107,6 +120,14 @@ export function ClothesPage() {
       //
     }
   };
+  const handleCreateApply = async (description: string) => {
+    try {
+      await createApplyAPICall({ description, token });
+      setIsApplyDialogOpen(false);
+    } catch (error) {
+      //
+    }
+  };
 
   return (
     <>
@@ -117,7 +138,7 @@ export function ClothesPage() {
               <Box
                 component="img"
                 sx={{
-                  width: 250,
+                  width: 350,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -127,8 +148,8 @@ export function ClothesPage() {
               <Box
                 sx={{
                   backgroundColor: '#D9D9D9',
-                  width: 250,
-                  height: 300,
+                  width: 350,
+                  height: 400,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -142,7 +163,16 @@ export function ClothesPage() {
                 handleCancel={handleDeleteBtnClick}
               />
             ) : (
-              <ApplyBtn status={clothes?.status ?? ''} />
+              <ApplyBtn
+                status={clothes?.status ?? ''}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    setIsApplyDialogOpen(true);
+                  } else {
+                    enqueueSnackbar(DEFAULT_MESSAGE.UNAUTHENTICATED, { variant: 'error' });
+                  }
+                }}
+              />
             )}
           </Box>
           <Box sx={{ mt: 1, ml: 6 }}>
@@ -175,7 +205,7 @@ export function ClothesPage() {
               <StatusSign status={clothes?.status || ''} />
             )}
             <Box display={'flex'} alignItems={'center'} sx={{ mt: 1 }}>
-              <Typography variant="h5" fontWeight={'bold'} sx={{ mr: 2 }}>
+              <Typography variant="h4" fontWeight={'bold'} sx={{ mr: 2 }}>
                 {clothes?.name}
               </Typography>
               <Typography sx={{ mr: 1 }}>{clothes?.category}</Typography>
@@ -183,7 +213,13 @@ export function ClothesPage() {
             </Box>
             {!isMyClothes && (
               <Box display={'flex'} alignItems={'center'} sx={{ mt: 1 }}>
-                <Typography variant="h6" fontWeight={'bold'} sx={{ mr: 1 }}>
+                <Typography
+                  variant="h6"
+                  fontWeight={'bold'}
+                  component={Link}
+                  to={`/user/${clothes?.owner.id}`}
+                  sx={{ mr: 1, textDecoration: 'none', color: 'black' }}
+                >
                   {clothes?.owner.nickname}님
                 </Typography>
                 <LocationOnIcon fontSize="small" sx={{ color: 'gray' }} />
@@ -196,7 +232,8 @@ export function ClothesPage() {
                 상품정보
               </Typography>
               <Divider />
-              <Typography sx={{ mt: 2 }}>{clothes?.description}</Typography>
+              <Typography sx={{ mt: 2, mb: 3 }}>{clothes?.description}</Typography>
+              <Typography sx={{ mt: 2, color: 'gray' }}>{clothes?.tag}</Typography>
             </Card>
             <Card variant="outlined" sx={{ width: 500, height: 200, borderRadius: 5, padding: 2, mt: 2 }}>
               <Typography variant="h6" fontWeight={'bold'} sx={{ mb: 1 }}>
@@ -204,9 +241,16 @@ export function ClothesPage() {
               </Typography>
               <Divider />
               {clothes?.review.map((review) => (
-                <Typography sx={{ mt: 2 }}>
-                  {review.reviewer.nickname} | {review.review}
-                </Typography>
+                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} sx={{ mt: 2, mb: 1 }}>
+                  <Typography
+                    sx={{ color: 'black', textDecoration: 'none', fontWeight: 'bold' }}
+                    component={Link}
+                    to={`/user/${review.reviewer.id}`}
+                  >
+                    {review.reviewer.nickname} |
+                  </Typography>
+                  <Typography sx={{ ml: 1 }}>{review.review}</Typography>
+                </Box>
               ))}
             </Card>
           </Box>
@@ -218,6 +262,14 @@ export function ClothesPage() {
         handleSubmit={handleDelete}
         handleCancel={handleCancel}
       />
+      <WriteDialog
+        isOpen={isApplyDialogOpen}
+        message="대여 신청 내용을 작성해주세요"
+        placeholder="대여 희망 날짜, 요구사항 등을 작성해주세요."
+        handleCancel={() => setIsApplyDialogOpen(false)}
+        handleSubmit={handleCreateApply}
+      />
+      <Box height={50} />
     </>
   );
 }
