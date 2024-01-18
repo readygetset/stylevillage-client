@@ -42,7 +42,3 @@ export const USER_MESSAGE = {
 export const LEND_MESSAGE = {
   LEND_LIST_FAIL: '대여 내역을 불러오지 못했습니다 :(',
 };
-
-export const CLOSET_MESSAGE = {
-  GET_CLOSET_FAILED: '옷장 리스트를 가져오지 못했어요',
-};

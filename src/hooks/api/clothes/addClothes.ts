@@ -1,8 +1,14 @@
 import { enqueueSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 
-import { Closet } from '../closet/getClosetList';
+import { User } from '../closet/closet';
 import { CLOTHES_MESSAGE } from '../../../data/messages';
+
+export interface Closet {
+  id?: number;
+  owner?: User;
+  name?: string;
+}
 
 export interface Clothes {
   closet: Closet | null;

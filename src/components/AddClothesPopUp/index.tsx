@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import {
   Box,
@@ -15,8 +15,14 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 import CancelSubmitBtns from '../CancelSubmitBtn';
 import { CategoryEnums } from '../../models/enum';
-import { postClothesAPICall, putClothesAPICall, Clothes, ClothesInput } from '../../hooks/api/clothes/addClothes';
-import { Closet } from '../../hooks/api/closet/getClosetList';
+import {
+  postClothesAPICall,
+  putClothesAPICall,
+  ClothesInput,
+  Clothes,
+  Closet,
+} from '../../hooks/api/clothes/addClothes';
+import { getClosetListAPICall, GetClosetListResponse, getClosetAPICall } from '../../hooks/api/closet/closet';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
   setUploadImgUrl,
@@ -65,7 +71,7 @@ const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateActi
 };
 
 type OnCloseFunction = () => void;
-type ClothesDataInput = ClothesInput | null; // clothes data with ID
+type ClothesDataInput = ClothesInput | null;
 
 const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: ClothesDataInput }> = ({
   onClose,
@@ -78,11 +84,49 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
   const [season, setSeason] = value && value.season ? useState(value.season) : useState('');
   const [isOpen, setIsOpen] = value && !value.isOpen ? useState(false) : useState<boolean>(true);
   const [status, setStatus] = value && value.status ? useState(value.status) : useState('대여불가능');
-  const [closet, setCloset] = useState<Closet | null>(null);
   const [description, setDescription] = value && value.description ? useState(value.description) : useState('');
   const [tags, setTags] = value && value.tag ? useState(value.tag) : useState('');
+  const [selectedClosetId, setSelectedClosetId] = useState<number>(0);
+  const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
+  const [closet, setCloset] = useState<Closet | null>(null);
 
   const token = sessionStorage.getItem('accessToken') ?? '';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const closetListData = await getClosetListAPICall({ token });
+        setClosetList(closetListData);
+        if (selectedClosetId === 0) {
+          setCloset(null);
+        } else {
+          const closetData = await getClosetAPICall({ closetId: selectedClosetId, token });
+          const newData = { id: closetData?.id, owner: closetData?.owner, name: closetData?.name };
+          setCloset(newData);
+        }
+      } catch (error) {
+        enqueueSnackbar('옷장이 제대로 선택되지 않았습니다.', { variant: 'error' });
+      }
+    };
+    fetchData();
+  }, [selectedClosetId]);
+
+  const handleClosetChange = (newClosetId: number) => {
+    setSelectedClosetId(newClosetId);
+  };
+
+  const reset = () => {
+    setUploadImgUrl('');
+    setName('');
+    setCategory('');
+    setSeason('');
+    setIsOpen(true);
+    setStatus('대여불가능');
+    setCloset(null);
+    setSelectedClosetId(0);
+    setDescription('');
+    setTags('');
+  };
 
   const handleSubmit = async () => {
     try {
@@ -107,6 +151,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
           ? await putClothesAPICall({ clothesId, clothes, token })
           : await postClothesAPICall({ clothes, token });
         if (isPosted) {
+          reset();
           onClose();
         }
       }
@@ -116,15 +161,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
   };
 
   const handleCancel = () => {
-    setUploadImgUrl('');
-    setName('');
-    setCategory('');
-    setSeason('');
-    setIsOpen(true);
-    setStatus('대여불가능');
-    setCloset(null);
-    setDescription('');
-    setTags('');
+    reset();
     onClose();
   };
 
@@ -313,9 +350,24 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
             <Typography>대여 불가능</Typography>
           </Box>
         </Box>
-        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>
-          옷장 - [전체 옷장]
-        </Typography>
+        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷장 선택</Typography>
+        <Select
+          id="closet"
+          name="closet"
+          value={selectedClosetId}
+          onChange={(e) => handleClosetChange(e.target.value as number)}
+          style={{ width: '50%', marginBottom: '0.2rem', borderRadius: 8, border: '1px solid black' }}
+          sx={{ height: '1.5rem' }}
+          inputProps={{ sx: { textAlign: 'center' } }}
+        >
+          <MenuItem value={0}>전체 옷장</MenuItem>
+          {closetList?.closets.map((c) => (
+            <MenuItem key={c.id} value={c.id}>
+              {c.name}
+            </MenuItem>
+          ))}
+        </Select>
+
         <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷 상세 설명</Typography>
         <textarea
           placeholder="옷의 상태 등에 대해 설명해주세요."
