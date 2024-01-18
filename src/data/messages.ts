@@ -1,3 +1,6 @@
+export const DEFAULT_MESSAGE = {
+  UNAUTHENTICATED: '로그인이 필요한 기능입니다',
+};
 export const LOGIN_MESSAGE = {
   LOGIN_FAIL: '로그인에 실패하였습니다 :(',
 };
