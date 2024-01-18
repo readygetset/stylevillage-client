@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { GetLendsRes, GetMyLendsResponse, getLendsAPICall } from '../../../hooks/api/lend/lend';
 import LendCard from '../../../components/LendCard';
@@ -19,13 +19,7 @@ interface LendInfo {
   review?: string;
 }
 
-interface LendCardProps {
-  isLoanee: boolean;
-  lendInfo: LendInfo;
-}
-
 export function LendListMyPage() {
-  const userId = Number(sessionStorage.getItem('userId'));
   const token = sessionStorage.getItem('accessToken') ?? '';
 
   const emptyLendsArray: GetLendsRes[] = [];
