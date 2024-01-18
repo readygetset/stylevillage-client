@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
-import MyPage from '../pages/Mypage';
+import MyPage from '../pages/MyPage';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 import { ClothesPage } from '../pages/Clothes';
