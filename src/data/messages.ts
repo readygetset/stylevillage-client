@@ -9,6 +9,10 @@ export const CLOTHES_MESSAGE = {
   CLOTHES_DELETED: '옷이 삭제되었어요',
   CLOTHES_EDITED: '옷 정보가 수정되었어요',
 };
+export const CLOSET_MESSAGE = {
+  CLOSET_NOT_FOUND: '옷장을 찾을 수 없어요 :(',
+  CLOSETLIST_NOT_FOUND: '옷장 리스트를 불러올 수 없어요 :(',
+};
 export const WISH_MESSAGE = {
   WISH_CREATED: '찜한 옷에 추가되었어요',
   WISH_DELETED: '찜한 옷에서 삭제되었어요',
