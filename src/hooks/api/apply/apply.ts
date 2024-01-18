@@ -126,10 +126,23 @@ export async function rejectApplyAPICall({ applyId, token }: RejectApplyParams) 
   }
 }
 
-export async function getAppliesAPICall(token?: string) {
+interface User {
+  id?: number;
+  username: string;
+  nickname?: string;
+}
+
+export interface GetUserApplyRes {
+  id?: number;
+  clothes: Clothes;
+  user: User;
+  detail?: string;
+}
+
+export async function getSendedApplyAPICall(token?: string) {
   const bearerToken = token ? `Bearer ${token}` : null;
   try {
-    const response = await axios.get<GetMyLendsResponse>(`${process.env.REACT_APP_API_URL}/lend`, {
+    const response = await axios.get<GetUserApplyRes>(`${process.env.REACT_APP_API_URL}/apply/send`, {
       headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
@@ -137,9 +150,9 @@ export async function getAppliesAPICall(token?: string) {
     }
   } catch (err) {
     if (err instanceof AxiosError) {
-      enqueueSnackbar(err.response?.data?.message ?? LEND_MESSAGE.LEND_LIST_FAIL, { variant: 'error' });
+      enqueueSnackbar(err.response?.data?.message ?? APPLY_MESSAGE.APPLY_GET_SENDED_FAIL, { variant: 'error' });
     } else {
-      enqueueSnackbar(LEND_MESSAGE.LEND_LIST_FAIL, { variant: 'error' });
+      enqueueSnackbar(APPLY_MESSAGE.APPLY_GET_SENDED_FAIL, { variant: 'error' });
     }
   }
   return null;
