@@ -226,7 +226,7 @@ export function ClothesPage() {
                 <Typography color={'gray'}>{clothes?.owner.location}</Typography>
               </Box>
             )}
-            <Chip label={clothes?.season} size="small" sx={{ mt: 2 }}></Chip>
+            {clothes?.season && <Chip label={clothes?.season} size="small" sx={{ mt: 2 }}></Chip>}
             <Card variant="outlined" sx={{ width: 500, height: 200, borderRadius: 5, padding: 2, mt: 2 }}>
               <Typography variant="h6" fontWeight={'bold'} sx={{ mb: 1 }}>
                 상품정보
