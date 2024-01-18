@@ -42,13 +42,14 @@ export function SearchPage() {
     try {
       const result = await getSearchAPICall(url);
       if (result) setSearchedClothes(result.clothes);
+      else setSearchedClothes(emptySearchArray);
     } catch (error) {
       //
     }
   };
   useEffect(() => {
     getSearch();
-  }, [queryString]);
+  }, []);
 
   const clothesCards = searchedClothes
     ? searchedClothes.map((clothes: SearchClothesRes) => {
@@ -67,6 +68,7 @@ export function SearchPage() {
         );
       })
     : [];
+  console.log(searchedClothes);
   console.log(clothesCards);
   return (
     <>
