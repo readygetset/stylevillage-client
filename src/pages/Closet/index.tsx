@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, MenuItem, TextField } from '@mui/material';
+import { Box, MenuItem, TextField, Typography, Button } from '@mui/material';
 
 import {
   getClosetAPICall,
@@ -17,6 +17,7 @@ export function ClosetPage() {
   const navigate = useNavigate();
   const userId = Number(sessionStorage.getItem('userId'));
   const userNickname = sessionStorage.getItem('userNickname');
+  const token = sessionStorage.getItem('accessToken') ?? '';
 
   const [selectedClosetId, setSelectedClosetId] = useState<number>(closetId);
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
@@ -25,13 +26,13 @@ export function ClosetPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const closetListData = await getClosetListAPICall({});
+        const closetListData = await getClosetListAPICall({ token });
         setClosetList(closetListData);
 
-        const closetData = await getClosetAPICall({ closetId: selectedClosetId });
+        const closetData = await getClosetAPICall({ closetId: selectedClosetId, token });
         setCloset(closetData);
       } catch (error) {
-        // Handle error
+        // 에러핸들러
       }
     };
 
@@ -46,14 +47,44 @@ export function ClosetPage() {
 
   return (
     <Box>
-      <TextField select label="옷장 선택" fullWidth value={selectedClosetId} onChange={handleClosetChange}>
-        <MenuItem value={0}>전체 옷장</MenuItem>
-        {closetList?.closets.map((c) => (
-          <MenuItem key={c.id} value={c.id}>
-            {c.name}
-          </MenuItem>
-        ))}
-      </TextField>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 2 }}>
+        {/* TextField with customized size and margins */}
+        <TextField
+          select
+          label="옷장 선택"
+          fullWidth
+          value={selectedClosetId}
+          onChange={handleClosetChange}
+          sx={{
+            width: 200, // Set the width to 200px
+            height: 100, // Set the height to 100px
+            ml: 5, // Set marginLeft to 5
+            mt: 5, // Set marginTop to 5
+            mb: 5, // Set marginBottom to 5
+          }}
+        >
+          <MenuItem value={0}>전체 옷장</MenuItem>
+          {closetList?.closets.map((c) => (
+            <MenuItem key={c.id} value={c.id}>
+              {c.name}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <Typography ml={2} mb={5}>
+          문을 열었어요!
+        </Typography>
+
+        <Box sx={{ marginLeft: 'auto' }}>
+          <Button
+            type="button"
+            variant="contained"
+            sx={{ mb: 6, mr: 5, width: 120, borderRadius: 100, backgroundColor: 'black' }}
+          >
+            +옷 추가하기
+          </Button>
+        </Box>
+      </Box>
 
       {closet?.clothes.map((cloth) => (
         <ClothPreviewCard
