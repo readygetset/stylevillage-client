@@ -2,14 +2,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Box, MenuItem, TextField, Typography, Button } from '@mui/material';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
 
 import { UserClothes, getUserClothesAPICall } from '../../hooks/api/user/user';
+import { deleteClothesAPICall } from '../../hooks/api/clothes/clothes';
 import {
   getClosetAPICall,
   getClosetListAPICall,
   GetClosetResponse,
   GetClosetListResponse,
 } from '../../hooks/api/closet/closet';
+import ConfirmDialog from '../../components/ConfirmDialog';
 import ClothPreviewCard from '../../components/ClothesPreviewCard';
 
 export function ClosetPage() {
@@ -24,6 +27,8 @@ export function ClosetPage() {
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
   const [closet, setCloset] = useState<GetClosetResponse | null>(null);
   const [clothes, setClothes] = useState<UserClothes[] | null>(null);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [selectedClothIdToDelete, setSelectedClothIdToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +65,25 @@ export function ClosetPage() {
   };
 
   const handleDelete = (clothId: number) => {
-    console.log(`Delete button clicked for cloth with ID: ${clothId}`);
+    setSelectedClothIdToDelete(clothId);
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleConfirmDialogSubmit = async () => {
+    if (selectedClothIdToDelete !== null) {
+      try {
+        await deleteClothesAPICall({ clothesId: selectedClothIdToDelete, token });
+        setIsConfirmDialogOpen(false);
+        window.location.reload();
+      } catch (error) {
+        console.error('Error deleting cloth:', error);
+      }
+    }
+  };
+
+  const handleConfirmDialogCancel = () => {
+    setSelectedClothIdToDelete(null);
+    setIsConfirmDialogOpen(false);
   };
 
   return (
@@ -104,39 +127,54 @@ export function ClosetPage() {
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-        {(closetId === 0 ? clothes : closet?.clothes)?.map((cloth) => (
-          <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <ClothPreviewCard
-              clothesId={cloth.id ?? 0}
-              clothesname={cloth.name}
-              imgsrc={cloth.image || 'placeholder-image-url'}
-              status={cloth.status || '상태 없음'}
-              userid={userId || 0}
-              username={userNickname || '사용자 없음'}
-              isWished={false}
-            />
+      {((closetId === 0 ? clothes : closet?.clothes) || []).length === 0 ? (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
+          <CheckroomIcon sx={{ fontSize: 100 }} />
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            빈 옷장입니다
+          </Typography>
+        </Box>
+      ) : (
+        <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {(closetId === 0 ? clothes : closet?.clothes)?.map((cloth) => (
+            <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <ClothPreviewCard
+                clothesId={cloth.id ?? 0}
+                clothesname={cloth.name}
+                imgsrc={cloth.image || 'placeholder-image-url'}
+                status={cloth.status || '상태 없음'}
+                userid={userId || 0}
+                username={userNickname || '사용자 없음'}
+                isWished={false}
+              />
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
-              <Button
-                variant="contained"
-                onClick={() => cloth.id !== undefined && handleModify(cloth.id)}
-                sx={{ mr: 2, borderRadius: 100, color: 'black', backgroundColor: 'white' }}
-              >
-                수정
-              </Button>
+              <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
+                <Button
+                  variant="contained"
+                  onClick={() => cloth.id !== undefined && handleModify(cloth.id)}
+                  sx={{ mr: 2, borderRadius: 100, color: 'black', backgroundColor: 'white' }}
+                >
+                  수정
+                </Button>
 
-              <Button
-                variant="contained"
-                onClick={() => cloth.id !== undefined && handleDelete(cloth.id)}
-                sx={{ borderRadius: 100, backgroundColor: 'black' }}
-              >
-                삭제
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => cloth.id !== undefined && handleDelete(cloth.id)}
+                  sx={{ borderRadius: 100, backgroundColor: 'black' }}
+                >
+                  삭제
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      )}
+      <ConfirmDialog
+        message="옷을 정말 삭제하시겠습니까?"
+        handleSubmit={handleConfirmDialogSubmit}
+        handleCancel={handleConfirmDialogCancel}
+        isOpen={isConfirmDialogOpen}
+      />
     </Box>
   );
 }
