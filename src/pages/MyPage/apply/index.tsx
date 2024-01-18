@@ -21,8 +21,7 @@ export default function MyPageApply() {
   const token = sessionStorage.getItem('accessToken') ?? '';
 
   const [applies, setApllies] = useState<GetSendedUserApplyRes[] | null>();
-
-  const [applyCards, setApplyCards] = useState<JSX.Element | JSX.Element[]>(notLender);
+  const [applyCards, setApplyCards] = useState<JSX.Element | JSX.Element[]>();
 
   const getSendedApply = async () => {
     try {
@@ -65,7 +64,7 @@ export default function MyPageApply() {
   return (
     <>
       <MyPageHeader nickname={nickname} description="님의 대여 내역을 확인할 수 있어요" />
-      <Box width="100%" height="50px" display={'flex'} flexDirection={'column'} alignItems={'center'}>
+      <Box width="100%" display={'flex'} flexDirection={'column'} alignItems={'center'}>
         <Box width="100%">{applyCards}</Box>
       </Box>
     </>

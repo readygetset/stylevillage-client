@@ -149,7 +149,7 @@ export interface GetSendedUserApplyRes {
 export async function getSendedApplyAPICall(token?: string) {
   const bearerToken = token ? `Bearer ${token}` : null;
   try {
-    const response = await axios.get<GetSendedUserApplyRes[]>(`${process.env.REACT_APP_API_URL}/apply/send`, {
+    const response = await axios.get<GetSendedUserApplyRes[]>(`${process.env.REACT_APP_API_URL}/apply/sended`, {
       headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
