@@ -138,7 +138,7 @@ export function ClothesPage() {
               <Box
                 component="img"
                 sx={{
-                  width: 250,
+                  width: 350,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -148,8 +148,8 @@ export function ClothesPage() {
               <Box
                 sx={{
                   backgroundColor: '#D9D9D9',
-                  width: 250,
-                  height: 300,
+                  width: 350,
+                  height: 400,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -205,7 +205,7 @@ export function ClothesPage() {
               <StatusSign status={clothes?.status || ''} />
             )}
             <Box display={'flex'} alignItems={'center'} sx={{ mt: 1 }}>
-              <Typography variant="h5" fontWeight={'bold'} sx={{ mr: 2 }}>
+              <Typography variant="h4" fontWeight={'bold'} sx={{ mr: 2 }}>
                 {clothes?.name}
               </Typography>
               <Typography sx={{ mr: 1 }}>{clothes?.category}</Typography>
@@ -269,6 +269,7 @@ export function ClothesPage() {
         handleCancel={() => setIsApplyDialogOpen(false)}
         handleSubmit={handleCreateApply}
       />
+      <Box height={50} />
     </>
   );
 }
