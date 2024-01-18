@@ -27,7 +27,7 @@ export function RouteComponent() {
       <Route path="/mypage/apply" element={<MyPageApply />} />
       <Route path="/mypage/lend" element={<MyPageLend />} />
       <Route path="/mypage/wish" element={<MyPageWish />} />
-      <Route path="/mypage/user/:id" element={<UserProfilePage />} />
+      <Route path="/user/:id" element={<UserProfilePage />} />
     </Routes>
   );
 }
