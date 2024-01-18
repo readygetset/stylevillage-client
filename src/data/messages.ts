@@ -41,4 +41,3 @@ export const USER_MESSAGE = {
 export const LEND_MESSAGE = {
   LEND_LIST_FAIL: '대여 내역을 불러오지 못했습니다 :(',
 };
-
