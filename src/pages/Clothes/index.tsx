@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -19,6 +19,7 @@ import ApplyBtn from '../../components/ApplyBtn';
 
 // TODO: 사용자 페이지 링크 추가
 export function ClothesPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const clothesId = Number(id);
   const userId = Number(sessionStorage.getItem('userId'));
@@ -52,7 +53,9 @@ export function ClothesPage() {
   };
   const handleDelete = () => {
     deleteClothesAPICall({ clothesId, token });
-    setConfirmDialogIsOpen(false);
+    setTimeout(() => {
+      navigate(-1);
+    }, 1000);
   };
   const handleCancel = () => {
     setConfirmDialogIsOpen(false);
@@ -60,11 +63,16 @@ export function ClothesPage() {
   const handleWish = async () => {
     try {
       if (isWish) {
-        await deleteWishAPICall({ clothesId, token });
+        const response = await deleteWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       } else {
-        await createWishAPICall({ clothesId, token });
+        const response = await createWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       }
-      setIsWish(!isWish);
     } catch (error) {
       //
     }
