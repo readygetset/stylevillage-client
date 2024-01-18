@@ -65,17 +65,22 @@ const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateActi
 };
 
 type OnCloseFunction = () => void;
+type ClothesInput = Clothes | null;
 
-const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ onClose, open }) => {
-  const [uploadImgUrl, setUploadImgUrl] = useState<string>('');
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [season, setSeason] = useState('');
-  const [isOpen, setIsOpen] = useState(true);
-  const [status, setStatus] = useState(false);
+const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: ClothesInput }> = ({
+  onClose,
+  open,
+  value,
+}) => {
+  const [uploadImgUrl, setUploadImgUrl] = value && value.image ? useState(value.image) : useState<string>('');
+  const [name, setName] = value && value.name ? useState(value.name) : useState('');
+  const [category, setCategory] = value && value.category ? useState(value.category) : useState('');
+  const [season, setSeason] = value && value.season ? useState(value.season) : useState('');
+  const [isOpen, setIsOpen] = value && !value.isOpen ? useState(false) : useState<boolean>(true);
+  const [status, setStatus] = value && value.status ? useState(value.status) : useState('대여불가능');
   const [closet, setCloset] = useState<Closet | null>(null);
-  const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
+  const [description, setDescription] = value && value.description ? useState(value.description) : useState('');
+  const [tags, setTags] = value && value.tag ? useState(value.tag) : useState('');
 
   const token = sessionStorage.getItem('accessToken') ?? '';
 
@@ -86,7 +91,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
         description,
         category,
         season,
-        status: status ? '대여가능' : '대여불가능',
+        status,
         isOpen,
         name,
         tag: tags,
@@ -112,7 +117,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setCategory('');
     setSeason('');
     setIsOpen(true);
-    setStatus(false);
+    setStatus('대여불가능');
     setCloset(null);
     setDescription('');
     setTags('');
@@ -135,7 +140,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setIsOpen(selected);
   };
 
-  const handleStatusClick = (selected: boolean) => {
+  const handleStatusClick = (selected: string) => {
     setStatus(selected);
   };
 
@@ -277,9 +282,9 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
         <Box display="flex">
           <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
             <Box
-              onClick={() => handleStatusClick(true)}
+              onClick={() => handleStatusClick('대여가능')}
               sx={{
-                backgroundColor: status ? 'black' : 'white',
+                backgroundColor: status === '대여가능' ? 'black' : 'white',
                 width: 10,
                 height: 10,
                 border: '1px solid black',
@@ -291,9 +296,9 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
           </Box>
           <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
             <Box
-              onClick={() => handleStatusClick(false)}
+              onClick={() => handleStatusClick('대여불가능')}
               sx={{
-                backgroundColor: status ? 'white' : 'black',
+                backgroundColor: status === '대여불가능' ? 'white' : 'black',
                 width: 10,
                 height: 10,
                 border: '1px solid black',

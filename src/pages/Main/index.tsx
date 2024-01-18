@@ -63,7 +63,7 @@ export function MainPage() {
       )}
       <div>
         <button onClick={handleOpen}>옷 추가하기</button>
-        <ClothesPopup open={open} onClose={handleClose} />
+        <ClothesPopup open={open} onClose={handleClose} value={null} />
       </div>
     </>
   );
