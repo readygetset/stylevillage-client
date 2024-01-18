@@ -13,16 +13,11 @@ import {
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import CancelSubmitBtns from '../CancelSubmitBtn';
-import { CategoryEnums } from '../../models/enum';
-import {
-  postClothesAPICall,
-  putClothesAPICall,
-  ClothesInput,
-  Clothes,
-  Closet,
-} from '../../hooks/api/clothes/addClothes';
-import { getClosetListAPICall, GetClosetListResponse, getClosetAPICall } from '../../hooks/api/closet/closet';
+import { getClosetListAPICall, GetClosetListResponse, getClosetAPICall } from '../closet/closet';
+import { CategoryEnums } from '../../../models/enum';
+import CancelSubmitBtns from '../../../components/CancelSubmitBtn';
+
+import { postClothesAPICall, putClothesAPICall, ClothesInput, Clothes, Closet } from './addClothes';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
   setUploadImgUrl,
@@ -86,9 +81,11 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
   const [status, setStatus] = value && value.status ? useState(value.status) : useState('대여불가능');
   const [description, setDescription] = value && value.description ? useState(value.description) : useState('');
   const [tags, setTags] = value && value.tag ? useState(value.tag) : useState('');
-  const [selectedClosetId, setSelectedClosetId] = useState<number>(0);
+  const [selectedClosetId, setSelectedClosetId] =
+    value && value.closet && value.closet.id !== undefined ? useState<number>(value.closet.id) : useState<number>(0);
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
-  const [closet, setCloset] = useState<Closet | null>(null);
+  const [closet, setCloset] =
+    value && value.closet ? useState<Closet | null>(value.closet) : useState<Closet | null>(null);
 
   const token = sessionStorage.getItem('accessToken') ?? '';
 
@@ -116,16 +113,18 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
   };
 
   const reset = () => {
-    setUploadImgUrl('');
-    setName('');
-    setCategory('');
-    setSeason('');
-    setIsOpen(true);
-    setStatus('대여불가능');
-    setCloset(null);
-    setSelectedClosetId(0);
-    setDescription('');
-    setTags('');
+    if (!value) {
+      setUploadImgUrl('');
+      setName('');
+      setCategory('');
+      setSeason('');
+      setIsOpen(true);
+      setStatus('대여불가능');
+      setCloset(null);
+      setSelectedClosetId(0);
+      setDescription('');
+      setTags('');
+    }
   };
 
   const handleSubmit = async () => {
