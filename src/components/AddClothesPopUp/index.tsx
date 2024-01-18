@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import {
   Box,
@@ -16,7 +16,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import CancelSubmitBtns from '../CancelSubmitBtn';
 import { CategoryEnums } from '../../models/enum';
 import { postClothesAPICall, Clothes } from '../../hooks/api/clothes/addClothes';
-import { Closet, getClosetListAPICall } from '../../hooks/api/closet/getClosetList';
+import { Closet } from '../../hooks/api/closet/getClosetList';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
   setUploadImgUrl,
@@ -73,8 +73,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
   const [season, setSeason] = useState('');
   const [isOpen, setIsOpen] = useState(true);
   const [status, setStatus] = useState(false);
-  const [closet, setCloset] = useState<Closet | undefined>(undefined);
-  const [closetList, setClosetList] = useState<Closet[]>([{ id: 1, name: '전체 옷장' }]);
+  const [closet, setCloset] = useState<Closet | null>(null);
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
 
@@ -114,8 +113,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setSeason('');
     setIsOpen(true);
     setStatus(false);
-    setCloset(undefined);
-    setClosetList([{ id: 1, name: '전체 옷장' }]);
+    setCloset(null);
     setDescription('');
     setTags('');
     onClose();
@@ -141,10 +139,6 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setStatus(selected);
   };
 
-  const handleClosetMenuClick = (selected: Closet) => {
-    setCloset(selected);
-  };
-
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
@@ -152,23 +146,6 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTags(e.target.value);
   };
-
-  useEffect(() => {
-    if (open) {
-      getClosetListAPICall(token)
-        .then((data) => {
-          // test로 1. 전체옷장 0으로 데이터: ${JSON.stringify(data)}
-          if (data !== null) {
-            enqueueSnackbar(`데이터: ${JSON.stringify([...data])}`, { variant: 'error' });
-            setClosetList([{ id: 1, name: '전체 옷장' }, ...data]);
-            enqueueSnackbar(`데이터: ${closetList}`, { variant: 'error' });
-          }
-        })
-        .catch(() => {
-          enqueueSnackbar('옷장을 불러오지 못했습니다.', { variant: 'error' });
-        });
-    }
-  }, [open]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
@@ -327,24 +304,9 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
             <Typography>대여 불가능</Typography>
           </Box>
         </Box>
-        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷장 선택</Typography>
-        <Select
-          id="closet"
-          name="closet"
-          value={closet}
-          onChange={(e) => handleClosetMenuClick(e.target.value as Closet)}
-          style={{ width: '50%', marginBottom: '0.2rem', borderRadius: 8, border: '1px solid black' }}
-          sx={{ height: '1.5rem' }}
-          inputProps={{ sx: { textAlign: 'center' } }}
-        >
-          {closetList
-            ? closetList.map((acloset) => (
-                <MenuItem key={acloset.id} value={acloset.id}>
-                  {acloset.name}
-                </MenuItem>
-              ))
-            : ''}
-        </Select>
+        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>
+          옷장 - [전체 옷장]
+        </Typography>
         <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷 상세 설명</Typography>
         <textarea
           placeholder="옷의 상태 등에 대해 설명해주세요."

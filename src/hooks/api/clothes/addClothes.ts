@@ -5,7 +5,7 @@ import { Closet } from '../closet/getClosetList';
 import { CLOTHES_MESSAGE } from '../../../data/messages';
 
 export interface Clothes {
-  closet?: Closet;
+  closet: Closet | null;
   description?: string;
   category?: string;
   season?: string;
