@@ -131,18 +131,25 @@ interface User {
   username: string;
   nickname?: string;
 }
-
-export interface GetUserApplyRes {
+interface SendedApplyClothes {
   id?: number;
-  clothes: Clothes;
-  user: User;
+  name: string;
+  image?: string;
+}
+
+export interface GetSendedUserApplyRes {
+  id?: number;
+  clothes: SendedApplyClothes;
+  owner: User;
+  isAccepted: boolean;
+  isRejected: boolean;
   detail?: string;
 }
 
 export async function getSendedApplyAPICall(token?: string) {
   const bearerToken = token ? `Bearer ${token}` : null;
   try {
-    const response = await axios.get<GetUserApplyRes>(`${process.env.REACT_APP_API_URL}/apply/send`, {
+    const response = await axios.get<GetSendedUserApplyRes[]>(`${process.env.REACT_APP_API_URL}/apply/send`, {
       headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {

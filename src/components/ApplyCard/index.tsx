@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { Typography, Box, Chip } from '@mui/material';
 
 interface ApplyInfo {
-  clothesId: number;
+  clothesId?: number;
   clothesName: string;
-  clothesImage: string;
+  clothesImage?: string;
   ownerName: string;
   ownerNickName?: string;
   isAccepted: boolean;
   isRejected: boolean;
-  detail: string;
+  detail?: string;
 }
 
 interface ApplyCardProps {

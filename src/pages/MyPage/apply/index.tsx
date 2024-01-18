@@ -2,106 +2,65 @@ import { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 
 import { MyPageHeader } from '../myPageHeader';
-import { GetLendsRes, GetMyLendsResponse, getLendsAPICall } from '../../../hooks/api/lend/lend';
+import { GetSendedUserApplyRes, getSendedApplyAPICall } from '../../../hooks/api/apply/apply';
 import ApplyCard from '../../../components/ApplyCard';
 
 interface ApplyInfo {
-  clothesId: number;
+  clothesId?: number;
   clothesName: string;
-  clothesImage: string;
+  clothesImage?: string;
   ownerName: string;
   ownerNickName?: string;
   isAccepted: boolean;
   isRejected: boolean;
-  detail: string;
+  detail?: string;
 }
 
 export default function MyPageApply() {
   const nickname = sessionStorage.getItem('userNickname');
   const token = sessionStorage.getItem('accessToken') ?? '';
 
-  const emptyAppliesArray: GetLendsRes[] = [];
+  const [applies, setApllies] = useState<GetSendedUserApplyRes[] | null>();
 
-  const [lends, setLends] = useState<GetMyLendsResponse | null>();
-  const [lendsAsLender, setLendsAsLender] = useState<GetLendsRes[]>();
-  const [lendsAsLoanee, setLendsAsLoanee] = useState<GetLendsRes[]>();
-  const [asLenderCards, setAsLenderCards] = useState<JSX.Element | JSX.Element[]>(notLender);
-  const [asLoaneeCards, setAsLoaneeCards] = useState<JSX.Element | JSX.Element[]>(notLoanee);
+  const [applyCards, setApplyCards] = useState<JSX.Element | JSX.Element[]>(notLender);
 
-  const getLendList = async () => {
+  const getSendedApply = async () => {
     try {
-      const result = await getLendsAPICall(token);
-      setLends(result);
+      const result = await getSendedApplyAPICall(token);
+      setApllies(result);
     } catch (error) {
       //
     }
   };
   useEffect(() => {
-    getLendList();
+    getSendedApply();
   }, []);
-  useEffect(() => {
-    setLendsAsLender(lends?.lendsAsLender ?? emptyLendsArray);
-    setLendsAsLoanee(lends?.lendsAsLoanee ?? emptyLendsArray);
-  }, [lends]);
 
-  const getAsLenderCards = () => {
-    if (lendsAsLender && lendsAsLender.length > 0)
-      return lendsAsLender.map((lend) => {
-        const lendInfo: LendInfo = {
-          lendId: lend?.id ? lend.id : 0,
-          clothesId: lend.clothes.id ? lend.clothes.id : 0,
-          clothesName: lend.clothes.name,
-          clothesImage: lend.clothes.image,
-          price: lend.price,
-          startDate: lend.startDate,
-          endDate: lend.endDate,
-          lenderName: lend.lender.username,
-          lenderNickName: lend.lender.nickname,
-          loaneeName: lend.loanee.username,
-          loaneeNickName: lend.loanee.nickname,
-          review: lend.review,
+  const getApplyCards = () => {
+    if (applies && applies.length > 0)
+      return applies.map((apply) => {
+        const applyInfo: ApplyInfo = {
+          clothesId: apply.clothes.id,
+          clothesName: apply.clothes.name,
+          clothesImage: apply.clothes.image,
+          ownerName: apply.owner.username,
+          ownerNickName: apply.owner.nickname,
+          isAccepted: apply.isAccepted,
+          isRejected: apply.isRejected,
+          detail: apply.detail,
         };
-        return <LendCard key={lendInfo.lendId} isLoanee={false} lendInfo={lendInfo} />;
+        return <ApplyCard key={apply.id} applyInfo={applyInfo} />;
       });
     return (
       <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
-        아직 빌려준 옷이 없어요
+        다른 사람의 옷을 대여해보세요!
       </Typography>
     );
   };
   useEffect(() => {
-    const cards: JSX.Element | JSX.Element[] = getAsLenderCards();
-    setAsLenderCards(cards);
-  }, [lendsAsLender]);
-  const getAsLoaneeCards = () => {
-    if (lendsAsLoanee && lendsAsLoanee.length > 0)
-      return lendsAsLoanee.map((lend) => {
-        const lendInfo: LendInfo = {
-          lendId: lend.id || 0,
-          clothesId: lend.clothes.id || 0,
-          clothesName: lend.clothes.name,
-          clothesImage: lend.clothes.image,
-          price: lend.price,
-          startDate: lend.startDate,
-          endDate: lend.endDate,
-          lenderName: lend.lender.username,
-          lenderNickName: lend.lender.nickname,
-          loaneeName: lend.loanee.username,
-          loaneeNickName: lend.loanee.nickname,
-          review: lend.review,
-        };
-        return <LendCard key={lendInfo.lendId} isLoanee={true} lendInfo={lendInfo} />;
-      });
-    return (
-      <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
-        아직 빌린 옷이 없어요
-      </Typography>
-    );
-  };
-  useEffect(() => {
-    const cards: JSX.Element | JSX.Element[] = getAsLoaneeCards();
-    setAsLoaneeCards(cards);
-  }, [lendsAsLoanee]);
+    const cards: JSX.Element | JSX.Element[] = getApplyCards();
+    setApplyCards(cards);
+  }, [applies]);
 
   return (
     <>
