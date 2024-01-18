@@ -25,21 +25,19 @@ interface SearchClothesRes {
   isWished: boolean;
 }
 
-// TODO: 사용자 페이지 링크 추가
 export function SearchPage() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const queryString = location.search;
-  const url = `/search/${queryString}`;
+  const url = `/search${queryString}`;
 
-  const searchKeyWord = searchParams.get('keyWord') || '';
+  const searchKeyWord = searchParams.get('text') || '';
   const categorySelected = searchParams.getAll('category');
   const seasonSelected = searchParams.getAll('season');
-  const filterSelected = searchParams.getAll('filter');
+  const filterSelected = searchParams.getAll('status');
 
   const emptySearchArray: SearchClothesRes[] = [];
   const [searchedClothes, setSearchedClothes] = useState(emptySearchArray);
-
   const getSearch = async () => {
     try {
       const result = await getSearchAPICall(url);
@@ -50,26 +48,26 @@ export function SearchPage() {
   };
   useEffect(() => {
     getSearch();
-  }, []);
+  }, [queryString]);
 
   const clothesCards = searchedClothes
     ? searchedClothes.map((clothes: SearchClothesRes) => {
-        const { id, name, image, status, owner, isWished } = clothes;
+        const { id, name, status, owner, isWished } = clothes;
         return (
           <ClothesPreviewCard
             key={id}
             clothesId={id}
             clothesname={name}
-            imgsrc={image}
+            imgsrc={''}
             status={status}
             userid={owner.id || 0}
-            username={owner.nickname}
+            username={'닉네임'}
             isWished={isWished}
           />
         );
       })
     : [];
-
+  console.log(clothesCards);
   return (
     <>
       <Box sx={{ paddingTop: '24px', backgroundColor: '#E9E9E9' }}>
