@@ -25,3 +25,7 @@ export const APPLY_MESSAGE = {
   APPLY_REJECT_FAIL: '대여 신청 거절에 문제가 생겼어요 :(',
   APPLY_CREATE_FAIL: '대여 신청에 문제가 생겼어요 :(',
 };
+export const USER_MESSAGE = {
+  USER_CLOTHES_NOT_FOUND: '사용자의 옷을 찾을 수 없어요 :(',
+  USER_NOT_FOUND: '사용자를 찾을 수 없어요 :(',
+};
