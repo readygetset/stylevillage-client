@@ -2,7 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
-import MyPage from '../pages/Mypage';
+import MyPageWish from '../pages/MyPage/wish';
+import MyPageLend from '../pages/MyPage/lend';
+import MyPageCloset from '../pages/MyPage/closet';
+import MyPageApply from '../pages/MyPage/apply';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 import { ClothesPage } from '../pages/Clothes';
@@ -19,7 +22,10 @@ export function RouteComponent() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/clothes/:id" element={<ClothesPage />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/closet" element={<MyPageCloset />} />
+      <Route path="/mypage/apply" element={<MyPageApply />} />
+      <Route path="/mypage/lend" element={<MyPageLend />} />
+      <Route path="/mypage/wish" element={<MyPageWish />} />
     </Routes>
   );
 }
