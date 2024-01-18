@@ -11,10 +11,10 @@ interface LendInfo {
   lendId: number;
   clothesId: number;
   clothesName: string;
-  clothesImage: string;
+  clothesImage?: string;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   lenderName: string;
   lenderNickName?: string;
   loaneeName: string;
@@ -65,8 +65,8 @@ export default function LendCard(props: LendCardProps) {
     loaneeNickName,
     review,
   } = props.lendInfo;
-  const startDateString = `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDay()}`;
-  const endDateString = `${endDate.getFullYear()}.${endDate.getMonth() + 1}.${endDate.getDay()}`;
+  const startDateString = `${startDate.substring(0, 4)}.${startDate.substring(5, 7)}.${startDate.substring(8, 10)}`;
+  const endDateString = `${endDate.substring(0, 4)}.${endDate.substring(5, 7)}.${endDate.substring(8, 10)}`;
 
   const token = sessionStorage.getItem('accessToken') ?? '';
   const [writeDialogIsOpen, setWriteDialogIsOpen] = useState(false);
@@ -135,7 +135,26 @@ export default function LendCard(props: LendCardProps) {
         }}
       >
         <Box sx={{ height: '150px', width: '150px', zIndex: 2 }}>
-          <img src={clothesImage} height="150px" width="150px" />
+          {clothesImage ? (
+            <Box
+              component="img"
+              sx={{
+                height: '150px',
+                width: '150px',
+                borderRadius: 10,
+              }}
+              src={clothesImage}
+            ></Box>
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: '#D9D9D9',
+                width: '150px',
+                height: '150px',
+                borderRadius: 10,
+              }}
+            ></Box>
+          )}
         </Box>
         <Box sx={{ ml: 3, zIndex: 2 }}>
           <Box display={'flex'} flexDirection={'row'} sx={{ mb: 1 }}>
