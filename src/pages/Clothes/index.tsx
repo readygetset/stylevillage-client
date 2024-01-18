@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import { Box, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
@@ -12,6 +13,7 @@ import {
   getClothesAPICall,
 } from '../../hooks/api/clothes/clothes';
 import { createApplyAPICall } from '../../hooks/api/apply/apply';
+import { DEFAULT_MESSAGE } from '../../data/messages';
 import WriteDialog from '../../components/WriteDialog';
 import WishBtn from '../../components/WishBtn';
 import StatusSign from '../../components/StatusSign';
@@ -26,6 +28,7 @@ export function ClothesPage() {
   const clothesId = Number(id);
   const userId = Number(sessionStorage.getItem('userId'));
   const token = sessionStorage.getItem('accessToken') ?? '';
+  const isAuthenticated = !!token;
   const [isWish, setIsWish] = useState(false);
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [confirmDialogIsOpen, setConfirmDialogIsOpen] = useState(false);
@@ -135,7 +138,7 @@ export function ClothesPage() {
               <Box
                 component="img"
                 sx={{
-                  width: 250,
+                  width: 350,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -145,8 +148,8 @@ export function ClothesPage() {
               <Box
                 sx={{
                   backgroundColor: '#D9D9D9',
-                  width: 250,
-                  height: 300,
+                  width: 350,
+                  height: 400,
                   borderRadius: 10,
                   mb: 2,
                 }}
@@ -160,7 +163,16 @@ export function ClothesPage() {
                 handleCancel={handleDeleteBtnClick}
               />
             ) : (
-              <ApplyBtn status={clothes?.status ?? ''} onClick={() => setIsApplyDialogOpen(true)} />
+              <ApplyBtn
+                status={clothes?.status ?? ''}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    setIsApplyDialogOpen(true);
+                  } else {
+                    enqueueSnackbar(DEFAULT_MESSAGE.UNAUTHENTICATED, { variant: 'error' });
+                  }
+                }}
+              />
             )}
           </Box>
           <Box sx={{ mt: 1, ml: 6 }}>
@@ -193,7 +205,7 @@ export function ClothesPage() {
               <StatusSign status={clothes?.status || ''} />
             )}
             <Box display={'flex'} alignItems={'center'} sx={{ mt: 1 }}>
-              <Typography variant="h5" fontWeight={'bold'} sx={{ mr: 2 }}>
+              <Typography variant="h4" fontWeight={'bold'} sx={{ mr: 2 }}>
                 {clothes?.name}
               </Typography>
               <Typography sx={{ mr: 1 }}>{clothes?.category}</Typography>
@@ -214,7 +226,7 @@ export function ClothesPage() {
                 <Typography color={'gray'}>{clothes?.owner.location}</Typography>
               </Box>
             )}
-            <Chip label={clothes?.season} size="small" sx={{ mt: 2 }}></Chip>
+            {clothes?.season && <Chip label={clothes?.season} size="small" sx={{ mt: 2 }}></Chip>}
             <Card variant="outlined" sx={{ width: 500, height: 200, borderRadius: 5, padding: 2, mt: 2 }}>
               <Typography variant="h6" fontWeight={'bold'} sx={{ mb: 1 }}>
                 상품정보
@@ -229,9 +241,16 @@ export function ClothesPage() {
               </Typography>
               <Divider />
               {clothes?.review.map((review) => (
-                <Typography sx={{ mt: 2, mb: 1 }} component={Link} to={`/user/${review.reviewer.id}`}>
-                  {review.reviewer.nickname} | {review.review}
-                </Typography>
+                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} sx={{ mt: 2, mb: 1 }}>
+                  <Typography
+                    sx={{ color: 'black', textDecoration: 'none', fontWeight: 'bold' }}
+                    component={Link}
+                    to={`/user/${review.reviewer.id}`}
+                  >
+                    {review.reviewer.nickname} |
+                  </Typography>
+                  <Typography sx={{ ml: 1 }}>{review.review}</Typography>
+                </Box>
               ))}
             </Card>
           </Box>
@@ -250,6 +269,7 @@ export function ClothesPage() {
         handleCancel={() => setIsApplyDialogOpen(false)}
         handleSubmit={handleCreateApply}
       />
+      <Box height={50} />
     </>
   );
 }
