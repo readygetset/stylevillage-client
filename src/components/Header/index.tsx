@@ -33,8 +33,9 @@ export default function Header() {
     <>
       <Box
         sx={{
+          position: 'fixed',
           width: '100%',
-          height: '10%',
+          height: '70px',
           borderBottom: 1,
           borderColor: 'black',
           bgcolor: 'white',

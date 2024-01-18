@@ -125,3 +125,70 @@ export async function rejectApplyAPICall({ applyId, token }: RejectApplyParams) 
     throw err;
   }
 }
+
+interface User {
+  id?: number;
+  username: string;
+  nickname?: string;
+}
+interface SendedApplyClothes {
+  id?: number;
+  name: string;
+  image?: string;
+}
+
+export interface GetSendedUserApplyRes {
+  id?: number;
+  clothes: SendedApplyClothes;
+  owner: User;
+  isAccepted: boolean;
+  isRejected: boolean;
+  detail?: string;
+}
+
+export async function getSendedApplyAPICall(token?: string) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.get<GetSendedUserApplyRes[]>(`${process.env.REACT_APP_API_URL}/apply/sended`, {
+      headers: { Authorization: bearerToken },
+    });
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? APPLY_MESSAGE.APPLY_GET_SENDED_FAIL, { variant: 'error' });
+    } else {
+      enqueueSnackbar(APPLY_MESSAGE.APPLY_GET_SENDED_FAIL, { variant: 'error' });
+    }
+  }
+  return null;
+}
+
+interface CreateApplyParams {
+  description: string;
+  token: string;
+}
+
+export async function createApplyAPICall({ description, token }: CreateApplyParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/apply`,
+      { description },
+      {
+        headers: { Authorization: bearerToken },
+      },
+    );
+    if (response.status === 200) {
+      enqueueSnackbar(`대여가 등록되었습니다`, { variant: 'success' });
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? APPLY_MESSAGE.APPLY_CREATE_FAIL, { variant: 'error' });
+    } else {
+      enqueueSnackbar(APPLY_MESSAGE.APPLY_CREATE_FAIL, { variant: 'error' });
+    }
+    throw err;
+  }
+}

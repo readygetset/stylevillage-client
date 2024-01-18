@@ -23,6 +23,7 @@ export async function createWishAPICall({ clothesId, token }: WishAPIParams) {
     if (response.status === 200) {
       enqueueSnackbar(WISH_MESSAGE.WISH_CREATED, { variant: 'success' });
     }
+    return response;
   } catch (err) {
     if (err instanceof AxiosError) {
       enqueueSnackbar(err.response?.data?.message ?? WISH_MESSAGE.WISH_FAIL, { variant: 'error' });
@@ -30,6 +31,7 @@ export async function createWishAPICall({ clothesId, token }: WishAPIParams) {
       enqueueSnackbar(WISH_MESSAGE.WISH_FAIL, { variant: 'error' });
     }
   }
+  return null;
 }
 
 export async function deleteWishAPICall({ clothesId, token }: WishAPIParams) {
@@ -47,6 +49,7 @@ export async function deleteWishAPICall({ clothesId, token }: WishAPIParams) {
     if (response.status === 200) {
       enqueueSnackbar(WISH_MESSAGE.WISH_DELETED, { variant: 'success' });
     }
+    return response;
   } catch (err) {
     if (err instanceof AxiosError) {
       enqueueSnackbar(err.response?.data?.message ?? WISH_MESSAGE.WISH_FAIL, { variant: 'error' });
@@ -54,4 +57,5 @@ export async function deleteWishAPICall({ clothesId, token }: WishAPIParams) {
       enqueueSnackbar(WISH_MESSAGE.WISH_FAIL, { variant: 'error' });
     }
   }
+  return null;
 }

@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { Typography, Box, Chip } from '@mui/material';
 
 interface ApplyInfo {
-  clothesId: number;
+  clothesId?: number;
   clothesName: string;
-  clothesImage: string;
+  clothesImage?: string;
   ownerName: string;
   ownerNickName?: string;
   isAccepted: boolean;
   isRejected: boolean;
-  detail: string;
+  detail?: string;
 }
 
 interface ApplyCardProps {
@@ -28,8 +28,8 @@ export default function ApplyCard(props: ApplyCardProps) {
     detail,
   } = props.applyInfo;
 
-  let statusBox = <Chip label="대기중" color="default" />;
-  if (isAccepted) statusBox = <Chip label="승인됨" color="success" />;
+  let statusBox = <Chip sx={{ overflow: 'static' }} label="대기중" color="default" />;
+  if (isAccepted) statusBox = <Chip sx={{ overflow: 'static' }} label="승인됨" color="success" />;
   if (isRejected) statusBox = <Chip label="거절됨" color="error" />;
 
   return (
@@ -40,16 +40,35 @@ export default function ApplyCard(props: ApplyCardProps) {
         alignItems={'center'}
         sx={{
           width: '100%',
-          height: '200px',
+          minHeight: '200px',
           border: 'none',
           padding: 3,
           overflow: 'hidden',
         }}
       >
         <Box sx={{ height: '150px', width: '150px', zIndex: 2 }}>
-          <img src={clothesImage} height="150px" width="150px" />
+          {clothesImage ? (
+            <Box
+              component="img"
+              sx={{
+                height: '150px',
+                width: '150px',
+                borderRadius: 10,
+              }}
+              src={clothesImage}
+            ></Box>
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: '#D9D9D9',
+                width: '150px',
+                height: '150px',
+                borderRadius: 10,
+              }}
+            ></Box>
+          )}
         </Box>
-        <Box sx={{ height: '150px', ml: 3, overflow: 'hidden', zIndex: 2 }}>
+        <Box sx={{ minHeight: '150px', ml: 3, overflow: 'hidden', zIndex: 2 }}>
           <Box display={'flex'} flexDirection={'row'} sx={{ mb: 1 }}>
             <Typography
               component={Link}
@@ -88,7 +107,13 @@ export default function ApplyCard(props: ApplyCardProps) {
               내용
             </Typography>
             <Typography
-              sx={{ fontSize: 17, color: 'black', textDecoration: 'none', height: '60px', mb: 1.5, overflow: 'hidden' }}
+              sx={{
+                fontSize: 17,
+                color: 'black',
+                textDecoration: 'none',
+                minHeight: '60px',
+                mb: 1.5,
+              }}
             >
               {detail}
             </Typography>
