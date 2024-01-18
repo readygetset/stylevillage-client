@@ -24,3 +24,6 @@ export const APPLY_MESSAGE = {
   LEND_CREATE_FAIL: '대여 신청 승인에 문제가 생겼어요 :(',
   APPLY_REJECT_FAIL: '대여 신청 거절에 문제가 생겼어요 :(',
 };
+export const LEND_MESSAGE = {
+  LEND_LIST_FAIL: '대여 내역을 불러오지 못했습니다 :(',
+};
