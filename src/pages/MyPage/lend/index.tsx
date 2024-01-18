@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 
+import { MyPageHeader } from '../myPageHeader';
 import { GetLendsRes, GetMyLendsResponse, getLendsAPICall } from '../../../hooks/api/lend/lend';
 import LendCard from '../../../components/LendCard';
 
@@ -19,7 +20,8 @@ interface LendInfo {
   review?: string;
 }
 
-export function LendListMyPage() {
+export default function MyPageLend() {
+  const nickname = sessionStorage.getItem('userNickname');
   const token = sessionStorage.getItem('accessToken') ?? '';
 
   const emptyLendsArray: GetLendsRes[] = [];
@@ -98,6 +100,7 @@ export function LendListMyPage() {
 
   return (
     <>
+      <MyPageHeader nickname={nickname} description="님의 대여 내역을 확인할 수 있어요" />;
       <Box>
         <Typography width="100%" sx={{ textAlign: 'center' }}>
           내가 빌렸어요
