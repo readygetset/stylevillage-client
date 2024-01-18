@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 
 interface DescriptionProps {
+  nickname: string | null;
   description: string;
 }
 
-export function MyPageHeader({ description }: DescriptionProps) {
+export function MyPageHeader({ nickname, description }: DescriptionProps) {
   const [selectedTab, setSelectedTab] = useState(0);
   const location = useLocation();
 
@@ -55,7 +56,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
 
         <Typography
           component={Link}
-          to="/register"
+          to="/profile"
           sx={{
             color: 'black',
             textDecoration: 'none',
@@ -79,6 +80,7 @@ export function MyPageHeader({ description }: DescriptionProps) {
             color: '#7F7F7F',
           }}
         >
+          {nickname}
           {description}
         </Typography>
 

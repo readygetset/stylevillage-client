@@ -2,7 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
-import { MyPageHeader } from '../pages/Mypage/myPageHeader';
+import MyPageWish from '../pages/Mypage/wish';
+import MyPageLend from '../pages/Mypage/lend';
+import MyPageCloset from '../pages/Mypage/closet';
+import MyPageApply from '../pages/Mypage/apply';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 import { ClothesPage } from '../pages/Clothes';
@@ -19,10 +22,10 @@ export function RouteComponent() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/clothes/:id" element={<ClothesPage />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/mypage/closet" element={<MyPageHeader description="님의 옷장을 관리할 수 있어요" />} />
-      <Route path="/mypage/apply" element={<MyPageHeader description="님의 대여 신청 내역을 확인할 수 있어요" />} />
-      <Route path="/mypage/lend" element={<MyPageHeader description="님의 대여 내역을 확인할 수 있어요" />} />
-      <Route path="/mypage/wish" element={<MyPageHeader description="님이 찜한 옷이에요" />} />
+      <Route path="/mypage/closet" element={<MyPageCloset />} />
+      <Route path="/mypage/apply" element={<MyPageApply />} />
+      <Route path="/mypage/lend" element={<MyPageLend />} />
+      <Route path="/mypage/wish" element={<MyPageWish />} />
     </Routes>
   );
 }
