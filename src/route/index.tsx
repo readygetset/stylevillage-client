@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import { UserProfilePage } from '../pages/UserProfile';
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
 import MyPageWish from '../pages/MyPage/wish';
@@ -28,6 +29,7 @@ export function RouteComponent() {
       <Route path="/mypage/apply" element={<MyPageApply />} />
       <Route path="/mypage/lend" element={<MyPageLend />} />
       <Route path="/mypage/wish" element={<MyPageWish />} />
+      <Route path="/user/:id" element={<UserProfilePage />} />
     </Routes>
   );
 }
