@@ -32,11 +32,16 @@ const ClothPreviewCard: React.FC<ClothPreviewCardProps> = ({
     event.preventDefault();
     try {
       if (isWish) {
-        await deleteWishAPICall({ clothesId, token });
+        const response = await deleteWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       } else {
-        await createWishAPICall({ clothesId, token });
+        const response = await createWishAPICall({ clothesId, token });
+        if (response?.status === 200) {
+          setIsWish(!isWish);
+        }
       }
-      setIsWish(!isWish);
     } catch (error) {
       //
     }
