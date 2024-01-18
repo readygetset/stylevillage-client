@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import {
   Box,
@@ -16,6 +16,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import CancelSubmitBtns from '../CancelSubmitBtn';
 import { CategoryEnums } from '../../models/enum';
 import { postClothesAPICall, Clothes } from '../../hooks/api/clothes/addClothes';
+import { Closet, getClosetListAPICall } from '../../hooks/api/closet/getClosetList';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
   setUploadImgUrl,
@@ -69,12 +70,11 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
   const [uploadImgUrl, setUploadImgUrl] = useState<string>('');
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
-  const [springOpen, setSpringOpen] = useState(false);
-  const [summerOpen, setSummerOpen] = useState(false);
-  const [fallOpen, setFallOpen] = useState(false);
-  const [winterOpen, setWinterOpen] = useState(false);
+  const [season, setSeason] = useState('');
   const [isOpen, setIsOpen] = useState(true);
   const [status, setStatus] = useState(false);
+  const [closet, setCloset] = useState<Closet | undefined>(undefined);
+  const [closetList, setClosetList] = useState<Closet[]>([{ id: 1, name: '전체 옷장' }]);
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
 
@@ -82,13 +82,8 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
 
   const handleSubmit = async () => {
     try {
-      const [season, setSeason] = useState('');
-      if (springOpen) setSeason('봄');
-      else if (summerOpen) setSeason('여름');
-      else if (fallOpen) setSeason('가을');
-      else if (winterOpen) setSeason('겨울');
-      // TODO : season 여러개 선택할 수 있도록, clothes 관련 api 수정(Season[]를 받도록)
       const clothes: Clothes = {
+        closet,
         description,
         category,
         season,
@@ -98,9 +93,14 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
         tag: tags,
         image: uploadImgUrl,
       };
-      const isPosted = await postClothesAPICall({ clothes, token });
-      if (isPosted) {
-        onClose();
+
+      if (clothes.name === '') {
+        enqueueSnackbar('의류 명이 입력되지 않았습니다.', { variant: 'error' });
+      } else {
+        const isPosted = await postClothesAPICall({ clothes, token });
+        if (isPosted) {
+          onClose();
+        }
       }
     } catch (error) {
       enqueueSnackbar('옷 등록에 실패하였습니다.', { variant: 'error' });
@@ -111,15 +111,13 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setUploadImgUrl('');
     setName('');
     setCategory('');
-    setSpringOpen(false);
-    setSummerOpen(false);
-    setFallOpen(false);
-    setWinterOpen(false);
+    setSeason('');
     setIsOpen(true);
     setStatus(false);
+    setCloset(undefined);
+    setClosetList([{ id: 1, name: '전체 옷장' }]);
     setDescription('');
     setTags('');
-
     onClose();
   };
 
@@ -130,42 +128,9 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
   const handleCategoryMenuClick = (selected: string) => {
     setCategory(selected);
   };
-  interface SeasonBoxProps {
-    notClicked: boolean;
-    onClick: () => void;
-  }
 
-  const SeasonBox: React.FC<SeasonBoxProps> = ({ notClicked, onClick }) => (
-    <Box display={'flex'} alignItems={'center'} sx={{ mr: 1 }}>
-      <Box
-        onClick={onClick}
-        sx={{
-          backgroundColor: notClicked ? 'black' : 'white',
-          width: 10,
-          height: 10,
-          border: '1px solid black',
-        }}
-      />
-    </Box>
-  );
-
-  const handleSeasonClick = (season: string) => {
-    switch (season) {
-      case '봄':
-        setSpringOpen(!springOpen);
-        break;
-      case '여름':
-        setSummerOpen(!summerOpen);
-        break;
-      case '가을':
-        setFallOpen(!fallOpen);
-        break;
-      case '겨울':
-        setWinterOpen(!winterOpen);
-        break;
-      default:
-        break;
-    }
+  const handleSeasonClick = (selected: string) => {
+    setSeason(selected);
   };
 
   const handleIsOpenClick = (selected: boolean) => {
@@ -176,6 +141,10 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
     setStatus(selected);
   };
 
+  const handleClosetMenuClick = (selected: Closet) => {
+    setCloset(selected);
+  };
+
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
@@ -183,6 +152,23 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTags(e.target.value);
   };
+
+  useEffect(() => {
+    if (open) {
+      getClosetListAPICall(token)
+        .then((data) => {
+          // test로 1. 전체옷장 0으로 데이터: ${JSON.stringify(data)}
+          if (data !== null) {
+            enqueueSnackbar(`데이터: ${JSON.stringify([...data])}`, { variant: 'error' });
+            setClosetList([{ id: 1, name: '전체 옷장' }, ...data]);
+            enqueueSnackbar(`데이터: ${closetList}`, { variant: 'error' });
+          }
+        })
+        .catch(() => {
+          enqueueSnackbar('옷장을 불러오지 못했습니다.', { variant: 'error' });
+        });
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
@@ -223,25 +209,62 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
             </MenuItem>
           ))}
         </Select>
-        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>계절(중복가능)</Typography>
+        <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>계절</Typography>
         <Box display="flex">
-          <Box display={'flex'} alignItems={'center'} sx={{ mr: 4 }}>
-            <SeasonBox notClicked={springOpen} onClick={() => handleSeasonClick('봄')} />
+          <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
+            <Box
+              onClick={() => handleSeasonClick('봄')}
+              sx={{
+                backgroundColor: season === '봄' ? 'black' : 'white',
+                width: 10,
+                height: 10,
+                border: '1px solid black',
+                mr: 1,
+              }}
+            />
             <Typography>봄</Typography>
           </Box>
-          <Box display={'flex'} alignItems={'center'} sx={{ mr: 4 }}>
-            <SeasonBox notClicked={summerOpen} onClick={() => handleSeasonClick('여름')} />
+          <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
+            <Box
+              onClick={() => handleSeasonClick('여름')}
+              sx={{
+                backgroundColor: season === '여름' ? 'black' : 'white',
+                width: 10,
+                height: 10,
+                border: '1px solid black',
+                mr: 1,
+              }}
+            />
             <Typography>여름</Typography>
           </Box>
-          <Box display={'flex'} alignItems={'center'} sx={{ mr: 4 }}>
-            <SeasonBox notClicked={fallOpen} onClick={() => handleSeasonClick('가을')} />
+          <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
+            <Box
+              onClick={() => handleSeasonClick('가을')}
+              sx={{
+                backgroundColor: season === '가을' ? 'black' : 'white',
+                width: 10,
+                height: 10,
+                border: '1px solid black',
+                mr: 1,
+              }}
+            />
             <Typography>가을</Typography>
           </Box>
-          <Box display={'flex'} alignItems={'center'} sx={{ mr: 4 }}>
-            <SeasonBox notClicked={winterOpen} onClick={() => handleSeasonClick('겨울')} />
+          <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
+            <Box
+              onClick={() => handleSeasonClick('겨울')}
+              sx={{
+                backgroundColor: season === '겨울' ? 'black' : 'white',
+                width: 10,
+                height: 10,
+                border: '1px solid black',
+                mr: 1,
+              }}
+            />
             <Typography>겨울</Typography>
           </Box>
         </Box>
+
         <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>공개 여부</Typography>
         <Box display="flex">
           <Box display={'flex'} alignItems={'center'} sx={{ mr: 2 }}>
@@ -305,6 +328,23 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean }> = ({ o
           </Box>
         </Box>
         <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷장 선택</Typography>
+        <Select
+          id="closet"
+          name="closet"
+          value={closet}
+          onChange={(e) => handleClosetMenuClick(e.target.value as Closet)}
+          style={{ width: '50%', marginBottom: '0.2rem', borderRadius: 8, border: '1px solid black' }}
+          sx={{ height: '1.5rem' }}
+          inputProps={{ sx: { textAlign: 'center' } }}
+        >
+          {closetList
+            ? closetList.map((acloset) => (
+                <MenuItem key={acloset.id} value={acloset.id}>
+                  {acloset.name}
+                </MenuItem>
+              ))
+            : ''}
+        </Select>
         <Typography sx={{ fontWeight: 'bold', marginTop: '0.5rem', marginBottom: '0.2rem' }}>옷 상세 설명</Typography>
         <textarea
           placeholder="옷의 상태 등에 대해 설명해주세요."

@@ -5,3 +5,7 @@ export const LOGIN_MESSAGE = {
 export const CLOTHES_MESSAGE = {
   ADD_CLOTHS_FAILED: '옷을 등록하지 못했어요',
 };
+
+export const CLOSET_MESSAGE = {
+  GET_CLOSET_FAILED: '옷장 리스트를 가져오지 못했어요',
+};

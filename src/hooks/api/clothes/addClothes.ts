@@ -1,9 +1,11 @@
 import { enqueueSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 
+import { Closet } from '../closet/getClosetList';
 import { CLOTHES_MESSAGE } from '../../../data/messages';
 
 export interface Clothes {
+  closet?: Closet;
   description?: string;
   category?: string;
   season?: string;
@@ -21,11 +23,6 @@ interface PostClothes {
 
 export async function postClothesAPICall({ clothes, token }: PostClothes): Promise<boolean> {
   try {
-    if (clothes.name === '') {
-      enqueueSnackbar('의류 명이 입력되지 않았습니다.', { variant: 'error' });
-      return false;
-    }
-
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/clothes`, clothes, {
       headers: { Authorization: `Bearer ${token}` },
     });
