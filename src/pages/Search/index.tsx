@@ -1,5 +1,5 @@
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 
 import { getSearchAPICall } from '../../hooks/api/search/search';
@@ -7,12 +7,12 @@ import SearchBar from '../../components/SearchBar';
 import ClothesPreviewCard from '../../components/ClothesPreviewCard';
 
 interface Owner {
-  id: number;
+  id?: number;
   nickname?: string;
   location?: string;
 }
 interface SearchClothesRes {
-  id: number;
+  id?: number;
   closetId: number;
   category?: string;
   season?: string;
@@ -38,18 +38,17 @@ export function SearchPage() {
 
   const emptySearchArray: SearchClothesRes[] = [];
   const [searchedClothes, setSearchedClothes] = useState(emptySearchArray);
-  const getSearch = async () => {
+  const handleSearch = async (query: string) => {
     try {
-      const result = await getSearchAPICall(url);
-      if (result) setSearchedClothes(result.clothes);
-      else setSearchedClothes(emptySearchArray);
+      const result = await getSearchAPICall(query);
+      if (result) {
+        setSearchedClothes(result);
+      } else setSearchedClothes(emptySearchArray);
     } catch (error) {
       //
     }
   };
-  useEffect(() => {
-    getSearch();
-  }, []);
+  handleSearch(url);
 
   const clothesCards = searchedClothes
     ? searchedClothes.map((clothes: SearchClothesRes) => {
@@ -57,7 +56,7 @@ export function SearchPage() {
         return (
           <ClothesPreviewCard
             key={id}
-            clothesId={id}
+            clothesId={id || 0}
             clothesname={name}
             imgsrc={''}
             status={status}
@@ -68,8 +67,7 @@ export function SearchPage() {
         );
       })
     : [];
-  console.log(searchedClothes);
-  console.log(clothesCards);
+
   return (
     <>
       <Box sx={{ paddingTop: '24px', backgroundColor: '#E9E9E9' }}>

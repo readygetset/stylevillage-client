@@ -4,12 +4,12 @@ import axios, { AxiosError } from 'axios';
 import { SEARCH_MESSAGE } from '../../../data/messages';
 
 interface Owner {
-  id: number;
+  id?: number;
   nickname?: string;
   location?: string;
 }
 interface SearchClothesRes {
-  id: number;
+  id?: number;
   closetId: number;
   category?: string;
   season?: string;
@@ -21,14 +21,10 @@ interface SearchClothesRes {
   owner: Owner;
   isWished: boolean;
 }
-interface SearchRes {
-  clothes: SearchClothesRes[];
-}
 
-// eslint-disable-next-line consistent-return
 export async function getSearchAPICall(url: string) {
   try {
-    const response = await axios.get<SearchRes>(`${process.env.REACT_APP_API_URL}${url}`);
+    const response = await axios.get<SearchClothesRes[]>(`${process.env.REACT_APP_API_URL}${url}`);
     if (response.status === 200) {
       return response.data;
     }
@@ -39,4 +35,5 @@ export async function getSearchAPICall(url: string) {
       enqueueSnackbar(SEARCH_MESSAGE.SEARCH_FAIL, { variant: 'error' });
     }
   }
+  return null;
 }
