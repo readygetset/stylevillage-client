@@ -11,7 +11,7 @@ interface LendInfo {
   lendId: number;
   clothesId: number;
   clothesName: string;
-  clothesImage: string;
+  clothesImage?: string;
   price: number;
   startDate: Date;
   endDate: Date;
@@ -135,7 +135,26 @@ export default function LendCard(props: LendCardProps) {
         }}
       >
         <Box sx={{ height: '150px', width: '150px', zIndex: 2 }}>
-          <img src={clothesImage} height="150px" width="150px" />
+          {clothesImage ? (
+            <Box
+              component="img"
+              sx={{
+                height: '150px',
+                width: '150px',
+                borderRadius: 10,
+              }}
+              src={clothesImage}
+            ></Box>
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: '#D9D9D9',
+                width: '150px',
+                height: '150px',
+                borderRadius: 10,
+              }}
+            ></Box>
+          )}
         </Box>
         <Box sx={{ ml: 3, zIndex: 2 }}>
           <Box display={'flex'} flexDirection={'row'} sx={{ mb: 1 }}>
