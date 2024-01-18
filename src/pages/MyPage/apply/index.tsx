@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { MyPageHeader } from '../myPageHeader';
 import { GetSendedUserApplyRes, getSendedApplyAPICall } from '../../../hooks/api/apply/apply';
