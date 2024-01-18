@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Box, MenuItem, TextField, Typography, Button } from '@mui/material';
 
+import { UserClothes, getUserClothesAPICall } from '../../hooks/api/user/user';
 import {
   getClosetAPICall,
   getClosetListAPICall,
@@ -22,15 +23,20 @@ export function ClosetPage() {
   const [selectedClosetId, setSelectedClosetId] = useState<number>(closetId);
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
   const [closet, setCloset] = useState<GetClosetResponse | null>(null);
+  const [clothes, setClothes] = useState<UserClothes[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const closetListData = await getClosetListAPICall({ token });
         setClosetList(closetListData);
-
-        const closetData = await getClosetAPICall({ closetId: selectedClosetId, token });
-        setCloset(closetData);
+        if (closetId === 0) {
+          const clothesData = await getUserClothesAPICall(userId);
+          setClothes(clothesData);
+        } else {
+          const closetData = await getClosetAPICall({ closetId: selectedClosetId, token });
+          setCloset(closetData);
+        }
       } catch (error) {
         // 에러핸들러
       }
@@ -99,7 +105,7 @@ export function ClosetPage() {
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-        {closet?.clothes.map((cloth) => (
+        {(closetId === 0 ? clothes : closet?.clothes)?.map((cloth) => (
           <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <ClothPreviewCard
               clothesId={cloth.id ?? 0}
