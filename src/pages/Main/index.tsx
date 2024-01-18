@@ -4,21 +4,8 @@ import { Box, Typography } from '@mui/material';
 import { GetArrivedAppliesResponse, getArriveAppliesAPICall } from '../../hooks/api/apply/apply';
 import SearchBar from '../../components/SearchBar';
 import ArrivedApplyCard from '../../components/ArrivedApplyCard';
-import AddClothesBtn from '../../components/AddClothesBtn';
 
 export function MainPage() {
-  const closet = {
-    id: 9,
-    closet: null,
-    description: 's',
-    category: '미디스커트',
-    season: '여름',
-    status: '대여불가능',
-    isOpen: true,
-    name: 'a',
-    tag: '',
-    image: '',
-  };
   const token = sessionStorage.getItem('accessToken');
   const isAuthenticated = !!token;
   const [applies, setApplies] = useState<GetArrivedAppliesResponse[] | null>(null);
@@ -38,7 +25,6 @@ export function MainPage() {
 
   return (
     <>
-      <AddClothesBtn value={closet} BtnText={'+ '} />
       <Box sx={{ marginTop: 0, backgroundColor: '#E9E9E9' }}>
         <Box paddingTop={5} display={'flex'} flexDirection={'column'} alignItems={'center'}>
           <Typography variant="h1" sx={{ fontWeight: 'bold' }}>
