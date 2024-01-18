@@ -1,6 +1,6 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { getSearchAPICall } from '../../hooks/api/search/search';
 import SearchBar from '../../components/SearchBar';
@@ -27,14 +27,20 @@ interface SearchClothesRes {
 
 export function SearchPage() {
   const [searchParams] = useSearchParams();
-  const location = useLocation();
-  const queryString = location.search;
-  const url = `/search${queryString}`;
+  // const location = useLocation();
+  // const queryString = location.search;
+  // const url = `/search${queryString}`;
 
   const searchKeyWord = searchParams.get('text') || '';
   const categorySelected = searchParams.getAll('category');
   const seasonSelected = searchParams.getAll('season');
   const filterSelected = searchParams.getAll('status');
+
+  const defaultResult: JSX.Element = (
+    <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
+      검색 결과가 없어요
+    </Typography>
+  );
 
   const emptySearchArray: SearchClothesRes[] = [];
   const [searchedClothes, setSearchedClothes] = useState(emptySearchArray);
@@ -48,22 +54,24 @@ export function SearchPage() {
       //
     }
   };
-  handleSearch(url);
+  // handleSearch(url);
 
   const clothesCards = searchedClothes
     ? searchedClothes.map((clothes: SearchClothesRes) => {
         const { id, name, status, owner, isWished } = clothes;
         return (
-          <ClothesPreviewCard
-            key={id}
-            clothesId={id || 0}
-            clothesname={name}
-            imgsrc={''}
-            status={status}
-            userid={owner.id || 0}
-            username={'닉네임'}
-            isWished={isWished}
-          />
+          <Box sx={{ margin: 3, display: 'inline-block' }}>
+            <ClothesPreviewCard
+              key={id}
+              clothesId={id || 0}
+              clothesname={name}
+              imgsrc={''}
+              status={status}
+              userid={owner.id || 0}
+              username={'닉네임'}
+              isWished={isWished}
+            />
+          </Box>
         );
       })
     : [];
@@ -76,9 +84,10 @@ export function SearchPage() {
           categorySelected={categorySelected}
           seasonSelected={seasonSelected}
           filterSelected={filterSelected}
+          handleSearch={handleSearch}
         />
       </Box>
-      {clothesCards}
+      {clothesCards && clothesCards.length > 0 ? clothesCards : defaultResult}
     </>
   );
 }

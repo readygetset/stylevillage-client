@@ -12,6 +12,7 @@ interface SearchBarProps {
   categorySelected: string[];
   seasonSelected: string[];
   filterSelected: string[];
+  handleSearch?: (a: string) => void;
 }
 
 export default function SearchBar(props: SearchBarProps) {
@@ -55,6 +56,7 @@ export default function SearchBar(props: SearchBarProps) {
       .join('&');
     const url = `/search?${queryString}`;
     navigate(url);
+    if (props.handleSearch) props.handleSearch(url);
   };
 
   const initCategories = Categories.map((value) => {
