@@ -2,10 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
-import MyPageWish from '../pages/Mypage/wish';
-import MyPageLend from '../pages/Mypage/lend';
-import MyPageCloset from '../pages/Mypage/closet';
-import MyPageApply from '../pages/Mypage/apply';
+import MyPageWish from '../pages/MyPage/wish';
+import MyPageLend from '../pages/MyPage/lend';
+import MyPageCloset from '../pages/MyPage/closet';
+import MyPageApply from '../pages/MyPage/apply';
 import { MainPage } from '../pages/Main';
 import { LoginPage } from '../pages/Login';
 import { ClothesPage } from '../pages/Clothes';

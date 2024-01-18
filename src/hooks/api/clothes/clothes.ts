@@ -37,9 +37,10 @@ export interface GetClothesResponse {
 }
 
 export async function getClothesAPICall({ clothesId, token }: GetClothesParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.get<GetClothesResponse>(`${process.env.REACT_APP_API_URL}/clothes/${clothesId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
       return response.data;
@@ -55,9 +56,10 @@ export async function getClothesAPICall({ clothesId, token }: GetClothesParams) 
 }
 
 export async function deleteClothesAPICall({ clothesId, token }: GetClothesParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
   try {
     const response = await axios.delete(`${process.env.REACT_APP_API_URL}/clothes/${clothesId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: bearerToken },
     });
     if (response.status === 200) {
       enqueueSnackbar(CLOTHES_MESSAGE.CLOTHES_DELETED, { variant: 'success' });

@@ -94,10 +94,11 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
             alignItems: 'bottom',
             '& .MuiToggleButton-root': {
               border: 'none',
-              margin: '0 10vw',
+              margin: '0 7vw',
               borderRadius: '2vw !important',
-              fontSize: '1.2vw',
+              fontSize: '1.0vw',
               fontWeight: 'bold',
+              width: '8vw',
               height: '2.5vw',
               outline: 'none !important',
               '&:hover': {
