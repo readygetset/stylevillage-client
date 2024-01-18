@@ -45,10 +45,21 @@ export function ClosetPage() {
     navigate(`/closet/${newClosetId}`);
   };
 
+  const handleCreate = () => {
+    console.log('Create button clicked');
+  };
+
+  const handleModify = (clothId: number) => {
+    console.log(`Modify button clicked for cloth with ID: ${clothId}`);
+  };
+
+  const handleDelete = (clothId: number) => {
+    console.log(`Delete button clicked for cloth with ID: ${clothId}`);
+  };
+
   return (
     <Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 2 }}>
-        {/* TextField with customized size and margins */}
         <TextField
           select
           label="옷장 선택"
@@ -56,11 +67,11 @@ export function ClosetPage() {
           value={selectedClosetId}
           onChange={handleClosetChange}
           sx={{
-            width: 200, // Set the width to 200px
-            height: 100, // Set the height to 100px
-            ml: 5, // Set marginLeft to 5
-            mt: 5, // Set marginTop to 5
-            mb: 5, // Set marginBottom to 5
+            width: 200,
+            height: 100,
+            ml: 5,
+            mt: 5,
+            mb: 5,
           }}
         >
           <MenuItem value={0}>전체 옷장</MenuItem>
@@ -79,6 +90,7 @@ export function ClosetPage() {
           <Button
             type="button"
             variant="contained"
+            onClick={handleCreate}
             sx={{ mb: 6, mr: 5, width: 120, borderRadius: 100, backgroundColor: 'black' }}
           >
             +옷 추가하기
@@ -86,18 +98,39 @@ export function ClosetPage() {
         </Box>
       </Box>
 
-      {closet?.clothes.map((cloth) => (
-        <ClothPreviewCard
-          key={cloth.id}
-          clothesId={cloth.id ?? 0}
-          clothesname={cloth.name}
-          imgsrc={cloth.image || 'placeholder-image-url'} // 대체할 이미지 URL을 지정하세요.
-          status={cloth.status || '상태 없음'}
-          userid={userId || 0}
-          username={userNickname || '사용자 없음'}
-          isWished={false} // 여기서는 Wish 상태를 받아오지 않았으므로 false로 지정합니다.
-        />
-      ))}
+      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {closet?.clothes.map((cloth) => (
+          <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <ClothPreviewCard
+              clothesId={cloth.id ?? 0}
+              clothesname={cloth.name}
+              imgsrc={cloth.image || 'placeholder-image-url'}
+              status={cloth.status || '상태 없음'}
+              userid={userId || 0}
+              username={userNickname || '사용자 없음'}
+              isWished={false}
+            />
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() => cloth.id !== undefined && handleModify(cloth.id)}
+                sx={{ mr: 2, borderRadius: 100, color: 'black', backgroundColor: 'white' }}
+              >
+                수정
+              </Button>
+
+              <Button
+                variant="contained"
+                onClick={() => cloth.id !== undefined && handleDelete(cloth.id)}
+                sx={{ borderRadius: 100, backgroundColor: 'black' }}
+              >
+                삭제
+              </Button>
+            </Box>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 }
