@@ -15,7 +15,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 import CancelSubmitBtns from '../CancelSubmitBtn';
 import { CategoryEnums } from '../../models/enum';
-import { postClothesAPICall, Clothes } from '../../hooks/api/clothes/addClothes';
+import { postClothesAPICall, putClothesAPICall, Clothes, ClothesInput } from '../../hooks/api/clothes/addClothes';
 import { Closet } from '../../hooks/api/closet/getClosetList';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
@@ -65,9 +65,9 @@ const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateActi
 };
 
 type OnCloseFunction = () => void;
-type ClothesInput = Clothes | null;
+type ClothesDataInput = ClothesInput | null; // clothes data with ID
 
-const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: ClothesInput }> = ({
+const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: ClothesDataInput }> = ({
   onClose,
   open,
   value,
@@ -98,10 +98,14 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
         image: uploadImgUrl,
       };
 
+      const clothesId = value ? value?.id : -1;
+
       if (clothes.name === '') {
         enqueueSnackbar('의류 명이 입력되지 않았습니다.', { variant: 'error' });
       } else {
-        const isPosted = await postClothesAPICall({ clothes, token });
+        const isPosted = value
+          ? await putClothesAPICall({ clothesId, clothes, token })
+          : await postClothesAPICall({ clothes, token });
         if (isPosted) {
           onClose();
         }
@@ -298,7 +302,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
             <Box
               onClick={() => handleStatusClick('대여불가능')}
               sx={{
-                backgroundColor: status === '대여불가능' ? 'white' : 'black',
+                backgroundColor: status === '대여불가능' ? 'black' : 'white',
                 width: 10,
                 height: 10,
                 border: '1px solid black',
