@@ -36,6 +36,8 @@ export const USER_MESSAGE = {
   USER_CLOTHES_NOT_FOUND: '사용자의 옷을 찾을 수 없어요 :(',
   USER_NOT_FOUND: '사용자를 찾을 수 없어요 :(',
 };
+
 export const LEND_MESSAGE = {
   LEND_LIST_FAIL: '대여 내역을 불러오지 못했습니다 :(',
 };
+
