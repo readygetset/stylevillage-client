@@ -28,6 +28,7 @@ interface GetClosetClothes {
   name: string;
   tag?: string;
   image?: string;
+  owner?: number;
 }
 
 interface GetClosetListParams {
