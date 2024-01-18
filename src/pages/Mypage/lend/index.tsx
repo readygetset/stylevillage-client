@@ -11,8 +11,8 @@ interface LendInfo {
   clothesName: string;
   clothesImage?: string;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   lenderName: string;
   lenderNickName?: string;
   loaneeName: string;
@@ -25,11 +25,22 @@ export default function MyPageLend() {
   const token = sessionStorage.getItem('accessToken') ?? '';
 
   const emptyLendsArray: GetLendsRes[] = [];
+  const notLender = (
+    <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
+      아직 빌려준 옷이 없어요
+    </Typography>
+  );
+  const notLoanee = (
+    <Typography width="100%" textAlign="center" sx={{ mt: '50px', color: 'gray', fontSize: 20 }}>
+      아직 빌린 옷이 없어요
+    </Typography>
+  );
+
   const [lends, setLends] = useState<GetMyLendsResponse | null>();
   const [lendsAsLender, setLendsAsLender] = useState<GetLendsRes[]>();
   const [lendsAsLoanee, setLendsAsLoanee] = useState<GetLendsRes[]>();
-  const [asLenderCards, setAsLenderCards] = useState<JSX.Element | JSX.Element[]>();
-  const [asLoaneeCards, setAsLoaneeCards] = useState<JSX.Element | JSX.Element[]>();
+  const [asLenderCards, setAsLenderCards] = useState<JSX.Element | JSX.Element[]>(notLender);
+  const [asLoaneeCards, setAsLoaneeCards] = useState<JSX.Element | JSX.Element[]>(notLoanee);
 
   const getLendList = async () => {
     try {
@@ -51,8 +62,8 @@ export default function MyPageLend() {
     if (lendsAsLender && lendsAsLender.length > 0)
       return lendsAsLender.map((lend) => {
         const lendInfo: LendInfo = {
-          lendId: lend.id || 0,
-          clothesId: lend.clothes.id || 0,
+          lendId: lend?.id ? lend.id : 0,
+          clothesId: lend.clothes.id ? lend.clothes.id : 0,
           clothesName: lend.clothes.name,
           clothesImage: lend.clothes.image,
           price: lend.price,
@@ -77,8 +88,8 @@ export default function MyPageLend() {
     setAsLenderCards(cards);
   }, [lendsAsLender]);
   const getAsLoaneeCards = () => {
-    if (lendsAsLender && lendsAsLender.length > 0)
-      return lendsAsLender.map((lend) => {
+    if (lendsAsLoanee && lendsAsLoanee.length > 0)
+      return lendsAsLoanee.map((lend) => {
         const lendInfo: LendInfo = {
           lendId: lend.id || 0,
           clothesId: lend.clothes.id || 0,

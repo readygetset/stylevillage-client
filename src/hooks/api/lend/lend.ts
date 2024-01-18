@@ -19,8 +19,8 @@ export interface GetLendsRes {
   id?: number;
   clothes: Clothes;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   lender: User;
   loanee: User;
   review?: string;

@@ -13,8 +13,8 @@ interface LendInfo {
   clothesName: string;
   clothesImage?: string;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   lenderName: string;
   lenderNickName?: string;
   loaneeName: string;
@@ -65,8 +65,8 @@ export default function LendCard(props: LendCardProps) {
     loaneeNickName,
     review,
   } = props.lendInfo;
-  const startDateString = `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDay()}`;
-  const endDateString = `${endDate.getFullYear()}.${endDate.getMonth() + 1}.${endDate.getDay()}`;
+  const startDateString = `${startDate.substring(0, 4)}.${startDate.substring(5, 7)}.${startDate.substring(8, 10)}`;
+  const endDateString = `${endDate.substring(0, 4)}.${endDate.substring(5, 7)}.${endDate.substring(8, 10)}`;
 
   const token = sessionStorage.getItem('accessToken') ?? '';
   const [writeDialogIsOpen, setWriteDialogIsOpen] = useState(false);
