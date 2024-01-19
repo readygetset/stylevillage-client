@@ -105,7 +105,6 @@ interface RejectApplyParams {
 
 export async function rejectApplyAPICall({ applyId, token }: RejectApplyParams) {
   const bearerToken = token ? `Bearer ${token}` : null;
-  console.log(bearerToken as string);
   try {
     const response = await axios.patch(
       `${process.env.REACT_APP_API_URL}/apply/${applyId}`,
