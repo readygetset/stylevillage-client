@@ -7,9 +7,10 @@ import ApplyCard from '../../../components/ApplyCard';
 
 interface ApplyInfo {
   clothesId?: number;
-  clothesName: string;
+  clothesName?: string;
   clothesImage?: string;
-  ownerName: string;
+  ownerId?: number;
+  ownerName?: string;
   ownerNickName?: string;
   isAccepted: boolean;
   isRejected: boolean;
@@ -39,11 +40,12 @@ export default function MyPageApply() {
     if (applies && applies.length > 0)
       return applies.map((apply) => {
         const applyInfo: ApplyInfo = {
-          clothesId: apply.clothes.id,
-          clothesName: apply.clothes.name,
-          clothesImage: apply.clothes.image,
-          ownerName: apply.owner.username,
-          ownerNickName: apply.owner.nickname,
+          clothesId: apply.clothes?.id,
+          clothesName: apply.clothes?.name,
+          clothesImage: apply.clothes?.image,
+          ownerId: apply.owner?.id,
+          ownerName: apply.owner?.username,
+          ownerNickName: apply.owner?.nickname,
           isAccepted: apply.isAccepted,
           isRejected: apply.isRejected,
           detail: apply.detail,
