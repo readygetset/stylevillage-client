@@ -14,6 +14,7 @@ export interface UserClothes {
   tag?: string;
   isWished: boolean;
   image?: string /* TODO: 백에서 정의하는 이름에 맞게 변경 */;
+  ownerNickname: string;
 }
 export async function getUserClothesAPICall(userId: number) {
   try {
