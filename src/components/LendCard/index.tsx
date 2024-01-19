@@ -9,15 +9,15 @@ import { deleteReviewAPICall, modifyReviewAPICall } from '../../hooks/api/review
 
 interface LendInfo {
   lendId: number;
-  clothesId: number;
-  clothesName: string;
+  clothesId?: number;
+  clothesName?: string;
   clothesImage?: string;
   price: number;
   startDate: string;
   endDate: string;
-  lenderName: string;
+  lenderName?: string;
   lenderNickName?: string;
-  loaneeName: string;
+  loaneeName?: string;
   loaneeNickName?: string;
   review?: string;
 }
@@ -53,7 +53,7 @@ export default function LendCard(props: LendCardProps) {
   const { isLoanee } = props;
   const {
     lendId,
-    // clothesId, TODO: 옷 상세 페이지로 link할 때 이용
+    clothesId,
     clothesName,
     clothesImage,
     price,
@@ -160,17 +160,17 @@ export default function LendCard(props: LendCardProps) {
           <Box display={'flex'} flexDirection={'row'} sx={{ mb: 1 }}>
             <Typography
               component={Link}
-              to="/" /* TODO 옷 상세 페이지로 link */
+              to={clothesId ? `/clothes/${clothesId}` : `/lend`}
               sx={{
                 fontSize: 23,
                 fontWeight: 'bold',
-                color: 'black',
+                color: clothesName ? 'black' : 'gray',
                 textDecoration: 'none',
                 mr: 1.5,
                 whiteSpace: 'nowrap',
               }}
             >
-              {clothesName}
+              {clothesName || '삭제된 옷이에요'}
             </Typography>
           </Box>
           <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
@@ -183,7 +183,7 @@ export default function LendCard(props: LendCardProps) {
             <Box display={'flex'} flexDirection={'row'}>
               <Title title="거래자" />
               <Typography sx={{ whiteSpace: 'nowrap' }}>
-                {lenderNickName || lenderName} → {loaneeNickName || loaneeName}
+                {lenderNickName || lenderName || '알 수 없음'} → {loaneeNickName || loaneeName || '알 수 없음'}
               </Typography>
             </Box>
             <Box display={'flex'} flexDirection={'row'}>
