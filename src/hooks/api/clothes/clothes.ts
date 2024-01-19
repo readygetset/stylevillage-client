@@ -34,6 +34,7 @@ export interface GetClothesResponse {
   owner: Owner;
   review: Review[];
   isWished: boolean;
+  closetId?: number;
 }
 
 export async function getClothesAPICall({ clothesId, token }: GetClothesParams) {

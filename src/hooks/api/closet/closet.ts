@@ -10,7 +10,6 @@ interface GetClosetParams {
 
 export interface User {
   id?: number;
-  username: string;
   nickname?: string;
 }
 
@@ -21,14 +20,16 @@ interface Closet {
 
 interface GetClosetClothes {
   id?: number;
+  isOpen?: boolean;
   description?: string;
   category?: string;
   season?: string;
-  status?: string;
+  status: string;
   name: string;
   tag?: string;
   image?: string;
   owner?: number;
+  closetId?: number;
 }
 
 interface GetClosetListParams {

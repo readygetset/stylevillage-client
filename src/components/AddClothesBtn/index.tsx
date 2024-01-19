@@ -5,11 +5,9 @@ import ClothesPopup from '../../hooks/api/clothes/addClothesPopUp';
 import { ClothesInput } from '../../hooks/api/clothes/addClothes';
 
 interface AddClothesBtnProps {
-  value: ClothesInput | null;
+  value?: ClothesInput | null;
   BtnText: string;
 }
-// 옷 수정 : id를 포함한 ClothesInput 객체 clothes 전달 ... <AddClothesBtn value={clothes} BtnText={'옷 수정'} />
-// 옷 추가 props : { null } 전달 ...  <AddClothesBtn value={null} BtnText={'+ 옷 추가'} />
 
 const AddClothesBtn = ({ value, BtnText }: AddClothesBtnProps) => {
   const [open, setOpen] = useState(false);
@@ -21,25 +19,29 @@ const AddClothesBtn = ({ value, BtnText }: AddClothesBtnProps) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
-      <Button
-        sx={{
-          backgroundColor: 'gray',
-          color: 'black',
-          border: 'none',
-          fontSize: 12,
-          width: '5rem',
-          height: '1rem',
-          borderRadius: 10,
-          fontWeight: 'Bold',
-        }}
-        onClick={handleOpen}
-      >
-        {BtnText}
-      </Button>
+      {value ? (
+        <Button
+          variant="contained"
+          onClick={handleOpen}
+          sx={{ width: 10, color: 'white', backgroundColor: 'black', borderRadius: 10 }}
+        >
+          {BtnText}
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          onClick={handleOpen}
+          sx={{ color: 'white', backgroundColor: 'black', borderRadius: 10 }}
+        >
+          {BtnText}
+        </Button>
+      )}
       <ClothesPopup open={open} onClose={handleClose} value={value} />
     </>
   );
 };
+
 export default AddClothesBtn;
