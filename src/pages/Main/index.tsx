@@ -56,7 +56,7 @@ export function MainPage() {
         <SearchBar searchKeyWord={''} categorySelected={[]} seasonSelected={[]} filterSelected={[]} />
       </Box>
       {!!applies && applies.length > 0 && (
-        <Box sx={{ mt: 5, mb: 10 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
+        <Box sx={{ mt: 5 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
           <Box width={950}>
             <Typography variant="h5" fontWeight={'bold'} sx={{ mb: 3 }}>
               대여 신청이 왔어요!
@@ -69,37 +69,38 @@ export function MainPage() {
           </Box>
         </Box>
       )}
-      {isAuthenticated && (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography sx={{ mragin: 4, ml: 12, fontWeight: 'bold', fontSize: 25 }}>나의 옷장</Typography>
-          <Button
-            type="button"
-            onClick={handleCreate}
-            sx={{
-              color: 'black',
-              margin: 4,
-              width: 120,
-              border: 'none',
-              mr: 12,
-            }}
-          >
-            더보기 &gt;
-          </Button>
-        </Box>
-      )}
-      {isAuthenticated && (
-        <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <Box key={0} sx={{ ml: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <ClosetPreviewCard closetid={0} closetname={'전체 옷장'} />
+      <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+        {isAuthenticated && (
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1150 }}>
+            <Typography sx={{ ml: 12, fontWeight: 'bold', fontSize: 25 }}>나의 옷장</Typography>
+            <Button
+              type="button"
+              onClick={handleCreate}
+              sx={{
+                color: 'black',
+                margin: 4,
+                width: 120,
+                border: 'none',
+              }}
+            >
+              더보기 &gt;
+            </Button>
           </Box>
-
-          {closetList?.closets.map((c) => (
-            <Box key={c.id} sx={{ ml: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <ClosetPreviewCard closetid={c.id ? c.id : -1} closetname={c.name} />
+        )}
+        {isAuthenticated && (
+          <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 1150 }}>
+            <Box key={0} sx={{ ml: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <ClosetPreviewCard closetid={0} closetname={'전체 옷장'} />
             </Box>
-          ))}
-        </Box>
-      )}
+
+            {closetList?.closets.map((c) => (
+              <Box key={c.id} sx={{ ml: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ClosetPreviewCard closetid={c.id ? c.id : -1} closetname={c.name} />
+              </Box>
+            ))}
+          </Box>
+        )}
+      </Box>
     </>
   );
 }

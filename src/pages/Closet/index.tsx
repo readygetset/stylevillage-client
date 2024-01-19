@@ -69,7 +69,7 @@ export function ClosetPage() {
         setIsConfirmDialogOpen(false);
         window.location.reload();
       } catch (error) {
-        console.error('Error deleting cloth:', error);
+        //
       }
     }
   };
