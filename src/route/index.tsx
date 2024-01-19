@@ -1,6 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 
+<<<<<<< HEAD
 import { UserProfilePage } from '../pages/UserProfile';
+=======
+import { SearchPage } from '../pages/Search';
+>>>>>>> feature/search-page-again
 import { RegisterPage } from '../pages/Register';
 import { ProfilePage } from '../pages/Profile';
 import MyPageWish from '../pages/MyPage/wish';
@@ -25,11 +29,16 @@ export function RouteComponent() {
       <Route path="/clothes/:id" element={<ClothesPage />} />
       <Route path="/closet/:id" element={<ClosetPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+<<<<<<< HEAD
       <Route path="/mypage/closet" element={<MyPageCloset />} />
       <Route path="/mypage/apply" element={<MyPageApply />} />
       <Route path="/mypage/lend" element={<MyPageLend />} />
       <Route path="/mypage/wish" element={<MyPageWish />} />
       <Route path="/user/:id" element={<UserProfilePage />} />
+=======
+      <Route path="/mypage" element={<MyPage />} />
+      <Route path="/search" element={<SearchPage />} />
+>>>>>>> feature/search-page-again
     </Routes>
   );
 }
