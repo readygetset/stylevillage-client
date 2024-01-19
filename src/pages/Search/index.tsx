@@ -8,6 +8,7 @@ import ClothesPreviewCard from '../../components/ClothesPreviewCard';
 
 interface Owner {
   id?: number;
+  username: string;
   nickname?: string;
   location?: string;
 }
@@ -27,9 +28,6 @@ interface SearchClothesRes {
 
 export function SearchPage() {
   const [searchParams] = useSearchParams();
-  // const location = useLocation();
-  // const queryString = location.search;
-  // const url = `/search${queryString}`;
 
   const searchKeyWord = searchParams.get('text') || '';
   const categorySelected = searchParams.getAll('category');
@@ -48,7 +46,6 @@ export function SearchPage() {
       //
     }
   };
-  // handleSearch(url);
 
   return (
     <>
@@ -71,10 +68,10 @@ export function SearchPage() {
                     key={clothes.id}
                     clothesId={clothes.id || 0}
                     clothesname={clothes.name}
-                    imgsrc={''}
+                    imgsrc={clothes.image || ''}
                     status={clothes.status}
                     userid={clothes.owner.id || 0}
-                    username={'닉네임'}
+                    username={clothes.owner.nickname || clothes.owner.username}
                     isWished={clothes.isWished}
                   />
                 </Grid>
