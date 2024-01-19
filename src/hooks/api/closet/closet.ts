@@ -46,6 +46,54 @@ export interface GetClosetResponse {
 export interface GetClosetListResponse {
   closets: Closet[];
 }
+interface EditClosetParams {
+  token: string;
+  closetId?: number;
+  name: string;
+}
+interface DeleteClosetParams {
+  token: string;
+  closetId?: number;
+}
+export async function editClosetAPICall({ token, closetId, name }: EditClosetParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.put(
+      `${process.env.REACT_APP_API_URL}/closet/${closetId}`,
+      { name },
+      {
+        headers: { Authorization: bearerToken },
+      },
+    );
+    if (response.status === 200) {
+      enqueueSnackbar('옷장이 수정되었습니다');
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? '옷장 수정에 문제가 생겼어요 :(', { variant: 'error' });
+    } else {
+      enqueueSnackbar('옷장 수정에 문제가 생겼어요 :(', { variant: 'error' });
+    }
+  }
+}
+
+export async function deleteClosetAPICall({ token, closetId }: DeleteClosetParams) {
+  const bearerToken = token ? `Bearer ${token}` : null;
+  try {
+    const response = await axios.delete(`${process.env.REACT_APP_API_URL}/closet/${closetId}`, {
+      headers: { Authorization: bearerToken },
+    });
+    if (response.status === 200) {
+      enqueueSnackbar('옷장이 삭제되었습니다');
+    }
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? '옷장 삭제에 문제가 생겼어요 :(', { variant: 'error' });
+    } else {
+      enqueueSnackbar('옷장 삭제에 문제가 생겼어요 :(', { variant: 'error' });
+    }
+  }
+}
 
 export async function getClosetListAPICall({ token }: GetClosetListParams) {
   const bearerToken = token ? `Bearer ${token}` : null;
