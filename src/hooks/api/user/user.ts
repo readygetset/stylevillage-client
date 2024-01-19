@@ -6,6 +6,7 @@ import { USER_MESSAGE } from '../../../data/messages';
 export interface UserClothes {
   id: number;
   closetId?: number;
+  description?: string;
   category?: string;
   season?: string;
   status: string;

@@ -28,7 +28,7 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
         justifyContent={'space-between'}
         sx={{ width: 1000, border: 1, padding: 2, borderRadius: 10, mb: 2 }}
       >
-        <Box display={'flex'}>
+        <Box display={'flex'} width={1000}>
           {apply.clothes.image ? (
             <Box
               component="img"
@@ -48,7 +48,7 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               }}
             />
           )}
-          <Box sx={{ ml: 4, width: 500, mt: 2 }}>
+          <Box sx={{ ml: 4, mt: 2 }}>
             <Typography variant="h6" fontWeight={'bold'}>
               {apply.clothes.name}
             </Typography>
@@ -64,11 +64,13 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
                 {apply.user.nickname}
               </Typography>
             </Box>
-            <Box display={'flex'} alignItems={'center'}>
+            <Box display={'flex'} alignItems={'center'} paddingRight={5}>
               <Typography fontWeight={'bold'} sx={{ mr: 1 }}>
                 내용
               </Typography>
-              <Typography sx={{ width: 450, whiteSpace: 'pre-line' }}>{apply.detail}</Typography>
+              <Box width={480} sx={{ whiteSpace: 'normal', overflow: 'hidden' }}>
+                {apply.detail}
+              </Box>
             </Box>
           </Box>
         </Box>

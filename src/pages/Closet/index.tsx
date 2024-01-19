@@ -14,6 +14,7 @@ import {
 } from '../../hooks/api/closet/closet';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import ClothPreviewCard from '../../components/ClothesPreviewCard';
+import AddClothesBtn from '../../components/AddClothesBtn';
 
 export function ClosetPage() {
   const { id } = useParams();
@@ -56,14 +57,6 @@ export function ClosetPage() {
     navigate(`/closet/${newClosetId}`);
   };
 
-  const handleCreate = () => {
-    console.log('Create button clicked');
-  };
-
-  const handleModify = (clothId: number) => {
-    console.log(`Modify button clicked for cloth with ID: ${clothId}`);
-  };
-
   const handleDelete = (clothId: number) => {
     setSelectedClothIdToDelete(clothId);
     setIsConfirmDialogOpen(true);
@@ -76,7 +69,7 @@ export function ClosetPage() {
         setIsConfirmDialogOpen(false);
         window.location.reload();
       } catch (error) {
-        console.error('Error deleting cloth:', error);
+        //
       }
     }
   };
@@ -100,7 +93,6 @@ export function ClosetPage() {
             height: 100,
             ml: 5,
             mt: 5,
-            mb: 5,
           }}
         >
           <MenuItem value={0}>전체 옷장</MenuItem>
@@ -111,19 +103,10 @@ export function ClosetPage() {
           ))}
         </TextField>
 
-        <Typography ml={2} mb={5}>
-          문을 열었어요!
-        </Typography>
+        <Typography ml={2}>문을 열었어요!</Typography>
 
-        <Box sx={{ marginLeft: 'auto' }}>
-          <Button
-            type="button"
-            variant="contained"
-            onClick={handleCreate}
-            sx={{ mb: 6, mr: 5, width: 120, borderRadius: 100, backgroundColor: 'black' }}
-          >
-            +옷 추가하기
-          </Button>
+        <Box sx={{ ml: 'auto', mr: 5 }}>
+          <AddClothesBtn BtnText="+ 옷 추가하기" />
         </Box>
       </Box>
 
@@ -137,7 +120,7 @@ export function ClosetPage() {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           {(closetId === 0 ? clothes : closet?.clothes)?.map((cloth) => (
-            <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box key={cloth.id} sx={{ ml: 5, mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <ClothPreviewCard
                 clothesId={cloth.id ?? 0}
                 clothesname={cloth.name}
@@ -149,18 +132,25 @@ export function ClosetPage() {
               />
 
               <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
+                <AddClothesBtn
+                  BtnText="수정"
+                  value={{
+                    id: cloth.id,
+                    closet: closetId ?? cloth.closetId,
+                    description: cloth.description,
+                    category: cloth.category,
+                    season: cloth.season,
+                    status: cloth.status,
+                    isOpen: cloth.isOpen,
+                    name: cloth.name,
+                    tag: cloth.tag,
+                    image: cloth.image,
+                  }}
+                />
                 <Button
-                  variant="contained"
-                  onClick={() => cloth.id !== undefined && handleModify(cloth.id)}
-                  sx={{ mr: 2, borderRadius: 100, color: 'black', backgroundColor: 'white' }}
-                >
-                  수정
-                </Button>
-
-                <Button
-                  variant="contained"
+                  variant="outlined"
+                  sx={{ width: 10, color: 'black', borderColor: 'black', borderRadius: 10, ml: 1 }}
                   onClick={() => cloth.id !== undefined && handleDelete(cloth.id)}
-                  sx={{ borderRadius: 100, backgroundColor: 'black' }}
                 >
                   삭제
                 </Button>

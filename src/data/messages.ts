@@ -21,6 +21,7 @@ export const CLOTHES_MESSAGE = {
 export const CLOSET_MESSAGE = {
   CLOSET_NOT_FOUND: '옷장을 찾을 수 없어요 :(',
   CLOSETLIST_NOT_FOUND: '옷장 리스트를 불러올 수 없어요 :(',
+  CLOSET_NOT_ADDED: '옷장 생성에 실패했어요 :(',
 };
 export const WISH_MESSAGE = {
   WISH_CREATED: '찜한 옷에 추가되었어요',
