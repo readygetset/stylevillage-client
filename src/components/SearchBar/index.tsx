@@ -5,22 +5,23 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import CategoryChips from '../CategoryChips';
 import { Item } from '../../models/item';
-import { getSearchAPICall } from '../../hooks/api/search/search';
-import { Categories, Seasons } from '../../data/enumLists';
+import { Categories, Seasons, Status } from '../../data/enumLists';
 
 interface SearchBarProps {
   searchKeyWord: string;
   categorySelected: string[];
   seasonSelected: string[];
+  filterSelected: string[];
+  handleSearch?: (a: string) => void;
 }
 
 export default function SearchBar(props: SearchBarProps) {
   const navigate = useNavigate();
-  const emptyStrArray: string[] = [];
-  const [searchKeyWord, setSearchKeyWord] = useState('');
-  const [categorySelected, setCategorySelected] = useState(emptyStrArray);
-  const [seasonSelected, setSeasonSelected] = useState(emptyStrArray);
-  const [filterSelected, setFilterSelected] = useState(emptyStrArray);
+  // const emptyStrArray: string[] = [];
+  const [searchKeyWord, setSearchKeyWord] = useState(props.searchKeyWord);
+  const [categorySelected, setCategorySelected] = useState(props.categorySelected);
+  const [seasonSelected, setSeasonSelected] = useState(props.seasonSelected);
+  const [filterSelected, setFilterSelected] = useState(props.filterSelected);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearchKeyWord(event.target.value);
@@ -44,7 +45,7 @@ export default function SearchBar(props: SearchBarProps) {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const keyWordQueryString = `keyword=${encodeURIComponent(searchKeyWord)}`;
+    const keyWordQueryString = `text=${encodeURIComponent(searchKeyWord)}`;
     const categoryQueryString = categorySelected
       .map((category) => `category=${encodeURIComponent(category)}`)
       .join('&');
@@ -53,10 +54,9 @@ export default function SearchBar(props: SearchBarProps) {
     const queryString = [keyWordQueryString, categoryQueryString, seasonQueryString, filterQueryString]
       .filter((query) => !!query)
       .join('&');
-    const url = `/search/?${queryString}`;
-    getSearchAPICall(url).then(() => {
-      navigate(url);
-    });
+    const url = `/search?${queryString}`;
+    navigate(url);
+    if (props.handleSearch) props.handleSearch(url);
   };
 
   const initCategories = Categories.map((value) => {
@@ -75,7 +75,14 @@ export default function SearchBar(props: SearchBarProps) {
     const item: Item = { label: value, isSelected: false };
     return item;
   });
-  const initFilter: Item[] = [{ label: '대여 가능', isSelected: false }];
+  const initFilter = Status.map((value) => {
+    if (props.filterSelected.includes(value)) {
+      const item: Item = { label: value, isSelected: true };
+      return item;
+    }
+    const item: Item = { label: value, isSelected: false };
+    return item;
+  });
 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>

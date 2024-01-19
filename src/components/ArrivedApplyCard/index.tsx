@@ -48,7 +48,7 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               }}
             />
           )}
-          <Box sx={{ ml: 4, width: 300, mt: 2 }}>
+          <Box sx={{ ml: 4, width: 500, mt: 2 }}>
             <Typography variant="h6" fontWeight={'bold'}>
               {apply.clothes.name}
             </Typography>
@@ -56,7 +56,11 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               <Typography sx={{ mr: 1 }} fontWeight={'bold'}>
                 신청인
               </Typography>
-              <Typography component={Link} to={`/user/${apply.user.id}`}>
+              <Typography
+                component={Link}
+                to={`/user/${apply.user.id}`}
+                sx={{ color: 'black', textDecoration: 'none' }}
+              >
                 {apply.user.nickname}
               </Typography>
             </Box>
@@ -64,7 +68,7 @@ export default function ArrivedApplyCard({ apply }: ArrivedApplyCardProps) {
               <Typography fontWeight={'bold'} sx={{ mr: 1 }}>
                 내용
               </Typography>
-              <Typography>{apply.detail}</Typography>
+              <Typography sx={{ width: 450, whiteSpace: 'pre-line' }}>{apply.detail}</Typography>
             </Box>
           </Box>
         </Box>

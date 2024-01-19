@@ -16,6 +16,7 @@ export const CLOTHES_MESSAGE = {
   CLOTHES_NOT_FOUND: '옷을 찾을 수 없어요 :(',
   CLOTHES_DELETED: '옷이 삭제되었어요',
   CLOTHES_EDITED: '옷 정보가 수정되었어요',
+  ADD_CLOTHS_FAILED: '옷을 등록하지 못했어요',
 };
 export const CLOSET_MESSAGE = {
   CLOSET_NOT_FOUND: '옷장을 찾을 수 없어요 :(',

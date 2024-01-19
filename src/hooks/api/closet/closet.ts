@@ -8,7 +8,7 @@ interface GetClosetParams {
   token?: string;
 }
 
-interface User {
+export interface User {
   id?: number;
   username: string;
   nickname?: string;
