@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { Box, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, Card, Chip, Divider, MenuItem, Select, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import { StatusEnums } from '../../models/enum';
@@ -18,8 +18,8 @@ import WriteDialog from '../../components/WriteDialog';
 import WishBtn from '../../components/WishBtn';
 import StatusSign from '../../components/StatusSign';
 import ConfirmDialog from '../../components/ConfirmDialog';
-import CancelSubmitBtns from '../../components/CancelSubmitBtn';
 import ApplyBtn from '../../components/ApplyBtn';
+import AddClothesBtn from '../../components/AddClothesBtn';
 
 // TODO: 사용자 페이지 링크 추가
 export function ClothesPage() {
@@ -51,8 +51,6 @@ export function ClothesPage() {
     }
   }, [clothes]);
   const isMyClothes = userId === clothes?.owner.id;
-
-  const handleEdit = () => {};
   const handleDeleteBtnClick = () => {
     setConfirmDialogIsOpen(true);
   };
@@ -156,12 +154,30 @@ export function ClothesPage() {
               />
             )}
             {isMyClothes ? (
-              <CancelSubmitBtns
-                submitBtnText="수정"
-                cancelBtnText="삭제"
-                handleSubmit={handleEdit}
-                handleCancel={handleDeleteBtnClick}
-              />
+              <Box display={'flex'} flexDirection={'row'} alignItems={'center'}>
+                <AddClothesBtn
+                  BtnText="수정"
+                  value={{
+                    id: clothes.id,
+                    closet: clothes.closetId,
+                    description: clothes.description,
+                    category: clothes.category,
+                    season: clothes.season,
+                    status: clothes.status,
+                    isOpen: clothes.isOpen,
+                    name: clothes.name,
+                    tag: clothes.tag,
+                    image: clothes.image,
+                  }}
+                />
+                <Button
+                  variant="outlined"
+                  sx={{ width: 10, color: 'black', borderColor: 'black', borderRadius: 10, ml: 1 }}
+                  onClick={handleDeleteBtnClick}
+                >
+                  삭제
+                </Button>
+              </Box>
             ) : (
               <ApplyBtn
                 status={clothes?.status ?? ''}

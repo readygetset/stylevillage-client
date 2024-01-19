@@ -11,7 +11,7 @@ export interface Closet {
 }
 
 export interface Clothes {
-  closet: Closet | null;
+  closet?: number | null;
   description?: string;
   category?: string;
   season?: string;
@@ -23,13 +23,13 @@ export interface Clothes {
 }
 
 export interface ClothesInput {
-  id: number;
-  closet: Closet | null;
+  id?: number;
+  closet?: number;
   description?: string;
   category?: string;
   season?: string;
   status: string;
-  isOpen: boolean;
+  isOpen?: boolean;
   name: string;
   tag?: string;
   image?: string;
@@ -41,7 +41,7 @@ interface PostClothes {
 }
 
 interface PutClothes {
-  clothesId: number;
+  clothesId?: number;
   clothes: Clothes;
   token: string;
 }

@@ -13,11 +13,11 @@ import {
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import { getClosetListAPICall, GetClosetListResponse, getClosetAPICall } from '../closet/closet';
+import { getClosetListAPICall, GetClosetListResponse } from '../closet/closet';
 import { CategoryEnums } from '../../../models/enum';
 import CancelSubmitBtns from '../../../components/CancelSubmitBtn';
 
-import { postClothesAPICall, putClothesAPICall, ClothesInput, Clothes, Closet } from './addClothes';
+import { postClothesAPICall, putClothesAPICall, ClothesInput, Clothes } from './addClothes';
 
 const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateAction<string>> }> = ({
   setUploadImgUrl,
@@ -68,7 +68,7 @@ const ImageUpload: React.FC<{ setUploadImgUrl: React.Dispatch<React.SetStateActi
 type OnCloseFunction = () => void;
 type ClothesDataInput = ClothesInput | null;
 
-const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: ClothesDataInput }> = ({
+const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value?: ClothesDataInput }> = ({
   onClose,
   open,
   value,
@@ -82,10 +82,9 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
   const [description, setDescription] = value && value.description ? useState(value.description) : useState('');
   const [tags, setTags] = value && value.tag ? useState(value.tag) : useState('');
   const [selectedClosetId, setSelectedClosetId] =
-    value && value.closet && value.closet.id !== undefined ? useState<number>(value.closet.id) : useState<number>(0);
+    value && value.closet !== undefined ? useState<number>(value.closet) : useState<number>(0);
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
-  const [closet, setCloset] =
-    value && value.closet ? useState<Closet | null>(value.closet) : useState<Closet | null>(null);
+  const [closet, setCloset] = value && value.closet ? useState<number | null>(value.closet) : useState<number | null>();
 
   const token = sessionStorage.getItem('accessToken') ?? '';
 
@@ -97,9 +96,7 @@ const ClothesPopup: React.FC<{ onClose: OnCloseFunction; open: boolean; value: C
         if (selectedClosetId === 0) {
           setCloset(null);
         } else {
-          const closetData = await getClosetAPICall({ closetId: selectedClosetId, token });
-          const newData = { id: closetData?.id, owner: closetData?.owner, name: closetData?.name };
-          setCloset(newData);
+          setCloset(selectedClosetId);
         }
       } catch (error) {
         enqueueSnackbar('옷장이 제대로 선택되지 않았습니다.', { variant: 'error' });
