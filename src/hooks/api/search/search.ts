@@ -5,6 +5,7 @@ import { SEARCH_MESSAGE } from '../../../data/messages';
 
 interface Owner {
   id?: number;
+  username: string;
   nickname?: string;
   location?: string;
 }

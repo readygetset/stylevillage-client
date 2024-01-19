@@ -139,8 +139,8 @@ interface SendedApplyClothes {
 
 export interface GetSendedUserApplyRes {
   id?: number;
-  clothes: SendedApplyClothes;
-  owner: User;
+  clothes?: SendedApplyClothes;
+  owner?: User;
   isAccepted: boolean;
   isRejected: boolean;
   detail?: string;
