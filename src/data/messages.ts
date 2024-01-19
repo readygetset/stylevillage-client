@@ -27,6 +27,7 @@ export const WISH_MESSAGE = {
   WISH_CREATED: '찜한 옷에 추가되었어요',
   WISH_DELETED: '찜한 옷에서 삭제되었어요',
   WISH_FAIL: '알 수 없는 오류가 발생했습니다',
+  WISH_GETSUCCESS: '찜 목록을 성공적으로 불러왔습니다.',
 };
 export const APPLY_MESSAGE = {
   APPLY_FAIL: '대여 신청을 불러오지 못했습니다 :(',

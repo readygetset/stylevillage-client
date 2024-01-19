@@ -3,19 +3,25 @@ import { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { Box, Button, Typography } from '@mui/material';
 
+import { getWishAPICall, getPopularClothesAPICall } from '../../hooks/api/wish/wish';
+import { UserClothes } from '../../hooks/api/user/user';
 import { getClosetListAPICall, GetClosetListResponse } from '../../hooks/api/closet/closet';
 import { GetArrivedAppliesResponse, getArriveAppliesAPICall } from '../../hooks/api/apply/apply';
 import SearchBar from '../../components/SearchBar';
 import ClosetPreviewCard from '../../components/ClosetPreviewCard';
 import ArrivedApplyCard from '../../components/ArrivedApplyCard';
+import ClothPreviewCard from '../../components/ClothesPreviewCard';
 
 export function MainPage() {
   const token = sessionStorage.getItem('accessToken') || undefined;
+  const getuserId = sessionStorage.getItem('userId');
+  const userId = Number(getuserId);
   const isAuthenticated = !!token;
   const navigate = useNavigate();
   const [applies, setApplies] = useState<GetArrivedAppliesResponse[] | null>(null);
+  const [wishlist, setWishlist] = useState<UserClothes[] | null>(null);
+  const [popularlist, setPopularlist] = useState<UserClothes[] | null>(null);
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
-
   const getApplies = async () => {
     try {
       const response = await getArriveAppliesAPICall(token ?? '');
@@ -35,11 +41,38 @@ export function MainPage() {
   const handleCreate = () => {
     navigate('/mypage/closet');
   };
-  useEffect(() => {
-    if (isAuthenticated) {
-      getApplies();
-      getClosetList();
+
+  const getWishes = async () => {
+    try {
+      const response = await getWishAPICall(token ?? '');
+      setWishlist(response);
+    } catch (error) {
+      //
     }
+  };
+
+  const getPopularClothes = async () => {
+    try {
+      const response = await getPopularClothesAPICall(token ?? '');
+      setPopularlist(response);
+    } catch (error) {
+      //
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        getApplies();
+        getWishes();
+        getPopularClothes();
+        getClosetList();
+      } catch (error) {
+        //
+      }
+    };
+
+    fetchData();
   }, [isAuthenticated]);
 
   return (
@@ -100,6 +133,48 @@ export function MainPage() {
             ))}
           </Box>
         )}
+      </Box>
+      {!!isAuthenticated && (
+        <Box>
+          <Typography variant="h6" sx={{ mt: 10, ml: 5, fontWeight: 'bold', marginBottom: 2 }}>
+            내가 찜한 옷이에요
+          </Typography>
+        </Box>
+      )}
+      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {wishlist?.map((cloth) => (
+          <Box key={cloth.id} sx={{ ml: 5, mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <ClothPreviewCard
+              clothesId={cloth.id ?? 0}
+              clothesname={cloth.name}
+              imgsrc={cloth.image || 'placeholder-image-url'}
+              status={cloth.status || '상태 없음'}
+              userid={userId || 0}
+              username={cloth.ownerNickname}
+              isWished={false}
+            />
+          </Box>
+        ))}
+      </Box>
+      <Box>
+        <Typography variant="h6" sx={{ mt: 10, ml: 5, fontWeight: 'bold', marginBottom: 2 }}>
+          지금 인기있는 옷이에요
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {popularlist?.map((cloth) => (
+          <Box key={cloth.id} sx={{ ml: 5, mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <ClothPreviewCard
+              clothesId={cloth.id ?? 0}
+              clothesname={cloth.name}
+              imgsrc={cloth.image || 'placeholder-image-url'}
+              status={cloth.status || '상태 없음'}
+              userid={userId || 0}
+              username={cloth.ownerNickname}
+              isWished={false}
+            />
+          </Box>
+        ))}
       </Box>
     </>
   );
