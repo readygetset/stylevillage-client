@@ -120,7 +120,7 @@ export function ClosetPage() {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           {(closetId === 0 ? clothes : closet?.clothes)?.map((cloth) => (
-            <Box key={cloth.id} sx={{ ml: 5, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box key={cloth.id} sx={{ ml: 5, mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <ClothPreviewCard
                 clothesId={cloth.id ?? 0}
                 clothesname={cloth.name}
