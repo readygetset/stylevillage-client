@@ -17,12 +17,12 @@ interface Clothes {
 
 export interface GetLendsRes {
   id?: number;
-  clothes: Clothes;
+  clothes?: Clothes;
   price: number;
   startDate: string;
   endDate: string;
-  lender: User;
-  loanee: User;
+  lender?: User;
+  loanee?: User;
   review?: string;
 }
 export interface GetMyLendsResponse {

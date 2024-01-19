@@ -7,15 +7,15 @@ import LendCard from '../../../components/LendCard';
 
 interface LendInfo {
   lendId: number;
-  clothesId: number;
-  clothesName: string;
+  clothesId?: number;
+  clothesName?: string;
   clothesImage?: string;
   price: number;
   startDate: string;
   endDate: string;
-  lenderName: string;
+  lenderName?: string;
   lenderNickName?: string;
-  loaneeName: string;
+  loaneeName?: string;
   loaneeNickName?: string;
   review?: string;
 }
@@ -63,16 +63,16 @@ export default function MyPageLend() {
       return lendsAsLender.map((lend) => {
         const lendInfo: LendInfo = {
           lendId: lend?.id ? lend.id : 0,
-          clothesId: lend.clothes.id ? lend.clothes.id : 0,
-          clothesName: lend.clothes.name,
-          clothesImage: lend.clothes.image,
+          clothesId: lend.clothes?.id,
+          clothesName: lend.clothes?.name,
+          clothesImage: lend.clothes?.image,
           price: lend.price,
           startDate: lend.startDate,
           endDate: lend.endDate,
-          lenderName: lend.lender.username,
-          lenderNickName: lend.lender.nickname,
-          loaneeName: lend.loanee.username,
-          loaneeNickName: lend.loanee.nickname,
+          lenderName: lend.lender?.username,
+          lenderNickName: lend.lender?.nickname,
+          loaneeName: lend.loanee?.username,
+          loaneeNickName: lend.loanee?.nickname,
           review: lend.review,
         };
         return <LendCard key={lendInfo.lendId} isLoanee={false} lendInfo={lendInfo} />;
@@ -91,17 +91,17 @@ export default function MyPageLend() {
     if (lendsAsLoanee && lendsAsLoanee.length > 0)
       return lendsAsLoanee.map((lend) => {
         const lendInfo: LendInfo = {
-          lendId: lend.id || 0,
-          clothesId: lend.clothes.id || 0,
-          clothesName: lend.clothes.name,
-          clothesImage: lend.clothes.image,
+          lendId: lend?.id ? lend.id : 0,
+          clothesId: lend.clothes?.id,
+          clothesName: lend.clothes?.name,
+          clothesImage: lend.clothes?.image,
           price: lend.price,
           startDate: lend.startDate,
           endDate: lend.endDate,
-          lenderName: lend.lender.username,
-          lenderNickName: lend.lender.nickname,
-          loaneeName: lend.loanee.username,
-          loaneeNickName: lend.loanee.nickname,
+          lenderName: lend.lender?.username,
+          lenderNickName: lend.lender?.nickname,
+          loaneeName: lend.loanee?.username,
+          loaneeNickName: lend.loanee?.nickname,
           review: lend.review,
         };
         return <LendCard key={lendInfo.lendId} isLoanee={true} lendInfo={lendInfo} />;
