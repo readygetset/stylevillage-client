@@ -6,16 +6,21 @@ import CancelSubmitBtns from '../CancelSubmitBtn';
 
 interface ClosetDialogProps {
   submitBtnText?: string;
-  handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
+  handleSubmit: (closetName: string) => void;
   handleCancel: React.MouseEventHandler<HTMLButtonElement>;
   isOpen: boolean;
 }
 const ClosetDialog: React.FC<ClosetDialogProps> = ({ submitBtnText, handleSubmit, handleCancel, isOpen }) => {
-  const [, setClosetName] = useState('');
+  const [closetName, setClosetName] = useState('');
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setClosetName(event.target.value);
   };
+
+  const handleWriteSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+    handleSubmit(closetName);
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -47,7 +52,7 @@ const ClosetDialog: React.FC<ClosetDialogProps> = ({ submitBtnText, handleSubmit
           onChange={handleChange}
           sx={{ backgroundColor: 'white', borderRadius: 1, margin: 3 }}
         />
-        <CancelSubmitBtns handleSubmit={handleSubmit} handleCancel={handleCancel} submitBtnText={submitBtnText} />
+        <CancelSubmitBtns handleSubmit={handleWriteSubmit} handleCancel={handleCancel} submitBtnText={submitBtnText} />
       </Box>
     </Dialog>
   );

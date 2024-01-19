@@ -32,7 +32,7 @@ interface GetClosetClothes {
   closetId?: number;
 }
 
-interface GetClosetListParams {
+export interface GetClosetListParams {
   token?: string;
 }
 
@@ -80,6 +80,37 @@ export async function getClosetAPICall({ closetId, token }: GetClosetParams) {
       enqueueSnackbar(err.response?.data?.message ?? CLOSET_MESSAGE.CLOSET_NOT_FOUND, { variant: 'error' });
     } else {
       enqueueSnackbar(CLOSET_MESSAGE.CLOSET_NOT_FOUND, { variant: 'error' });
+    }
+  }
+  return null;
+}
+
+export interface AddClosetParams {
+  name: string;
+  token: string;
+}
+
+export async function AddClosetAPICall({ name, token }: AddClosetParams) {
+  try {
+    const bearerToken = token ? `Bearer ${token}` : null;
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/closet`,
+      { name },
+      {
+        headers: {
+          Authorization: bearerToken,
+        },
+      },
+    );
+    if (response.status === 200) {
+      enqueueSnackbar('옷장을 생성했어요!', { variant: 'success' });
+    }
+    return response;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      enqueueSnackbar(err.response?.data?.message ?? CLOSET_MESSAGE.CLOSET_NOT_ADDED, { variant: 'error' });
+    } else {
+      enqueueSnackbar(CLOSET_MESSAGE.CLOSET_NOT_ADDED, { variant: 'error' });
     }
   }
   return null;
