@@ -33,7 +33,7 @@ export function MainPage() {
             스타일을 공유하고 다른 사람의 스타일을 빌려보세요
           </Typography>
         </Box>
-        <SearchBar searchKeyWord={''} categorySelected={[]} seasonSelected={[]} />
+        <SearchBar searchKeyWord={''} categorySelected={[]} seasonSelected={[]} filterSelected={[]} />
       </Box>
       {!!applies && applies.length > 0 && (
         <Box sx={{ mt: 5, mb: 10 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
