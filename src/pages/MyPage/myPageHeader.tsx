@@ -41,7 +41,7 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
         backgroundColor: '#D9D9D94D',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', margin: '4vw 0 0 5vw', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', ml: 8, mt: 5, mb: 0.5, alignItems: 'center' }}>
         <Typography
           variant="h5"
           component="div"
@@ -53,7 +53,6 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
         >
           마이페이지
         </Typography>
-
         <Typography
           component={Link}
           to="/profile"
@@ -62,7 +61,7 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
             textDecoration: 'none',
             fontSize: '1.0rem',
             fontWeight: 'bold',
-            margin: '0.7vw 0 0 1.5vw',
+            ml: 2,
           }}
         >
           내 정보 수정하기
@@ -75,8 +74,7 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
           sx={{
             fontSize: '1.0rem',
             fontWeight: 'bold',
-            marginLeft: '5vw',
-            marginBottom: '3.5vw',
+            ml: 8,
             color: '#7F7F7F',
           }}
         >
@@ -93,16 +91,15 @@ export function MyPageHeader({ nickname, description }: DescriptionProps) {
             justifyContent: 'center',
             alignItems: 'bottom',
             '& .MuiToggleButton-root': {
-              border: 'none',
-              margin: '0 7vw',
-              borderRadius: '2vw !important',
-              fontSize: '1.0vw',
+              border: 0,
+              borderRadius: 10,
+              fontSize: 15,
               fontWeight: 'bold',
-              width: '8vw',
-              height: '2.5vw',
-              outline: 'none !important',
+              width: 120,
+              margin: 5,
+              marginTop: 9,
+              height: 30,
               '&:hover': {
-                borderRadius: '2vw',
                 backgroundColor: 'rgba(0, 0, 0, 0.1)',
               },
               '&.Mui-selected': {
