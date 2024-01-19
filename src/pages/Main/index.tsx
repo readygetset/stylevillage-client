@@ -22,6 +22,7 @@ export function MainPage() {
       getApplies();
     }
   }, [isAuthenticated]);
+
   return (
     <>
       <Box sx={{ marginTop: 0, backgroundColor: '#E9E9E9' }}>
