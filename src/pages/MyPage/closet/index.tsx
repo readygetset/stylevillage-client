@@ -3,15 +3,34 @@ import { enqueueSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
 
 import { MyPageHeader } from '../myPageHeader';
-import { getClosetListAPICall, GetClosetListResponse } from '../../../hooks/api/closet/closet';
+import { getClosetListAPICall, GetClosetListResponse, AddClosetAPICall } from '../../../hooks/api/closet/closet';
 import ClosetPreviewCard from '../../../components/ClosetPreviewCard';
+import ClosetDialog from '../../../components/ClosetDialog';
 
 export default function MyPageCloset() {
   const nickname = sessionStorage.getItem('userNickname');
   const token = sessionStorage.getItem('accessToken') ?? '';
   const [closetList, setClosetList] = useState<GetClosetListResponse | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleCreate = () => {
-    console.log('Create button clicked');
+    setIsOpen(true);
+  };
+
+  const handleSubmit = async (name: string) => {
+    try {
+      if (name === '') {
+        enqueueSnackbar('옷장 명이 입력되지 않았습니다.', { variant: 'error' });
+      } else {
+        const isAdded = await AddClosetAPICall({ name, token });
+        if (isAdded !== null) setIsOpen(false);
+      }
+    } catch (error) {
+      enqueueSnackbar('옷장 생성에 실패하였습니다.', { variant: 'error' });
+    }
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -24,7 +43,7 @@ export default function MyPageCloset() {
       }
     };
     fetchData();
-  }, []);
+  }, [isOpen]);
 
   return (
     <Box>
@@ -57,6 +76,7 @@ export default function MyPageCloset() {
           </Box>
         ))}
       </Box>
+      <ClosetDialog handleSubmit={handleSubmit} handleCancel={handleCancel} submitBtnText="등록" isOpen={isOpen} />
     </Box>
   );
 }
